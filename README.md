@@ -6,6 +6,15 @@ Incident Model · Gemma OpenWeight. A working IT incident severity triage applic
 - **`frontend/`**: Next.js (App Router, TypeScript, Tailwind CSS) operations dashboard with three views: manual triage, a ticket queue, and model evaluation. It talks to the backend over HTTP only.
 - **`training/`**: the scripts and synthetic datasets used to train and evaluate the adapter.
 
+## Documentation
+
+| Document | For |
+|---|---|
+| **[docs/USER_GUIDE.md](docs/USER_GUIDE.md)** | **Start here.** Install, download the model, run, use each screen, troubleshoot |
+| [docs/MODEL_DEVELOPMENT.md](docs/MODEL_DEVELOPMENT.md) | How the model was built: model choice, data, input/output, LoRA training, loss, results, limitations |
+| [backend/models/gemma3-270m-severity/README.md](backend/models/gemma3-270m-severity/README.md) | Model card |
+| [training/README.md](training/README.md) | Training scripts and datasets; how to retrain |
+
 The application predicts **severity only** (P1–P4). It does not produce confidence scores, root causes or recommendations, because the model does not produce them. Every result requires human review.
 
 **What's in git and what's downloaded.** The repository contains all code, the fine-tuned **LoRA adapter** (`backend/models/gemma3-270m-severity/adapter`, 35 MB) and the base model's config files. The base model **weights** (511 MB, too large for git) are downloaded once by `backend/scripts/download_model.py`. The script installs them only if their SHA-256 matches the committed checksum, so every installation runs exactly the model that was trained and evaluated.

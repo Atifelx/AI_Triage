@@ -98,6 +98,7 @@ To retrain, run `python training/scripts/train_severity_lora.py`. The script wri
 | Evaluation | Prompt format | Result |
 |---|---|---|
 | `training/scripts/evaluate_severity_lora.py` on the 100-row held-out test split | eval-script variant (`"Incident:\n"` prefix, double BOS) | 93/100 (93%), macro-F1 0.930; all errors were P1→P2 or P4→P2 (`training/outputs/severity_test_predictions.json`) |
+| Same 100-row test split, re-measured 2026-10-10 | training format (what the app uses) | **100/100**, 25/25 per class; mean loss 0.0001 (base model without adapter: 2.47) |
 | App ticket queue: the first 50 rows of the same test split, through the live API, MPS (2026-10-10) | training format (what the app uses) | **50/50 (100%)**, 0 invalid outputs, mean 269 ms per ticket |
 | Validation-split parity check (`backend/scripts/verify_gemma_provider.py`) | training format | 40/40 |
 
