@@ -1,0 +1,2038 @@
+[
+  {
+    "id": "ITSM-05-027",
+    "expected": {
+      "category": "conditional_access",
+      "severity": "P3",
+      "root_cause": "device_noncompliant"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Password change",
+      "evidence": "Conditional Access evaluation requires a compliant device, and management reports a failed compliance rule.",
+      "recommended_actions": [
+        "Review and update the password policy",
+        "Implement a password reset mechanism",
+        "Verify the compliance rule against the policy",
+        "Implement a password reset mechanism for the affected user or endpoint"
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-13-041",
+    "expected": {
+      "category": "sharepoint",
+      "severity": "P2",
+      "root_cause": "site_permission_missing"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Service Desk confirms access denied for the target library while the site is reachable.",
+      "evidence": "SharePoint returns access denied for the target library while the site is reachable.",
+      "recommended_actions": [
+        "Investigate the cause of the access denied for the target library.",
+        "Implement a workaround for the target library.",
+        "Verify the availability of the target library on the corporate MacBook.",
+        "Monitor the SharePoint Online service desk for any further issues."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-19-026",
+    "expected": {
+      "category": "security",
+      "severity": "P4",
+      "root_cause": "suspicious_signin_detected"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Policy update",
+      "evidence": "Risk telemetry identifies anomalous sign-ins across several accounts with a shared indicator.",
+      "recommended_actions": [
+        "Review and update policy on shared kiosk security controls.",
+        "Implement a new security policy that addresses shared kiosk security controls.",
+        "Conduct a thorough investigation into the policy update and identify the root cause.",
+        "Implement a new security policy that addresses shared kiosk security controls."
+      ],
+      "human_review_required": false
+    }
+  },
+  {
+    "id": "ITSM-11-042",
+    "expected": {
+      "category": "exchange",
+      "severity": "P2",
+      "root_cause": "mailbox_quota_exceeded"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Remote endpoint failure",
+      "evidence": "Multiple mailboxes in a defined group have reached their configured quotas and sending is affected.",
+      "recommended_actions": [
+        "Investigate the cause of the remote endpoint failure.",
+        "Implement a workaround for the remote endpoint failure.",
+        "Monitor the remote endpoint for any signs of further issues.",
+        "Review and update the service desk's ticketing system to reflect the new issue."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-20-033",
+    "expected": {
+      "category": "security",
+      "severity": "P4",
+      "root_cause": "legacy_auth_blocked"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Legacy protocol failure",
+      "evidence": "Multiple sign-in events show a legacy protocol used by a shared business application, and policy blocks those attempts.",
+      "recommended_actions": [
+        "Review and update legacy protocol",
+        "Implement a new, secure, and reliable legacy protocol",
+        "Implement a new, secure, and reliable legacy protocol",
+        "Implement a new, secure, and reliable legacy protocol"
+      ],
+      "human_review_required": false
+    }
+  },
+  {
+    "id": "ITSM-14-046",
+    "expected": {
+      "category": "sharepoint",
+      "severity": "P1",
+      "root_cause": "storage_limit_reached"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Service Desk's inability to resolve the issue with SharePoint Online after moving to a different network.",
+      "evidence": "The site storage report shows the configured limit has been reached and uploads fail.",
+      "recommended_actions": [
+        "Investigate the root cause of the issue.",
+        "Implement a solution to resolve the issue.",
+        "Provide support to the service desk to resolve the issue.",
+        "Review the service desk's documentation and procedures for troubleshooting."
+      ],
+      "human_review_required": false
+    }
+  },
+  {
+    "id": "ITSM-10-021",
+    "expected": {
+      "category": "device_compliance",
+      "severity": "P4",
+      "root_cause": "enrollment_profile_mismatch"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Device management failure",
+      "evidence": "New devices in the same deployment group are receiving a profile intended for another platform.",
+      "recommended_actions": "Provide guidance or report a minor issue.",
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-12-018",
+    "expected": {
+      "category": "exchange",
+      "severity": "P2",
+      "root_cause": "outlook_profile_corrupt"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Application update",
+      "evidence": "Outlook repeatedly fails to load the profile while webmail works for the same account.",
+      "recommended_actions": [
+        "Review the application update and ensure the user account is properly provisioned.",
+        "Review the webmail configuration and ensure it is configured correctly.",
+        "Review the user account configuration and ensure it is properly configured.",
+        "Review the system logs for any errors or warnings related to the application update.",
+        "Review the system logs for any errors or warnings related to the webmail configuration."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-02-035",
+    "expected": {
+      "category": "authentication",
+      "severity": "P3",
+      "root_cause": "account_locked"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Microsoft 365 sign-in stopped working on a conference-room PC since this morning.",
+      "evidence": "The account locks again after being unlocked, and failures correlate with one client.",
+      "recommended_actions": [
+        "Investigate the cause of the sign-in issue.",
+        "Verify the account lockout status.",
+        "Check the availability of the account and its associated credentials.",
+        "Review the service desk's confirmation of the affected user or endpoint."
+      ],
+      "human_review_required": false
+    }
+  },
+  {
+    "id": "ITSM-18-024",
+    "expected": {
+      "category": "network",
+      "severity": "P1",
+      "root_cause": "dns_resolution_failure"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Device restart",
+      "evidence": "Name-resolution tests fail for the service hostname while the configured DNS server is unreachable.",
+      "recommended_actions": [
+        "Investigate the cause of the device restart.",
+        "Implement a secure access control mechanism to restore access.",
+        "Perform a thorough diagnostic test to identify the root cause of the service outage.",
+        "Implement a secure access control mechanism to restore access.",
+        "Review the security configuration to ensure the system is protected against unauthorized access."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-18-044",
+    "expected": {
+      "category": "network",
+      "severity": "P3",
+      "root_cause": "dns_resolution_failure"
+    },
+    "prediction": {
+      "category": "network access",
+      "severity": "P1",
+      "root_cause": "Device restart",
+      "evidence": "Name-resolution tests fail for the service hostname while the configured DNS server is unreachable.",
+      "recommended_actions": [
+        "Review the ticket for any potential issues with the device or the DNS server.",
+        "Contact the regional office for further assistance.",
+        "Check the device's status and ensure it is properly reset.",
+        "Consider contacting the support team for further troubleshooting."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-11-048",
+    "expected": {
+      "category": "exchange",
+      "severity": "P4",
+      "root_cause": "mailbox_quota_exceeded"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Shared kiosk",
+      "evidence": "Several mailboxes in a defined group have reached their configured quotas and sending is affected.",
+      "recommended_actions": [
+        "Review the ticket for any potential issues or anomalies.",
+        "Contact the authorized technician to investigate the issue.",
+        "Provide the authorized technician with the ticket and relevant information.",
+        "Consider a temporary workaround or workaround solution."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-04-050",
+    "expected": {
+      "category": "identity",
+      "severity": "P3",
+      "root_cause": "oauth_consent_missing"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Service Desk's inability to resolve the issue due to a lack of consent for a requested permission.",
+      "evidence": "The application sign-in trace reports missing consent for a requested permission.",
+      "recommended_actions": [
+        "Escalate to the IT department",
+        "Investigate the root cause of the issue",
+        "Review the application sign-in trace report for completeness and accuracy",
+        "Consider implementing a new consent mechanism for requesting permission"
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-19-035",
+    "expected": {
+      "category": "security",
+      "severity": "P1",
+      "root_cause": "suspicious_signin_detected"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Identity security controls stopped working on a newly provisioned laptop after moving to a different network.",
+      "evidence": "Identity protection marks one sign-in as high risk and the source location is inconsistent with the user's known activity.",
+      "recommended_actions": [
+        "Investigate the cause of the issue.",
+        "Implement a workaround for the laptop.",
+        "Review the identity security controls and their effectiveness.",
+        "Assess the impact of the issue on the business."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-14-016",
+    "expected": {
+      "category": "sharepoint",
+      "severity": "P2",
+      "root_cause": "storage_limit_reached"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Network connectivity issues related to the engineering workstation.",
+      "evidence": "The site storage report shows the configured limit has been reached and uploads fail.",
+      "recommended_actions": [
+        "Review the network connectivity logs for any errors or issues.",
+        "Investigate the cause of the network connectivity issues.",
+        "Check the service desk for any reported outages or issues.",
+        "Contact the regional office for further assistance."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-12-014",
+    "expected": {
+      "category": "exchange",
+      "severity": "P4",
+      "root_cause": "outlook_profile_corrupt"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Application update",
+      "evidence": "Outlook repeatedly fails to load the profile while webmail works for the same account",
+      "recommended_actions": "Document the result of the next diagnostic check",
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-10-050",
+    "expected": {
+      "category": "device_compliance",
+      "severity": "P2",
+      "root_cause": "enrollment_profile_mismatch"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Password change",
+      "evidence": "Device enrollment record",
+      "recommended_actions": "Verify user account details and ensure password change was successful.",
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-09-009",
+    "expected": {
+      "category": "device_compliance",
+      "severity": "P2",
+      "root_cause": "stale_compliance_sync"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Device management failure",
+      "evidence": "Documentation of the device last checked in several days ago, including recent user activity.",
+      "recommended_actions": [
+        "Investigate the cause of the device failure.",
+        "Implement a workaround for the business workflow.",
+        "Review the service desk's error code for potential root cause.",
+        "Contact the service desk for further investigation."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-08-046",
+    "expected": {
+      "category": "endpoint",
+      "severity": "P4",
+      "root_cause": "print_queue_stuck"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Device restart",
+      "evidence": "Print queue with job deletion/spooling state",
+      "recommended_actions": "Provide guidance or report a minor issue",
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-16-026",
+    "expected": {
+      "category": "teams",
+      "severity": "P2",
+      "root_cause": "guest_identity_mismatch"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Microsoft Teams' Windows 11 laptop issue after sign-in",
+      "evidence": "The invitation was sent to one email identity, but the guest signed in using a different account.",
+      "recommended_actions": [
+        "Investigate the cause of the issue.",
+        "Implement a workaround for the business workflow.",
+        "Provide support to the affected users.",
+        "Review the logs for any errors or anomalies.",
+        "Provide a clear and concise explanation of the issue."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-10-029",
+    "expected": {
+      "category": "device_compliance",
+      "severity": "P3",
+      "root_cause": "enrollment_profile_mismatch"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Device management failure",
+      "evidence": "New devices in the same deployment group are receiving a profile intended for another platform.",
+      "recommended_actions": [
+        "Investigate the cause of the device management failure.",
+        "Implement a rollback procedure to revert to the previous state.",
+        "Monitor the device management system for any signs of instability.",
+        "Provide support to the affected user or endpoint."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-04-031",
+    "expected": {
+      "category": "identity",
+      "severity": "P4",
+      "root_cause": "oauth_consent_missing"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Policy update",
+      "evidence": "Requested application scopes are absent from the tenant's granted-consent record.",
+      "recommended_actions": "No action recommended.",
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-15-021",
+    "expected": {
+      "category": "teams",
+      "severity": "P3",
+      "root_cause": "audio_device_unavailable"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Password change",
+      "evidence": "Teams diagnostics show the selected microphone is disconnected or unavailable to the application.",
+      "recommended_actions": [
+        "Review and update password policy",
+        "Implement password reset functionality",
+        "Provide troubleshooting steps for the application",
+        "Monitor the application for any unusual activity"
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-06-048",
+    "expected": {
+      "category": "conditional_access",
+      "severity": "P1",
+      "root_cause": "policy_scope_mismatch"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Unintended group access policy",
+      "evidence": "Sign-in records show a Conditional Access policy applied to an unintended group.",
+      "recommended_actions": [
+        "Review and update the Conditional Access policy to ensure it's properly configured and enforced.",
+        "Implement a workaround for the unintended group access policy.",
+        "Review and update the service desk correlation to ensure the correlation is accurate and reliable.",
+        "Implement a safe workaround for the unintended group access policy."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-04-010",
+    "expected": {
+      "category": "identity",
+      "severity": "P1",
+      "root_cause": "oauth_consent_missing"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Service Desk's inability to resolve the issue on the laptop after moving to a different network.",
+      "evidence": "The application sign-in trace reports missing consent for a requested permission.",
+      "recommended_actions": [
+        "Investigate the root cause of the failure.",
+        "Implement a workaround for the laptop.",
+        "Review the application sign-in trace report for any missing consent.",
+        "Contact the finance analyst to verify the issue and request a resolution."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-08-015",
+    "expected": {
+      "category": "endpoint",
+      "severity": "P1",
+      "root_cause": "print_queue_stuck"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Endpoint productivity service stopped working on a shared kiosk during the first login of the day.",
+      "evidence": "Several users at the same site have queued jobs that remain stalled while the shared printer is reachable.",
+      "recommended_actions": [
+        "Investigate the cause of the endpoint productivity service outage.",
+        "Identify and resolve the underlying cause of the service outage.",
+        "Implement a workaround for the shared kiosk functionality.",
+        "Provide the authorized technician with the necessary information and support."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-07-018",
+    "expected": {
+      "category": "endpoint",
+      "severity": "P2",
+      "root_cause": "disk_space_exhausted"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Remote endpoint failure",
+      "evidence": "Multiple managed endpoints report critically low system-drive space and application logs show write failures on those devices.",
+      "recommended_actions": [
+        "Investigate the cause of the endpoint failure.",
+        "Implement a workaround for the remote endpoint.",
+        "Monitor the system-drive space and application logs for any signs of data loss.",
+        "Review the resource name and intended workflow for potential issues.",
+        "Implement appropriate security measures to prevent future incidents."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-03-041",
+    "expected": {
+      "category": "identity",
+      "severity": "P4",
+      "root_cause": "mfa_registration_missing"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Device restart",
+      "evidence": "Sign-in flow requires MFA registration, and the account has no completed authentication method.",
+      "recommended_actions": "Review the issue and provide guidance or report a minor issue.",
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-09-048",
+    "expected": {
+      "category": "device_compliance",
+      "severity": "P3",
+      "root_cause": "stale_compliance_sync"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Policy update",
+      "evidence": "Several devices in one deployment group have stale compliance timestamps after a management-service disruption.",
+      "recommended_actions": [
+        "Review and update policy on device management for new starter devices.",
+        "Implement a proactive monitoring and alerting system to detect and respond to device-related issues.",
+        "Conduct a thorough investigation of the policy update to identify the root cause of the disruption.",
+        "Implement a comprehensive incident response plan to address the scope of the issue and minimize impact."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-16-020",
+    "expected": {
+      "category": "teams",
+      "severity": "P1",
+      "root_cause": "guest_identity_mismatch"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Service desk correlation confirms the same failure across multiple departments and at least two sites",
+      "evidence": "The invitation was sent to one email identity, but the guest signed in using a different account.",
+      "recommended_actions": [
+        "Review the invitation and ensure it is valid and clear.",
+        "Investigate the guest's account and verify their identity.",
+        "Check the service desk correlation for any errors or discrepancies.",
+        "Consider a temporary workaround for the service desk.",
+        "Review the incident logs for any errors or inconsistencies."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-16-023",
+    "expected": {
+      "category": "teams",
+      "severity": "P4",
+      "root_cause": "guest_identity_mismatch"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Microsoft Teams stopped working on a shared kiosk since the last management check-in.",
+      "evidence": "Multiple guests report access failures, and audit records show invitations sent to aliases different from their sign-in identities.",
+      "recommended_actions": [
+        "Review the issue and identify the root cause.",
+        "Implement a solution to resolve the issue.",
+        "Provide additional context to the user.",
+        "Escalate the issue to the IT team.",
+        "Consider a temporary workaround to prevent further disruption."
+      ],
+      "human_review_required": false
+    }
+  },
+  {
+    "id": "ITSM-07-025",
+    "expected": {
+      "category": "endpoint",
+      "severity": "P1",
+      "root_cause": "disk_space_exhausted"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Application update",
+      "evidence": "Application logs show write failures",
+      "recommended_actions": [
+        "Investigate the cause of the endpoint productivity service failure.",
+        "Implement a workaround for the endpoint productivity service failure.",
+        "Review the application update and identify any potential issues.",
+        "Contact the IT department to investigate the root cause of the endpoint productivity service failure."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-10-017",
+    "expected": {
+      "category": "device_compliance",
+      "severity": "P1",
+      "root_cause": "enrollment_profile_mismatch"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Device management failure",
+      "evidence": "New devices in the same deployment group are receiving a profile intended for another platform.",
+      "recommended_actions": [
+        "Investigate the cause of the device failure.",
+        "Implement a workaround for the device failure.",
+        "Review the user's profile for any potential issues.",
+        "Monitor the system for any unusual activity."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-06-017",
+    "expected": {
+      "category": "conditional_access",
+      "severity": "P3",
+      "root_cause": "policy_scope_mismatch"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Microsoft 365 access policy failure",
+      "evidence": "Documented failure of Microsoft 365 access policy on a remote endpoint.",
+      "recommended_actions": [
+        "Review and update Microsoft 365 access policy on the remote endpoint.",
+        "Implement a new access policy that addresses the missing user or endpoint.",
+        "Implement a new access policy that addresses the mismatch between the expected group and the actual group.",
+        "Implement a new access policy that addresses the missing user or endpoint."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-05-033",
+    "expected": {
+      "category": "conditional_access",
+      "severity": "P4",
+      "root_cause": "device_noncompliant"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Password change",
+      "evidence": "Conditional Access evaluation requires a compliant device, and management reports a failed compliance rule.",
+      "recommended_actions": [
+        "Review and update the password policy",
+        "Implement a password reset mechanism",
+        "Review and update the access policy",
+        "Review and update the security policy"
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-18-009",
+    "expected": {
+      "category": "network",
+      "severity": "P3",
+      "root_cause": "dns_resolution_failure"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Service Desk confirms one affected user or endpoint and verifies other users are working normally.",
+      "evidence": "Several endpoints at different sites return failures for the same service hostname, and DNS telemetry shows a common record problem.",
+      "recommended_actions": [
+        "Review user files and mailbox content",
+        "Check for any unauthorized access to the system",
+        "Review the service desk's confirmation of the affected user or endpoint",
+        "Investigate the root cause of the failure"
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-01-012",
+    "expected": {
+      "category": "authentication",
+      "severity": "P4",
+      "root_cause": "invalid_credentials"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Remote endpoint",
+      "evidence": "Other accounts authenticate successfully, while this account receives a credential rejection.",
+      "recommended_actions": [
+        "Review the ticket for any potential issues or anomalies.",
+        "Investigate the root cause of the remote endpoint issue.",
+        "Review the documentation for the remote endpoint issue.",
+        "Review the security configuration for the remote endpoint.",
+        "Review the security configuration for the remote endpoint."
+      ],
+      "human_review_required": false
+    }
+  },
+  {
+    "id": "ITSM-14-021",
+    "expected": {
+      "category": "sharepoint",
+      "severity": "P3",
+      "root_cause": "storage_limit_reached"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Policy update",
+      "evidence": "Storage reports show several sites in one tenant segment have reached their assigned quotas and uploads are failing.",
+      "recommended_actions": [
+        "Investigate the cause of the issue.",
+        "Review the policy update and its impact on the service desk.",
+        "Contact the support agent to investigate the incident.",
+        "Document the incident and its impact."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-12-025",
+    "expected": {
+      "category": "exchange",
+      "severity": "P1",
+      "root_cause": "outlook_profile_corrupt"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "Critical",
+      "root_cause": "Outlook and Exchange Online are failing on a conference-room PC since this morning.",
+      "evidence": "Multiple endpoints show the same Outlook startup failure after a managed client update, while webmail remains available.",
+      "recommended_actions": [
+        "Investigate the cause of the failure.",
+        "Implement a workaround for the conference-room PC.",
+        "Verify the availability of a safe workaround for the webmail service.",
+        "Review the service desk correlation to identify the root cause of the failure."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-17-025",
+    "expected": {
+      "category": "network",
+      "severity": "P2",
+      "root_cause": "proxy_configuration_invalid"
+    },
+    "prediction": {
+      "category": "network",
+      "severity": "P1",
+      "root_cause": "Application update",
+      "evidence": "Browser diagnostics show requests routed to an obsolete proxy endpoint",
+      "recommended_actions": "Verify recovery after an approved fix",
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-20-005",
+    "expected": {
+      "category": "security",
+      "severity": "P1",
+      "root_cause": "legacy_auth_blocked"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Legacy protocol failure",
+      "evidence": "Multiple sign-in events show a legacy protocol used by a shared business application, and policy blocks those attempts.",
+      "recommended_actions": [
+        "Implement a new, secure authentication mechanism for the mobile device.",
+        "Review and update the legacy protocol to ensure it is secure and compliant with industry standards.",
+        "Implement a robust security monitoring and alerting system to detect and respond to suspicious activity.",
+        "Conduct a thorough investigation into the root cause of the failure and identify the underlying issue."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-16-025",
+    "expected": {
+      "category": "teams",
+      "severity": "P1",
+      "root_cause": "guest_identity_mismatch"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Microsoft Teams management check-in failure",
+      "evidence": "Multiple guests report access failures, and audit records show invitations sent to aliases different from their sign-in identities.",
+      "recommended_actions": [
+        "Review access changes to Microsoft Teams.",
+        "Implement a secure access management system.",
+        "Conduct a thorough audit of Microsoft Teams usage and configuration.",
+        "Explore alternative communication channels for remote access.",
+        "Consider implementing a remote work solution."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-20-023",
+    "expected": {
+      "category": "security",
+      "severity": "P4",
+      "root_cause": "legacy_auth_blocked"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Identity security controls stopped working on a conference-room PC intermittently over the last two hours.",
+      "evidence": "Multiple sign-in events show a legacy protocol used by a shared business application, and policy blocks those attempts.",
+      "recommended_actions": [
+        "Review and update identity security controls on the conference-room PC.",
+        "Implement a new identity security policy that addresses the issue.",
+        "Implement a new security protocol that addresses the issue.",
+        "Implement a new security policy that addresses the issue."
+      ],
+      "human_review_required": false
+    }
+  },
+  {
+    "id": "ITSM-16-001",
+    "expected": {
+      "category": "teams",
+      "severity": "P4",
+      "root_cause": "guest_identity_mismatch"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Microsoft Teams' failure on a mobile device",
+      "evidence": "Multiple guests report access failures, and audit records show invitations sent to aliases different from their sign-in identities.",
+      "recommended_actions": [
+        "Review and update Microsoft Teams' configuration to ensure proper access controls.",
+        "Implement stricter security measures on the mobile device to prevent unauthorized access.",
+        "Provide training to guests on how to use Microsoft Teams effectively.",
+        "Conduct a thorough audit of the mobile device's security and access protocols."
+      ],
+      "human_review_required": false
+    }
+  },
+  {
+    "id": "ITSM-13-023",
+    "expected": {
+      "category": "sharepoint",
+      "severity": "P1",
+      "root_cause": "site_permission_missing"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Windows 11 laptop restart",
+      "evidence": "SharePoint Online stopped working on a Windows 11 laptop after a device restart.",
+      "recommended_actions": [
+        "Verify the diagnosis of the target library.",
+        "Confirm the availability of a safe workaround for the library.",
+        "Investigate the cause of the service outage.",
+        "Assess the impact of the outage on the business."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-07-009",
+    "expected": {
+      "category": "endpoint",
+      "severity": "P3",
+      "root_cause": "disk_space_exhausted"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Application update",
+      "evidence": "Documented application update, user logs show write failures.",
+      "recommended_actions": [
+        "Investigate the application update and its impact on the endpoint.",
+        "Review the application update and its impact on the endpoint.",
+        "Assess the root cause of the application update and its impact on the endpoint.",
+        "Implement appropriate measures to prevent future application updates.",
+        "Monitor the endpoint for any signs of further issues."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-14-044",
+    "expected": {
+      "category": "sharepoint",
+      "severity": "P2",
+      "root_cause": "storage_limit_reached"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Network connectivity issues",
+      "evidence": "Documented network connectivity problems and the inability to access the SharePoint Online site.",
+      "recommended_actions": [
+        "Investigate network connectivity issues.",
+        "Check the SharePoint Online site for any network connectivity problems.",
+        "Verify the configured limit has been reached.",
+        "Check the service desk for any reported network connectivity issues."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-02-021",
+    "expected": {
+      "category": "authentication",
+      "severity": "P1",
+      "root_cause": "account_locked"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Microsoft 365 sign-in failure",
+      "evidence": "Account locks again after being unlocked, and failures correlate with one client.",
+      "recommended_actions": [
+        "Investigate the cause of the sign-in failure.",
+        "Implement a workaround for the sign-in issue.",
+        "Review the available workaround options.",
+        "Consider a temporary workaround for the sign-in issue."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-10-049",
+    "expected": {
+      "category": "device_compliance",
+      "severity": "P2",
+      "root_cause": "enrollment_profile_mismatch"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Device management failure",
+      "evidence": "New devices in the same deployment group are receiving a profile intended for another platform.",
+      "recommended_actions": [
+        "Investigate the cause of the device management failure.",
+        "Implement a workaround for the device management issue.",
+        "Monitor the device management system for any signs of instability.",
+        "Review the device management logs for any errors or warnings.",
+        "Contact the support team for assistance."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-17-007",
+    "expected": {
+      "category": "network",
+      "severity": "P4",
+      "root_cause": "proxy_configuration_invalid"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Application update",
+      "evidence": "Browser diagnostics show requests routed to an obsolete proxy endpoint",
+      "recommended_actions": "Provide guidance or report a minor issue",
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-06-022",
+    "expected": {
+      "category": "conditional_access",
+      "severity": "P2",
+      "root_cause": "policy_scope_mismatch"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Microsoft 365 access policy failing on a newly provisioned laptop after the latest sign-in.",
+      "evidence": "Sign-in records show a Conditional Access policy applied to an unintended group.",
+      "recommended_actions": [
+        "Review and update the Conditional Access policy on the laptop.",
+        "Implement a workaround for the laptop to allow users to access the business workflow.",
+        "Review and update the service log to identify the source of the issue.",
+        "Investigate the root cause of the problem and determine the most likely cause."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-13-037",
+    "expected": {
+      "category": "sharepoint",
+      "severity": "P4",
+      "root_cause": "site_permission_missing"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Device restart",
+      "evidence": "SharePoint Online is failing on a VDI session after a device restart.",
+      "recommended_actions": [
+        "Review VDI session logs for any errors or issues.",
+        "Check SharePoint Online's status and availability.",
+        "Contact the IT support team for assistance.",
+        "Consider a temporary workaround (e.g., restarting the site)."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-07-019",
+    "expected": {
+      "category": "endpoint",
+      "severity": "P4",
+      "root_cause": "disk_space_exhausted"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Application update",
+      "evidence": "Documented application update, logs show write failures",
+      "recommended_actions": "Verify recovery after approved change",
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-08-004",
+    "expected": {
+      "category": "endpoint",
+      "severity": "P2",
+      "root_cause": "print_queue_stuck"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Device restart",
+      "evidence": "Print queue with job deletion/spooling state",
+      "recommended_actions": "Escalate to IT support",
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-05-036",
+    "expected": {
+      "category": "conditional_access",
+      "severity": "P1",
+      "root_cause": "device_noncompliant"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Service Desk Correlation",
+      "evidence": "Sign-in event names device compliance as the block reason, and several device records show the same failed policy.",
+      "recommended_actions": [
+        "Investigate the cause of the service outage.",
+        "Review the service desk correlation to identify the root cause.",
+        "Implement a workaround for the service outage.",
+        "Contact the service desk to investigate the issue."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-06-039",
+    "expected": {
+      "category": "conditional_access",
+      "severity": "P2",
+      "root_cause": "policy_scope_mismatch"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Microsoft 365 access policy stopping working on a conference-room PC since the last management check-in",
+      "evidence": "Missing account from expected group after directory change and policy evaluation confirms mismatch",
+      "recommended_actions": [
+        "Review the policy and ensure it's up-to-date.",
+        "Investigate the cause of the problem and determine the root cause.",
+        "Implement a workaround to resolve the issue.",
+        "Contact the relevant service desk to investigate the issue."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-15-014",
+    "expected": {
+      "category": "teams",
+      "severity": "P1",
+      "root_cause": "audio_device_unavailable"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Service Desk's failure to resolve the issue on Microsoft Teams",
+      "evidence": "Conference-room Teams setup reports an unavailable shared audio endpoint across multiple scheduled meetings.",
+      "recommended_actions": [
+        "Investigate the cause of the service desk failure.",
+        "Implement a solution to resolve the issue on Microsoft Teams.",
+        "Provide support to the field engineer.",
+        "Review the scope of the service desk's failure."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-10-019",
+    "expected": {
+      "category": "device_compliance",
+      "severity": "P3",
+      "root_cause": "enrollment_profile_mismatch"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Device management stopped working on a managed desktop intermittently over the last two hours.",
+      "evidence": "New devices in the same deployment group are receiving a profile intended for another platform.",
+      "recommended_actions": [
+        "Investigate the cause of the device management issue.",
+        "Review the logs of the device management system to identify the root cause.",
+        "Implement a solution to resolve the device management issue.",
+        "Monitor the performance of the device management system to ensure it is functioning correctly."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-13-015",
+    "expected": {
+      "category": "sharepoint",
+      "severity": "P3",
+      "root_cause": "site_permission_missing"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Device restart",
+      "evidence": "SharePoint returns access denied for the target library while the site is reachable.",
+      "recommended_actions": [
+        "Verify SharePoint Online's status and availability.",
+        "Check if the target library is accessible.",
+        "Verify the device restart process.",
+        "Check if the target library is reachable."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-20-035",
+    "expected": {
+      "category": "security",
+      "severity": "P2",
+      "root_cause": "legacy_auth_blocked"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Legacy security controls stopped working on a mobile device intermittently over the last two hours.",
+      "evidence": "Multiple sign-in events show a legacy protocol used by a shared business application, and policy blocks those attempts.",
+      "recommended_actions": [
+        "Review and update security policies and procedures.",
+        "Implement a new, secure mobile device authentication system.",
+        "Implement a new, secure user authentication system.",
+        "Implement a new, secure access control system.",
+        "Implement a new, secure data encryption policy.",
+        "Implement a new, secure network segmentation policy."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-01-024",
+    "expected": {
+      "category": "authentication",
+      "severity": "P3",
+      "root_cause": "invalid_credentials"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Microsoft 365 sign-in for a new starter",
+      "evidence": "Other accounts authenticate successfully, while this account receives a credential rejection.",
+      "recommended_actions": [
+        "Review the ticket for any potential issues or anomalies.",
+        "Investigate the cause of the issue and determine the root cause.",
+        "Review the logs and documentation for any relevant information.",
+        "Contact the support team to report the issue."
+      ],
+      "human_review_required": false
+    }
+  },
+  {
+    "id": "ITSM-08-049",
+    "expected": {
+      "category": "endpoint",
+      "severity": "P4",
+      "root_cause": "print_queue_stuck"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Endpoint productivity service failure",
+      "evidence": "Several users at the same site have queued jobs that remain stalled while the shared printer is reachable.",
+      "recommended_actions": [
+        "Investigate the cause of the endpoint productivity service failure.",
+        "Contact the remote home network administrator to determine the root cause.",
+        "Review the diagnostic evidence to identify potential issues.",
+        "Initiate a technician's decision to investigate the endpoint productivity service failure."
+      ],
+      "human_review_required": false
+    }
+  },
+  {
+    "id": "ITSM-04-039",
+    "expected": {
+      "category": "identity",
+      "severity": "P4",
+      "root_cause": "oauth_consent_missing"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Policy update",
+      "evidence": "Requested application scopes are absent from the tenant's granted-consent record.",
+      "recommended_actions": "Review application scopes and investigate the root cause.",
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-17-019",
+    "expected": {
+      "category": "network",
+      "severity": "P3",
+      "root_cause": "proxy_configuration_invalid"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Application update",
+      "evidence": "Browser diagnostics show requests routed to an obsolete proxy endpoint",
+      "recommended_actions": [
+        "Review application update logs",
+        "Investigate the cause of the application update",
+        "Review the policy configuration",
+        "Review the service desk's confirmation of the affected user or endpoint"
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-15-018",
+    "expected": {
+      "category": "teams",
+      "severity": "P4",
+      "root_cause": "audio_device_unavailable"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Microsoft Teams outage",
+      "evidence": "Conference-room Teams setup report",
+      "recommended_actions": [
+        "Investigate the cause of the outage.",
+        "Identify and resolve the underlying issue.",
+        "Implement a recovery plan.",
+        "Provide support to the executive assistant."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-12-042",
+    "expected": {
+      "category": "exchange",
+      "severity": "P4",
+      "root_cause": "outlook_profile_corrupt"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Application update",
+      "evidence": "Outlook repeatedly fails to load the profile while webmail works for the same account.",
+      "recommended_actions": "Review the user's request and investigate the root cause of the failure.",
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-18-040",
+    "expected": {
+      "category": "network",
+      "severity": "P4",
+      "root_cause": "dns_resolution_failure"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Device restart",
+      "evidence": "Name-resolution tests fail for the service hostname while the configured DNS server is unreachable.",
+      "recommended_actions": [
+        "Review the ticket for any potential issues or anomalies.",
+        "Investigate the cause of the device restart and the DNS server unreachable.",
+        "Contact the support team to investigate the issue and determine the root cause.",
+        "Consider a temporary workaround to resolve the issue."
+      ],
+      "human_review_required": false
+    }
+  },
+  {
+    "id": "ITSM-03-002",
+    "expected": {
+      "category": "identity",
+      "severity": "P2",
+      "root_cause": "mfa_registration_missing"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Authentication error",
+      "evidence": "Authentication details state that a required method is not registered.",
+      "recommended_actions": [
+        "Verify the required method is registered.",
+        "Check the authentication details for any errors.",
+        "Review the security configuration for the managed desktop.",
+        "Review the security configuration for the hybrid workspace."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-03-042",
+    "expected": {
+      "category": "identity",
+      "severity": "P3",
+      "root_cause": "mfa_registration_missing"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Authentication issues",
+      "evidence": "Authentication details state that a required method is not registered.",
+      "recommended_actions": [
+        "Verify the required method is registered.",
+        "Check the user's account for any unauthorized access attempts.",
+        "Review the user's account for any unauthorized access attempts.",
+        "Check the user's account for any unauthorized access attempts."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-08-027",
+    "expected": {
+      "category": "endpoint",
+      "severity": "P3",
+      "root_cause": "print_queue_stuck"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Endpoint productivity service stopped working on a managed desktop during the first login of the day.",
+      "evidence": "Several users at the same site have queued jobs that remain stalled while the shared printer is reachable.",
+      "recommended_actions": [
+        "Investigate the cause of the endpoint productivity service outage.",
+        "Verify the status of the managed desktop and the shared printer.",
+        "Review the workflow of the shared printer to identify any potential bottlenecks.",
+        "Implement appropriate troubleshooting steps to resolve the issue."
+      ],
+      "human_review_required": false
+    }
+  },
+  {
+    "id": "ITSM-19-008",
+    "expected": {
+      "category": "security",
+      "severity": "P2",
+      "root_cause": "suspicious_signin_detected"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Policy update",
+      "evidence": "Risk telemetry identifies anomalous sign-ins across several accounts with a shared indicator.",
+      "recommended_actions": [
+        "Review and update the policy on identity security controls for the new starter.",
+        "Implement a time-sensitive business workflow update to reduce the impact of the policy update.",
+        "Implement a workaround for the blocked users in one department.",
+        "Investigate the root cause of the blocked users in one department."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-12-049",
+    "expected": {
+      "category": "exchange",
+      "severity": "P3",
+      "root_cause": "outlook_profile_corrupt"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Outlook and Exchange Online are failing on a shared kiosk since this morning.",
+      "evidence": "Multiple endpoints show the same Outlook startup failure after a managed client update, while webmail remains available.",
+      "recommended_actions": [
+        "Investigate the cause of the failure.",
+        "Implement a fix for the shared kiosk.",
+        "Monitor the performance of Outlook and Exchange Online on the shared kiosk.",
+        "Review the support agent's scope before proposing remediation."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-08-021",
+    "expected": {
+      "category": "endpoint",
+      "severity": "P1",
+      "root_cause": "print_queue_stuck"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Service Desk Correlation",
+      "evidence": "Several users at the same site have queued jobs that remain stalled while the shared printer is reachable.",
+      "recommended_actions": [
+        "Investigate the cause of the service outage.",
+        "Implement a workaround for the service outage.",
+        "Provide support to the user affected by the outage.",
+        "Review the support agent's logs for any potential issues."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-09-039",
+    "expected": {
+      "category": "device_compliance",
+      "severity": "P4",
+      "root_cause": "stale_compliance_sync"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Device management stopped working on a Windows 11 laptop after moving to a different network.",
+      "evidence": "The management console shows the device last checked in several days ago despite recent user activity.",
+      "recommended_actions": [
+        "Review the device management logs for any recent activity or changes.",
+        "Check the device's status and performance on the affected network.",
+        "Contact the IT support team to report the issue.",
+        "Consider a temporary workaround to resolve the issue."
+      ],
+      "human_review_required": false
+    }
+  },
+  {
+    "id": "ITSM-03-030",
+    "expected": {
+      "category": "identity",
+      "severity": "P1",
+      "root_cause": "mfa_registration_missing"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Authentication details are not registered",
+      "evidence": "Authentication details state that a required method is not registered",
+      "recommended_actions": "Investigate and resolve the authentication issue.",
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-04-033",
+    "expected": {
+      "category": "identity",
+      "severity": "P2",
+      "root_cause": "oauth_consent_missing"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Policy update",
+      "evidence": "Documented application scope absence from tenant's granted-consent record.",
+      "recommended_actions": [
+        "Escalate to IT support",
+        "Review application scopes for tenant's granted-consent record",
+        "Review service desk confirmation of multiple affected users in one department"
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-17-018",
+    "expected": {
+      "category": "network",
+      "severity": "P1",
+      "root_cause": "proxy_configuration_invalid"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Remote endpoint failure",
+      "evidence": "Multiple endpoints in the same network segment fail with proxy authentication errors after a configuration change.",
+      "recommended_actions": [
+        "Investigate the cause of the remote endpoint failure.",
+        "Implement a secure proxy solution for the remote endpoint.",
+        "Review the configuration of the remote endpoint to ensure proper authentication.",
+        "Implement a secure authentication mechanism for the remote endpoint.",
+        "Implement a secure proxy solution for the remote endpoint."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-04-042",
+    "expected": {
+      "category": "identity",
+      "severity": "P1",
+      "root_cause": "oauth_consent_missing"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Service desk failure due to network connectivity issues",
+      "evidence": "Application sign-in trace reports missing consent for a requested permission",
+      "recommended_actions": [
+        "Investigate network connectivity issues",
+        "Check for any network outages or connectivity problems",
+        "Review application sign-in trace reports for missing consent"
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-12-038",
+    "expected": {
+      "category": "exchange",
+      "severity": "P1",
+      "root_cause": "outlook_profile_corrupt"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Application update",
+      "evidence": "Outlook repeatedly fails to load the profile while webmail works for the same account.",
+      "recommended_actions": [
+        "Investigate the cause of the application update.",
+        "Review the application update and identify any potential issues.",
+        "Implement a workaround for the application update.",
+        "Monitor the performance of the webmail account.",
+        "Consider a backup or recovery plan for the affected site."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-09-003",
+    "expected": {
+      "category": "device_compliance",
+      "severity": "P1",
+      "root_cause": "stale_compliance_sync"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Device management stopped working on a VDI session after moving to a different network.",
+      "evidence": "The management console shows the device last checked in several days ago despite recent user activity.",
+      "recommended_actions": [
+        "Investigate the cause of the device management issue.",
+        "Identify and resolve the underlying cause of the device management issue.",
+        "Implement a workaround for the VDI session.",
+        "Monitor the device's performance and availability."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-14-027",
+    "expected": {
+      "category": "sharepoint",
+      "severity": "P4",
+      "root_cause": "storage_limit_reached"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Policy update",
+      "evidence": "Storage reports show several sites in one tenant segment have reached their assigned quotas and uploads are failing.",
+      "recommended_actions": [
+        "Review the policy update and ensure it's compliant.",
+        "Investigate the cause of the policy update and identify the root cause.",
+        "Implement a workaround to resolve the issue.",
+        "Provide support to the user regarding the issue."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-16-022",
+    "expected": {
+      "category": "teams",
+      "severity": "P3",
+      "root_cause": "guest_identity_mismatch"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Microsoft Teams failure",
+      "evidence": "Invitation sent to one email identity, but the guest signed in using a different account.",
+      "recommended_actions": [
+        "Verify the diagnosis of the affected user or endpoint.",
+        "Confirm the diagnosis before remediation.",
+        "Provide further context to the team.",
+        "Escalate the issue to the relevant team."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-02-041",
+    "expected": {
+      "category": "authentication",
+      "severity": "P4",
+      "root_cause": "account_locked"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Microsoft 365 sign-in failure",
+      "evidence": "Account locks again after being unlocked, and failures correlate with one client.",
+      "recommended_actions": [
+        "Review and update Microsoft 365 sign-in policy",
+        "Implement a new sign-in policy that prioritizes user experience and security",
+        "Implement a user-friendly sign-in process with clear instructions",
+        "Provide training on Microsoft 365 sign-in best practices"
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-18-028",
+    "expected": {
+      "category": "network",
+      "severity": "P2",
+      "root_cause": "dns_resolution_failure"
+    },
+    "prediction": {
+      "category": "network access",
+      "severity": "P1",
+      "root_cause": "Device restart",
+      "evidence": "Name-resolution tests fail for the service hostname while the configured DNS server is unreachable.",
+      "recommended_actions": [
+        "Verify DNS resolution",
+        "Check DNS cache",
+        "Check DNS availability",
+        "Check network connectivity"
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-19-033",
+    "expected": {
+      "category": "security",
+      "severity": "P3",
+      "root_cause": "suspicious_signin_detected"
+    },
+    "prediction": {
+      "category": "IT Incident",
+      "severity": "High",
+      "root_cause": "Identity security controls failing on a VDI session after moving to a different network.",
+      "evidence": "Identity protection marks one sign-in as high risk and the source location is inconsistent with the user's known activity.",
+      "recommended_actions": [
+        "Investigate the root cause of the identity security controls failure.",
+        "Review the system logs for any errors or warnings related to identity protection.",
+        "Verify the source location of the user or endpoint affected by the identity security controls.",
+        "Assess the impact of the identity security controls failure on the business and user experience."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-20-037",
+    "expected": {
+      "category": "security",
+      "severity": "P1",
+      "root_cause": "legacy_auth_blocked"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Legacy protocol failure",
+      "evidence": "Multiple sign-in events show a legacy protocol used by a shared business application, and policy blocks those attempts.",
+      "recommended_actions": [
+        "Investigate the cause of the failure and implement a solution.",
+        "Implement a new legacy protocol for the shared application.",
+        "Review and update the policy on the shared application.",
+        "Implement a secure authentication mechanism for the shared application."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-06-009",
+    "expected": {
+      "category": "conditional_access",
+      "severity": "P4",
+      "root_cause": "policy_scope_mismatch"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Microsoft 365 access policy failure",
+      "evidence": "Missing group from expected group after directory change and policy evaluation confirms mismatch.",
+      "recommended_actions": [
+        "Review and update the Microsoft 365 access policy",
+        "Implement a new access policy that addresses the missing group",
+        "Provide training to users on the new policy",
+        "Conduct a thorough investigation to determine the root cause of the issue"
+      ],
+      "human_review_required": false
+    }
+  },
+  {
+    "id": "ITSM-05-045",
+    "expected": {
+      "category": "conditional_access",
+      "severity": "P2",
+      "root_cause": "device_noncompliant"
+    },
+    "prediction": null
+  },
+  {
+    "id": "ITSM-20-025",
+    "expected": {
+      "category": "security",
+      "severity": "P3",
+      "root_cause": "legacy_auth_blocked"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Legacy security controls failing on a mobile device",
+      "evidence": "Multiple sign-in events show a legacy protocol used by a shared business application, and policy blocks those attempts.",
+      "recommended_actions": [
+        "Implement a new security policy for mobile device authentication.",
+        "Review and update the legacy security controls on the mobile device.",
+        "Implement a new security policy for the shared business application.",
+        "Implement a new security policy for the mobile device."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-11-047",
+    "expected": {
+      "category": "exchange",
+      "severity": "P1",
+      "root_cause": "mailbox_quota_exceeded"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Service disruption due to a temporary outage in Outlook and Exchange Online.",
+      "evidence": "Exchange diagnostics show the mailbox at its configured quota and new mail delivery is affected.",
+      "recommended_actions": [
+        "Investigate the cause of the outage.",
+        "Identify and resolve the issue with Outlook and Exchange Online.",
+        "Implement a workaround for the business task.",
+        "Monitor the system for any further issues."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-06-025",
+    "expected": {
+      "category": "conditional_access",
+      "severity": "P3",
+      "root_cause": "policy_scope_mismatch"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Microsoft 365 access policy failure",
+      "evidence": "Documented as a failure of the Microsoft 365 access policy.",
+      "recommended_actions": [
+        "Review the Microsoft 365 access policy",
+        "Investigate the cause of the failure",
+        "Implement a new access policy",
+        "Monitor the access policy for any changes"
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-02-005",
+    "expected": {
+      "category": "authentication",
+      "severity": "P3",
+      "root_cause": "account_locked"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Microsoft 365 sign-in failure",
+      "evidence": "Account locks again after being unlocked, and failures correlate with one client.",
+      "recommended_actions": [
+        "Investigate the cause of the sign-in failure.",
+        "Verify the account is locked and the user is working normally.",
+        "Check the service desk for any recent attempts to unlock the account.",
+        "Review the support agent's recent logs for any potential issues."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-18-002",
+    "expected": {
+      "category": "network",
+      "severity": "P2",
+      "root_cause": "dns_resolution_failure"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Device restart",
+      "evidence": "Name-resolution tests fail for the service hostname while the configured DNS server is unreachable.",
+      "recommended_actions": [
+        "Investigate the cause of the device restart.",
+        "Verify the DNS server is reachable.",
+        "Check the service status and network connectivity.",
+        "Review the service desk's documentation for troubleshooting steps.",
+        "Implement a workaround for the VDI session."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-14-012",
+    "expected": {
+      "category": "sharepoint",
+      "severity": "P3",
+      "root_cause": "storage_limit_reached"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Corporate MacBook",
+      "evidence": "Diagnosis of the affected device and symptoms.",
+      "recommended_actions": [
+        "Verify the configured limit has been reached.",
+        "Upload the affected user or endpoint to the service desk.",
+        "Confirm that other users are working normally."
+      ],
+      "human_review_required": false
+    }
+  },
+  {
+    "id": "ITSM-15-038",
+    "expected": {
+      "category": "teams",
+      "severity": "P2",
+      "root_cause": "audio_device_unavailable"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Service Desk's inability to resolve the issue with Microsoft Teams on a conference-room PC due to a lack of resolution.",
+      "evidence": "A conference-room Teams setup report indicates an unavailable shared audio endpoint across multiple scheduled meetings.",
+      "recommended_actions": [
+        "Investigate the cause of the issue and determine the root cause.",
+        "Implement a solution to resolve the issue.",
+        "Provide support to users affected by the issue.",
+        "Monitor the system for any further issues."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-02-015",
+    "expected": {
+      "category": "authentication",
+      "severity": "P2",
+      "root_cause": "account_locked"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Microsoft 365 sign-in issue",
+      "evidence": "Account locks again after unlocking, and failures correlate with one client.",
+      "recommended_actions": [
+        "Investigate the cause of the sign-in issue.",
+        "Review the service desk logs for any related issues.",
+        "Contact the support agent to determine the root cause of the problem.",
+        "Implement a workaround for the sign-in issue."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-01-011",
+    "expected": {
+      "category": "authentication",
+      "severity": "P1",
+      "root_cause": "invalid_credentials"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Microsoft 365 sign-in issue",
+      "evidence": "Password change record",
+      "recommended_actions": [
+        "Investigate the cause of the sign-in issue.",
+        "Implement a password reset mechanism for the client.",
+        "Review the security configuration of the Windows 11 laptop.",
+        "Consider a workaround for the client's current sign-in issue.",
+        "Investigate the root cause of the sign-in issue."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-02-031",
+    "expected": {
+      "category": "authentication",
+      "severity": "P2",
+      "root_cause": "account_locked"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Microsoft 365 sign-in stopped working on a managed desktop since this morning.",
+      "evidence": "The account locks again after being unlocked, and failures correlate with one client.",
+      "recommended_actions": [
+        "Investigate the cause of the login issue.",
+        "Verify the account is properly locked and unlocked.",
+        "Check the account's status for any errors or warnings.",
+        "Review the support agent's documentation for the workaround."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-01-020",
+    "expected": {
+      "category": "authentication",
+      "severity": "P2",
+      "root_cause": "invalid_credentials"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "High",
+      "root_cause": "Password change",
+      "evidence": "A password change is recorded, but one client continues submitting an old saved credential.",
+      "recommended_actions": [
+        "Review the password change and ensure it's valid.",
+        "Check the user's account for any unauthorized access attempts.",
+        "Review the resource name and intended workflow for potential security risks.",
+        "Consider a temporary workaround for the blocked users."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-11-015",
+    "expected": {
+      "category": "exchange",
+      "severity": "P3",
+      "root_cause": "mailbox_quota_exceeded"
+    },
+    "prediction": {
+      "category": "IT",
+      "severity": "P1",
+      "root_cause": "Outlook and Exchange Online stopped working on a VDI session after the latest sign-in.",
+      "evidence": "Exchange diagnostics show the mailbox at its configured quota and new mail delivery is affected.",
+      "recommended_actions": [
+        "Investigate the cause of the issue.",
+        "Verify the status of the VDI session.",
+        "Check the availability of the mailbox and new mail delivery.",
+        "Review the service desk's confirmation of the affected user or endpoint."
+      ],
+      "human_review_required": true
+    }
+  }
+]

@@ -1,0 +1,206 @@
+{
+  "invalid_credentials": [
+    [
+      "Sign-in logs show repeated invalid-password responses for the affected account.",
+      "Verify the user's identity and account status; guide them through the approved credential recovery flow. Never request or record the password."
+    ],
+    [
+      "A password change is recorded, but one client continues submitting an old saved credential.",
+      "Update the saved credential in the affected client and review stale sessions according to policy."
+    ],
+    [
+      "Other accounts authenticate successfully, while this account receives a credential rejection.",
+      "Inspect the affected account's sign-in details and test a fresh sign-in without exposing credentials."
+    ]
+  ],
+  "account_locked": [
+    [
+      "Identity logs record an account-lockout event following repeated failed attempts.",
+      "Verify identity, identify the source of repeated failures, and unlock only through the approved process."
+    ],
+    [
+      "The account locks again after being unlocked, and failures correlate with one client.",
+      "Correlate failed sign-ins by client and source, then update the stale credential at the originating client."
+    ]
+  ],
+  "mfa_registration_missing": [
+    [
+      "The sign-in flow requires MFA registration, and the account has no completed authentication method.",
+      "Verify identity and eligibility, then guide the user through the approved MFA registration flow."
+    ],
+    [
+      "Authentication details state that a required method is not registered.",
+      "Check the authentication-method policy and registration state; do not bypass MFA as a routine workaround."
+    ]
+  ],
+  "oauth_consent_missing": [
+    [
+      "The application sign-in trace reports missing consent for a requested permission.",
+      "Review the publisher, requested scopes, and business approval; obtain admin consent only through the approved review process."
+    ],
+    [
+      "Requested application scopes are absent from the tenant's granted-consent record.",
+      "Compare requested scopes with the approved app registration and route the request to the application owner."
+    ]
+  ],
+  "device_noncompliant": [
+    [
+      "Conditional Access evaluation requires a compliant device, and management reports a failed compliance rule.",
+      "Inspect the exact failed rule, remediate it, sync the device, and recheck compliance before retrying access."
+    ],
+    [
+      "The sign-in event names device compliance as the block reason, and several device records show the same failed policy.",
+      "Confirm policy assignment and the affected device set, remediate the underlying rule, and validate compliance before restoring access."
+    ]
+  ],
+  "policy_scope_mismatch": [
+    [
+      "Sign-in records show a Conditional Access policy applied to an unintended group.",
+      "Compare include and exclude groups with the approved change, then correct scope through change control."
+    ],
+    [
+      "The affected account is missing from the expected group after a directory change, and policy evaluation confirms the mismatch.",
+      "Verify group membership and propagation, review policy impact, and test with a controlled account."
+    ]
+  ],
+  "disk_space_exhausted": [
+    [
+      "The endpoint reports less than 1 GB free and application logs show write failures.",
+      "Identify approved-to-remove files, clear safe temporary data, and verify free space without deleting user data blindly."
+    ],
+    [
+      "Several managed endpoints report critically low system-drive space, and application logs show write failures on those devices.",
+      "Check endpoint telemetry for the common source of disk growth, apply approved cleanup, and verify free space across affected devices."
+    ]
+  ],
+  "print_queue_stuck": [
+    [
+      "The print queue contains a job that remains in deleting or spooling state.",
+      "Capture printer and job details, clear the stuck job using the approved procedure, and verify a test print."
+    ],
+    [
+      "Several users at the same site have queued jobs that remain stalled while the shared printer is reachable.",
+      "Check the shared queue and spooler health, then follow the endpoint support procedure to clear the backlog and verify a test print."
+    ]
+  ],
+  "stale_compliance_sync": [
+    [
+      "The management console shows the device last checked in several days ago despite recent user activity.",
+      "Verify connectivity and enrollment, trigger a supported management sync, and confirm the updated check-in timestamp."
+    ],
+    [
+      "Many devices in one deployment group have stale compliance timestamps after a management-service disruption.",
+      "Check service health and enrollment-agent status, restore sync through the supported process, and verify updated device records."
+    ]
+  ],
+  "enrollment_profile_mismatch": [
+    [
+      "The device enrollment record references a profile intended for a different ownership type.",
+      "Confirm ownership and platform, then follow the approved re-enrollment path with user-data safeguards."
+    ],
+    [
+      "New devices in the same deployment group are receiving a profile intended for another platform.",
+      "Validate group and profile assignment, correct the mapping through change control, and re-enroll only where required."
+    ]
+  ],
+  "mailbox_quota_exceeded": [
+    [
+      "Exchange diagnostics show the mailbox at its configured quota and new mail delivery is affected.",
+      "Check mailbox usage and retention policy, identify approved cleanup or archive options, and verify mail flow after space is recovered."
+    ],
+    [
+      "Several mailboxes in a defined group have reached their configured quotas and sending is affected.",
+      "Review mailbox usage, retention requirements, and capacity policy with the service owner before applying an approved remedy."
+    ]
+  ],
+  "outlook_profile_corrupt": [
+    [
+      "Outlook repeatedly fails to load the profile while webmail works for the same account.",
+      "Confirm service health and capture diagnostics, then create a test profile following support procedure before replacing the user's profile."
+    ],
+    [
+      "Multiple endpoints show the same Outlook startup failure after a managed client update, while webmail remains available.",
+      "Check client deployment and diagnostics, test a clean profile on a controlled device, and preserve local data before rebuilding caches."
+    ]
+  ],
+  "site_permission_missing": [
+    [
+      "SharePoint returns access denied for the target library while the site is reachable.",
+      "Verify the user's intended role and group membership with the site owner, then grant least-privilege access if approved."
+    ],
+    [
+      "A group of users lost access after a site permission change, while the site itself remains reachable.",
+      "Review the approved permission change with the site owner, restore only the intended group access, and verify with a test account."
+    ]
+  ],
+  "storage_limit_reached": [
+    [
+      "The site storage report shows the configured limit has been reached and uploads fail.",
+      "Review storage usage and retention requirements, remove content only with owner approval, or request capacity through the tenant process."
+    ],
+    [
+      "Storage reports show several sites in one tenant segment have reached their assigned quotas and uploads are failing.",
+      "Confirm site-level usage and quota configuration, then follow the approved capacity or cleanup workflow with site owners."
+    ]
+  ],
+  "audio_device_unavailable": [
+    [
+      "Teams diagnostics show the selected microphone is disconnected or unavailable to the application.",
+      "Check OS device permissions and the selected input/output device, close competing audio applications, and run a test call."
+    ],
+    [
+      "A conference-room Teams setup reports an unavailable shared audio endpoint across multiple scheduled meetings.",
+      "Check the room device's connection and OS audio endpoint, then run a controlled test call before the next meeting."
+    ]
+  ],
+  "guest_identity_mismatch": [
+    [
+      "The invitation was sent to one email identity, but the guest signed in using a different account.",
+      "Confirm the invited address with the resource owner and have the guest switch to the invited identity; re-invite only if approved."
+    ],
+    [
+      "Multiple guests report access failures, and audit records show invitations sent to aliases different from their sign-in identities.",
+      "Validate each intended guest identity with the resource owner and correct invitations through the approved guest-access process."
+    ]
+  ],
+  "proxy_configuration_invalid": [
+    [
+      "Browser diagnostics show requests routed to an obsolete proxy endpoint.",
+      "Compare endpoint proxy settings with the approved configuration, correct the stale value, and test only approved destinations."
+    ],
+    [
+      "Multiple endpoints in the same network segment fail with proxy authentication errors after a configuration change.",
+      "Verify proxy address, authentication, and policy assignment with network operations; do not bypass the corporate proxy."
+    ]
+  ],
+  "dns_resolution_failure": [
+    [
+      "Name-resolution tests fail for the service hostname while the configured DNS server is unreachable.",
+      "Check assigned DNS servers and network/VPN state, then retest resolution after approved remediation."
+    ],
+    [
+      "Several endpoints at different sites return failures for the same service hostname, and DNS telemetry shows a common record problem.",
+      "Compare the failing record with authoritative DNS data and escalate stale or missing records to the DNS owner."
+    ]
+  ],
+  "suspicious_signin_detected": [
+    [
+      "Identity protection marks one sign-in as high risk and the source location is inconsistent with the user's known activity.",
+      "Follow the security incident playbook, preserve sign-in evidence, verify the user through a trusted channel, and escalate for containment."
+    ],
+    [
+      "Risk telemetry identifies anomalous sign-ins across several accounts with a shared indicator.",
+      "Review correlated sign-in and audit events, preserve evidence, and escalate promptly under the security playbook; containment requires authorized security approval."
+    ]
+  ],
+  "legacy_auth_blocked": [
+    [
+      "Sign-in logs identify a legacy authentication client blocked by tenant policy for one user.",
+      "Identify the client and dependent workflow, migrate it to modern authentication, and retain the block unless an approved exception exists."
+    ],
+    [
+      "Multiple sign-in events show a legacy protocol used by a shared business application, and policy blocks those attempts.",
+      "Confirm the protocol and application owner, plan migration to modern authentication, and retain the block unless a formal exception is approved."
+    ]
+  ]
+}

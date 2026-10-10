@@ -1,0 +1,46 @@
+{
+  "base": {
+    "category": {
+      "correct": 1,
+      "total": 100,
+      "accuracy_percent": 1.0
+    },
+    "severity": {
+      "correct": 7,
+      "total": 100,
+      "accuracy_percent": 7.0
+    },
+    "root_cause": {
+      "correct": 0,
+      "total": 100,
+      "accuracy_percent": 0.0
+    },
+    "valid_json": {
+      "correct": 99,
+      "total": 100,
+      "accuracy_percent": 99.0
+    }
+  },
+  "lora": {
+    "category": {
+      "correct": 100,
+      "total": 100,
+      "accuracy_percent": 100.0
+    },
+    "severity": {
+      "correct": 43,
+      "total": 100,
+      "accuracy_percent": 43.0
+    },
+    "root_cause": {
+      "correct": 100,
+      "total": 100,
+      "accuracy_percent": 100.0
+    },
+    "valid_json": {
+      "correct": 100,
+      "total": 100,
+      "accuracy_percent": 100.0
+    }
+  }
+}

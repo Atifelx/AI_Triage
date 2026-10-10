@@ -1,0 +1,11 @@
+Gemma is provided under and subject to the Gemma Terms of Use found at
+https://ai.google.dev/gemma/terms
+
+The base model in base/ (google/gemma-3-270m-it) and the LoRA adapter in adapter/
+(a Model Derivative fine-tuned from it) are distributed subject to those terms,
+including the Gemma Prohibited Use Policy:
+https://ai.google.dev/gemma/prohibited_use_policy
+
+Anyone receiving these files must receive this notice and is bound by the same
+use restrictions. Modifications: adapter/ contains LoRA weights trained for IT
+incident severity classification (see README.md); base/ is unmodified.

@@ -1,0 +1,2102 @@
+[
+  {
+    "id": "ITSM-05-027",
+    "expected": {
+      "category": "conditional_access",
+      "severity": "P3",
+      "root_cause": "device_noncompliant"
+    },
+    "prediction": {
+      "category": "conditional_access",
+      "severity": "P2",
+      "root_cause": "device_noncompliant",
+      "evidence": [
+        "Conditional Access evaluation requires a compliant device, and management reports a failed compliance rule.",
+        "The service desk confirmed one affected user or endpoint and verified that other users are working normally."
+      ],
+      "recommended_actions": [
+        "Inspect the exact failed rule, remediate it, sync the device, and recheck compliance before retrying access."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-13-041",
+    "expected": {
+      "category": "sharepoint",
+      "severity": "P2",
+      "root_cause": "site_permission_missing"
+    },
+    "prediction": {
+      "category": "sharepoint",
+      "severity": "P2",
+      "root_cause": "site_permission_missing",
+      "evidence": [
+        "SharePoint returns access denied for the target library while the site is reachable.",
+        "The service desk confirmed multiple affected users in one department; other departments remain operational."
+      ],
+      "recommended_actions": [
+        "Verify the user's intended role and group membership with the site owner, then grant least-privilege access if approved."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-19-026",
+    "expected": {
+      "category": "security",
+      "severity": "P4",
+      "root_cause": "suspicious_signin_detected"
+    },
+    "prediction": {
+      "category": "security",
+      "severity": "P2",
+      "root_cause": "suspicious_signin_detected",
+      "evidence": [
+        "Risk telemetry identifies anomalous sign-ins across several accounts with a shared indicator.",
+        "Triage confirms no material service interruption; core functionality remains available and the request is low impact."
+      ],
+      "recommended_actions": [
+        "Review correlated sign-in and audit events, preserve evidence, and escalate promptly under the security playbook; containment requires authorized security approval."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-11-042",
+    "expected": {
+      "category": "exchange",
+      "severity": "P2",
+      "root_cause": "mailbox_quota_exceeded"
+    },
+    "prediction": {
+      "category": "exchange",
+      "severity": "P2",
+      "root_cause": "mailbox_quota_exceeded",
+      "evidence": [
+        "Several mailboxes in a defined group have reached their configured quotas and sending is affected.",
+        "The service desk confirmed multiple affected users in one department; other departments remain operational."
+      ],
+      "recommended_actions": [
+        "Review mailbox usage, retention requirements, and capacity policy with the service owner before applying an approved remedy."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-20-033",
+    "expected": {
+      "category": "security",
+      "severity": "P4",
+      "root_cause": "legacy_auth_blocked"
+    },
+    "prediction": {
+      "category": "security",
+      "severity": "P2",
+      "root_cause": "legacy_auth_blocked",
+      "evidence": [
+        "Multiple sign-in events show a legacy protocol used by a shared business application, and policy blocks those attempts.",
+        "Triage confirms no material service interruption; core functionality remains available and the request is low impact."
+      ],
+      "recommended_actions": [
+        "Confirm the protocol and application owner, plan migration to modern authentication, and retain the block unless a formal exception is approved."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-14-046",
+    "expected": {
+      "category": "sharepoint",
+      "severity": "P1",
+      "root_cause": "storage_limit_reached"
+    },
+    "prediction": {
+      "category": "sharepoint",
+      "severity": "P1",
+      "root_cause": "storage_limit_reached",
+      "evidence": [
+        "The site storage report shows the configured limit has been reached and uploads fail.",
+        "Service desk correlation confirms the same failure across multiple departments and at least two sites; no safe workaround is available."
+      ],
+      "recommended_actions": [
+        "Review storage usage and retention requirements, remove content only with owner approval, or request capacity through the tenant process."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-10-021",
+    "expected": {
+      "category": "device_compliance",
+      "severity": "P4",
+      "root_cause": "enrollment_profile_mismatch"
+    },
+    "prediction": {
+      "category": "device_compliance",
+      "severity": "P2",
+      "root_cause": "enrollment_profile_mismatch",
+      "evidence": [
+        "New devices in the same deployment group are receiving a profile intended for another platform.",
+        "Triage confirms no material service interruption; core functionality remains available and the request is low impact."
+      ],
+      "recommended_actions": [
+        "Validate group and profile assignment, correct the mapping through change control, and re-enroll only where required."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-12-018",
+    "expected": {
+      "category": "exchange",
+      "severity": "P2",
+      "root_cause": "outlook_profile_corrupt"
+    },
+    "prediction": {
+      "category": "exchange",
+      "severity": "P2",
+      "root_cause": "outlook_profile_corrupt",
+      "evidence": [
+        "Outlook repeatedly fails to load the profile while webmail works for the same account.",
+        "The service desk confirmed multiple affected users in one department; other departments remain operational."
+      ],
+      "recommended_actions": [
+        "Confirm service health and capture diagnostics, then create a test profile following support procedure before replacing the user's profile."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-02-035",
+    "expected": {
+      "category": "authentication",
+      "severity": "P3",
+      "root_cause": "account_locked"
+    },
+    "prediction": {
+      "category": "authentication",
+      "severity": "P2",
+      "root_cause": "account_locked",
+      "evidence": [
+        "The account locks again after being unlocked, and failures correlate with one client.",
+        "The service desk confirmed one affected user or endpoint and verified that other users are working normally."
+      ],
+      "recommended_actions": [
+        "Correlate failed sign-ins by client and source, then update the stale credential at the originating client."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-18-024",
+    "expected": {
+      "category": "network",
+      "severity": "P1",
+      "root_cause": "dns_resolution_failure"
+    },
+    "prediction": {
+      "category": "network",
+      "severity": "P1",
+      "root_cause": "dns_resolution_failure",
+      "evidence": [
+        "Name-resolution tests fail for the service hostname while the configured DNS server is unreachable.",
+        "Service desk correlation confirms the same failure across multiple departments and at least two sites; no safe workaround is available."
+      ],
+      "recommended_actions": [
+        "Check assigned DNS servers and network/VPN state, then retest resolution after approved remediation."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-18-044",
+    "expected": {
+      "category": "network",
+      "severity": "P3",
+      "root_cause": "dns_resolution_failure"
+    },
+    "prediction": {
+      "category": "network",
+      "severity": "P2",
+      "root_cause": "dns_resolution_failure",
+      "evidence": [
+        "Name-resolution tests fail for the service hostname while the configured DNS server is unreachable.",
+        "The service desk confirmed one affected user or endpoint and verified that other users are working normally."
+      ],
+      "recommended_actions": [
+        "Check assigned DNS servers and network/VPN state, then retest resolution after approved remediation."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-11-048",
+    "expected": {
+      "category": "exchange",
+      "severity": "P4",
+      "root_cause": "mailbox_quota_exceeded"
+    },
+    "prediction": {
+      "category": "exchange",
+      "severity": "P1",
+      "root_cause": "mailbox_quota_exceeded",
+      "evidence": [
+        "Several mailboxes in a defined group have reached their configured quotas and sending is affected.",
+        "Triage confirms no material service interruption; core functionality remains available and the request is low impact."
+      ],
+      "recommended_actions": [
+        "Review mailbox usage, retention requirements, and capacity policy with the service owner before applying an approved remedy."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-04-050",
+    "expected": {
+      "category": "identity",
+      "severity": "P3",
+      "root_cause": "oauth_consent_missing"
+    },
+    "prediction": {
+      "category": "identity",
+      "severity": "P2",
+      "root_cause": "oauth_consent_missing",
+      "evidence": [
+        "The application sign-in trace reports missing consent for a requested permission.",
+        "The service desk confirmed one affected user or endpoint and verified that other users are working normally."
+      ],
+      "recommended_actions": [
+        "Review the publisher, requested scopes, and business approval; obtain admin consent only through the approved review process."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-19-035",
+    "expected": {
+      "category": "security",
+      "severity": "P1",
+      "root_cause": "suspicious_signin_detected"
+    },
+    "prediction": {
+      "category": "security",
+      "severity": "P1",
+      "root_cause": "suspicious_signin_detected",
+      "evidence": [
+        "Identity protection marks one sign-in as high risk and the source location is inconsistent with the user's known activity.",
+        "Service desk correlation confirms the same failure across multiple departments and at least two sites; no safe workaround is available."
+      ],
+      "recommended_actions": [
+        "Follow the security incident playbook, preserve sign-in evidence, verify the user through a trusted channel, and escalate for containment."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-14-016",
+    "expected": {
+      "category": "sharepoint",
+      "severity": "P2",
+      "root_cause": "storage_limit_reached"
+    },
+    "prediction": {
+      "category": "sharepoint",
+      "severity": "P2",
+      "root_cause": "storage_limit_reached",
+      "evidence": [
+        "The site storage report shows the configured limit has been reached and uploads fail.",
+        "The service desk confirmed multiple affected users in one department; other departments remain operational."
+      ],
+      "recommended_actions": [
+        "Review storage usage and retention requirements, remove content only with owner approval, or request capacity through the tenant process."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-12-014",
+    "expected": {
+      "category": "exchange",
+      "severity": "P4",
+      "root_cause": "outlook_profile_corrupt"
+    },
+    "prediction": {
+      "category": "exchange",
+      "severity": "P2",
+      "root_cause": "outlook_profile_corrupt",
+      "evidence": [
+        "Outlook repeatedly fails to load the profile while webmail works for the same account.",
+        "Triage confirms no material service interruption; core functionality remains available and the request is low impact."
+      ],
+      "recommended_actions": [
+        "Confirm service health and capture diagnostics, then create a test profile following support procedure before replacing the user's profile."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-10-050",
+    "expected": {
+      "category": "device_compliance",
+      "severity": "P2",
+      "root_cause": "enrollment_profile_mismatch"
+    },
+    "prediction": {
+      "category": "device_compliance",
+      "severity": "P2",
+      "root_cause": "enrollment_profile_mismatch",
+      "evidence": [
+        "The device enrollment record references a profile intended for a different ownership type.",
+        "The service desk confirmed multiple affected users in one department; other departments remain operational."
+      ],
+      "recommended_actions": [
+        "Confirm ownership and platform, then follow the approved re-enrollment path with user-data safeguards."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-09-009",
+    "expected": {
+      "category": "device_compliance",
+      "severity": "P2",
+      "root_cause": "stale_compliance_sync"
+    },
+    "prediction": {
+      "category": "device_compliance",
+      "severity": "P2",
+      "root_cause": "stale_compliance_sync",
+      "evidence": [
+        "The management console shows the device last checked in several days ago despite recent user activity.",
+        "The service desk confirmed multiple affected users in one department; other departments remain operational."
+      ],
+      "recommended_actions": [
+        "Verify connectivity and enrollment, trigger a supported management sync, and confirm the updated check-in timestamp."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-08-046",
+    "expected": {
+      "category": "endpoint",
+      "severity": "P4",
+      "root_cause": "print_queue_stuck"
+    },
+    "prediction": {
+      "category": "endpoint",
+      "severity": "P2",
+      "root_cause": "print_queue_stuck",
+      "evidence": [
+        "The print queue contains a job that remains in deleting or spooling state.",
+        "Triage confirms no material service interruption; core functionality remains available and the request is low impact."
+      ],
+      "recommended_actions": [
+        "Capture printer and job details, clear the stuck job using the approved procedure, and verify a test print."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-16-026",
+    "expected": {
+      "category": "teams",
+      "severity": "P2",
+      "root_cause": "guest_identity_mismatch"
+    },
+    "prediction": {
+      "category": "teams",
+      "severity": "P1",
+      "root_cause": "guest_identity_mismatch",
+      "evidence": [
+        "The invitation was sent to one email identity, but the guest signed in using a different account.",
+        "The service desk confirmed multiple affected users in one department; other departments remain operational."
+      ],
+      "recommended_actions": [
+        "Confirm the invited address with the resource owner and have the guest switch to the invited identity; re-invite only if approved."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-10-029",
+    "expected": {
+      "category": "device_compliance",
+      "severity": "P3",
+      "root_cause": "enrollment_profile_mismatch"
+    },
+    "prediction": {
+      "category": "device_compliance",
+      "severity": "P2",
+      "root_cause": "enrollment_profile_mismatch",
+      "evidence": [
+        "New devices in the same deployment group are receiving a profile intended for another platform.",
+        "The service desk confirmed one affected user or endpoint and verified that other users are working normally."
+      ],
+      "recommended_actions": [
+        "Validate group and profile assignment, correct the mapping through change control, and re-enroll only where required."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-04-031",
+    "expected": {
+      "category": "identity",
+      "severity": "P4",
+      "root_cause": "oauth_consent_missing"
+    },
+    "prediction": {
+      "category": "identity",
+      "severity": "P2",
+      "root_cause": "oauth_consent_missing",
+      "evidence": [
+        "Requested application scopes are absent from the tenant's granted-consent record.",
+        "Triage confirms no material service interruption; core functionality remains available and the request is low impact."
+      ],
+      "recommended_actions": [
+        "Compare requested scopes with the approved app registration and route the request to the application owner."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-15-021",
+    "expected": {
+      "category": "teams",
+      "severity": "P3",
+      "root_cause": "audio_device_unavailable"
+    },
+    "prediction": {
+      "category": "teams",
+      "severity": "P2",
+      "root_cause": "audio_device_unavailable",
+      "evidence": [
+        "Teams diagnostics show the selected microphone is disconnected or unavailable to the application.",
+        "The service desk confirmed one affected user or endpoint and verified that other users are working normally."
+      ],
+      "recommended_actions": [
+        "Check OS device permissions and the selected input/output device, close competing audio applications, and run a test call."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-06-048",
+    "expected": {
+      "category": "conditional_access",
+      "severity": "P1",
+      "root_cause": "policy_scope_mismatch"
+    },
+    "prediction": {
+      "category": "conditional_access",
+      "severity": "P1",
+      "root_cause": "policy_scope_mismatch",
+      "evidence": [
+        "Sign-in records show a Conditional Access policy applied to an unintended group.",
+        "Service desk correlation confirms the same failure across multiple departments and at least two sites; no safe workaround is available."
+      ],
+      "recommended_actions": [
+        "Compare include and exclude groups with the approved change, then correct scope through change control."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-04-010",
+    "expected": {
+      "category": "identity",
+      "severity": "P1",
+      "root_cause": "oauth_consent_missing"
+    },
+    "prediction": {
+      "category": "identity",
+      "severity": "P1",
+      "root_cause": "oauth_consent_missing",
+      "evidence": [
+        "The application sign-in trace reports missing consent for a requested permission.",
+        "Service desk correlation confirms the same failure across multiple departments and at least two sites; no safe workaround is available."
+      ],
+      "recommended_actions": [
+        "Review the publisher, requested scopes, and business approval; obtain admin consent only through the approved review process."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-08-015",
+    "expected": {
+      "category": "endpoint",
+      "severity": "P1",
+      "root_cause": "print_queue_stuck"
+    },
+    "prediction": {
+      "category": "endpoint",
+      "severity": "P1",
+      "root_cause": "print_queue_stuck",
+      "evidence": [
+        "Several users at the same site have queued jobs that remain stalled while the shared printer is reachable.",
+        "Service desk correlation confirms the same failure across multiple departments and at least two sites; no safe workaround is available."
+      ],
+      "recommended_actions": [
+        "Check the shared queue and spooler health, then follow the endpoint support procedure to clear the backlog and verify a test print."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-07-018",
+    "expected": {
+      "category": "endpoint",
+      "severity": "P2",
+      "root_cause": "disk_space_exhausted"
+    },
+    "prediction": {
+      "category": "endpoint",
+      "severity": "P2",
+      "root_cause": "disk_space_exhausted",
+      "evidence": [
+        "Several managed endpoints report critically low system-drive space, and application logs show write failures on those devices.",
+        "The service desk confirmed multiple affected users in one department; other departments remain operational."
+      ],
+      "recommended_actions": [
+        "Check endpoint telemetry for the common source of disk growth, apply approved cleanup, and verify free space across affected devices."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-03-041",
+    "expected": {
+      "category": "identity",
+      "severity": "P4",
+      "root_cause": "mfa_registration_missing"
+    },
+    "prediction": {
+      "category": "identity",
+      "severity": "P2",
+      "root_cause": "mfa_registration_missing",
+      "evidence": [
+        "The sign-in flow requires MFA registration, and the account has no completed authentication method.",
+        "Triage confirms no material service interruption; core functionality remains available and the request is low impact."
+      ],
+      "recommended_actions": [
+        "Verify identity and eligibility, then guide the user through the approved MFA registration flow."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-09-048",
+    "expected": {
+      "category": "device_compliance",
+      "severity": "P3",
+      "root_cause": "stale_compliance_sync"
+    },
+    "prediction": {
+      "category": "device_compliance",
+      "severity": "P2",
+      "root_cause": "stale_compliance_sync",
+      "evidence": [
+        "Many devices in one deployment group have stale compliance timestamps after a management-service disruption.",
+        "The service desk confirmed one affected user or endpoint and verified that other users are working normally."
+      ],
+      "recommended_actions": [
+        "Check service health and enrollment-agent status, restore sync through the supported process, and verify updated device records."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-16-020",
+    "expected": {
+      "category": "teams",
+      "severity": "P1",
+      "root_cause": "guest_identity_mismatch"
+    },
+    "prediction": {
+      "category": "teams",
+      "severity": "P1",
+      "root_cause": "guest_identity_mismatch",
+      "evidence": [
+        "The invitation was sent to one email identity, but the guest signed in using a different account.",
+        "Service desk correlation confirms the same failure across multiple departments and at least two sites; no safe workaround is available."
+      ],
+      "recommended_actions": [
+        "Confirm the invited address with the resource owner and have the guest switch to the invited identity; re-invite only if approved."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-16-023",
+    "expected": {
+      "category": "teams",
+      "severity": "P4",
+      "root_cause": "guest_identity_mismatch"
+    },
+    "prediction": {
+      "category": "teams",
+      "severity": "P2",
+      "root_cause": "guest_identity_mismatch",
+      "evidence": [
+        "Multiple guests report access failures, and audit records show invitations sent to aliases different from their sign-in identities.",
+        "Triage confirms no material service interruption; core functionality remains available and the request is low impact."
+      ],
+      "recommended_actions": [
+        "Validate each intended guest identity with the resource owner and correct invitations through the approved guest-access process."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-07-025",
+    "expected": {
+      "category": "endpoint",
+      "severity": "P1",
+      "root_cause": "disk_space_exhausted"
+    },
+    "prediction": {
+      "category": "endpoint",
+      "severity": "P1",
+      "root_cause": "disk_space_exhausted",
+      "evidence": [
+        "The endpoint reports less than 1 GB free and application logs show write failures.",
+        "Service desk correlation confirms the same failure across multiple departments and at least two sites; no safe workaround is available."
+      ],
+      "recommended_actions": [
+        "Identify approved-to-remove files, clear safe temporary data, and verify free space without deleting user data blindly."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-10-017",
+    "expected": {
+      "category": "device_compliance",
+      "severity": "P1",
+      "root_cause": "enrollment_profile_mismatch"
+    },
+    "prediction": {
+      "category": "device_compliance",
+      "severity": "P1",
+      "root_cause": "enrollment_profile_mismatch",
+      "evidence": [
+        "New devices in the same deployment group are receiving a profile intended for another platform.",
+        "Service desk correlation confirms the same failure across multiple departments and at least two sites; no safe workaround is available."
+      ],
+      "recommended_actions": [
+        "Validate group and profile assignment, correct the mapping through change control, and re-enroll only where required."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-06-017",
+    "expected": {
+      "category": "conditional_access",
+      "severity": "P3",
+      "root_cause": "policy_scope_mismatch"
+    },
+    "prediction": {
+      "category": "conditional_access",
+      "severity": "P2",
+      "root_cause": "policy_scope_mismatch",
+      "evidence": [
+        "The affected account is missing from the expected group after a directory change, and policy evaluation confirms the mismatch.",
+        "The service desk confirmed one affected user or endpoint and verified that other users are working normally."
+      ],
+      "recommended_actions": [
+        "Verify group membership and propagation, review policy impact, and test with a controlled account."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-05-033",
+    "expected": {
+      "category": "conditional_access",
+      "severity": "P4",
+      "root_cause": "device_noncompliant"
+    },
+    "prediction": {
+      "category": "conditional_access",
+      "severity": "P2",
+      "root_cause": "device_noncompliant",
+      "evidence": [
+        "Conditional Access evaluation requires a compliant device, and management reports a failed compliance rule.",
+        "Triage confirms no material service interruption; core functionality remains available and the request is low impact."
+      ],
+      "recommended_actions": [
+        "Inspect the exact failed rule, remediate it, sync the device, and recheck compliance before retrying access."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-18-009",
+    "expected": {
+      "category": "network",
+      "severity": "P3",
+      "root_cause": "dns_resolution_failure"
+    },
+    "prediction": {
+      "category": "network",
+      "severity": "P2",
+      "root_cause": "dns_resolution_failure",
+      "evidence": [
+        "Several endpoints at different sites return failures for the same service hostname, and DNS telemetry shows a common record problem.",
+        "The service desk confirmed one affected user or endpoint and verified that other users are working normally."
+      ],
+      "recommended_actions": [
+        "Compare the failing record with authoritative DNS data and escalate stale or missing records to the DNS owner."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-01-012",
+    "expected": {
+      "category": "authentication",
+      "severity": "P4",
+      "root_cause": "invalid_credentials"
+    },
+    "prediction": {
+      "category": "authentication",
+      "severity": "P1",
+      "root_cause": "invalid_credentials",
+      "evidence": [
+        "Other accounts authenticate successfully, while this account receives a credential rejection.",
+        "Triage confirms no material service interruption; core functionality remains available and the request is low impact."
+      ],
+      "recommended_actions": [
+        "Inspect the affected account's sign-in details and test a fresh sign-in without exposing credentials."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-14-021",
+    "expected": {
+      "category": "sharepoint",
+      "severity": "P3",
+      "root_cause": "storage_limit_reached"
+    },
+    "prediction": {
+      "category": "sharepoint",
+      "severity": "P2",
+      "root_cause": "storage_limit_reached",
+      "evidence": [
+        "Storage reports show several sites in one tenant segment have reached their assigned quotas and uploads are failing.",
+        "The service desk confirmed one affected user or endpoint and verified that other users are working normally."
+      ],
+      "recommended_actions": [
+        "Confirm site-level usage and quota configuration, then follow the approved capacity or cleanup workflow with site owners."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-12-025",
+    "expected": {
+      "category": "exchange",
+      "severity": "P1",
+      "root_cause": "outlook_profile_corrupt"
+    },
+    "prediction": {
+      "category": "exchange",
+      "severity": "P1",
+      "root_cause": "outlook_profile_corrupt",
+      "evidence": [
+        "Multiple endpoints show the same Outlook startup failure after a managed client update, while webmail remains available.",
+        "Service desk correlation confirms the same failure across multiple departments and at least two sites; no safe workaround is available."
+      ],
+      "recommended_actions": [
+        "Check client deployment and diagnostics, test a clean profile on a controlled device, and preserve local data before rebuilding caches."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-17-025",
+    "expected": {
+      "category": "network",
+      "severity": "P2",
+      "root_cause": "proxy_configuration_invalid"
+    },
+    "prediction": {
+      "category": "network",
+      "severity": "P2",
+      "root_cause": "proxy_configuration_invalid",
+      "evidence": [
+        "Browser diagnostics show requests routed to an obsolete proxy endpoint.",
+        "The service desk confirmed multiple affected users in one department; other departments remain operational."
+      ],
+      "recommended_actions": [
+        "Compare endpoint proxy settings with the approved configuration, correct the stale value, and test only approved destinations."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-20-005",
+    "expected": {
+      "category": "security",
+      "severity": "P1",
+      "root_cause": "legacy_auth_blocked"
+    },
+    "prediction": {
+      "category": "security",
+      "severity": "P1",
+      "root_cause": "legacy_auth_blocked",
+      "evidence": [
+        "Multiple sign-in events show a legacy protocol used by a shared business application, and policy blocks those attempts.",
+        "Service desk correlation confirms the same failure across multiple departments and at least two sites; no safe workaround is available."
+      ],
+      "recommended_actions": [
+        "Confirm the protocol and application owner, plan migration to modern authentication, and retain the block unless a formal exception is approved."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-16-025",
+    "expected": {
+      "category": "teams",
+      "severity": "P1",
+      "root_cause": "guest_identity_mismatch"
+    },
+    "prediction": {
+      "category": "teams",
+      "severity": "P1",
+      "root_cause": "guest_identity_mismatch",
+      "evidence": [
+        "Multiple guests report access failures, and audit records show invitations sent to aliases different from their sign-in identities.",
+        "Service desk correlation confirms the same failure across multiple departments and at least two sites; no safe workaround is available."
+      ],
+      "recommended_actions": [
+        "Validate each intended guest identity with the resource owner and correct invitations through the approved guest-access process."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-20-023",
+    "expected": {
+      "category": "security",
+      "severity": "P4",
+      "root_cause": "legacy_auth_blocked"
+    },
+    "prediction": {
+      "category": "security",
+      "severity": "P1",
+      "root_cause": "legacy_auth_blocked",
+      "evidence": [
+        "Multiple sign-in events show a legacy protocol used by a shared business application, and policy blocks those attempts.",
+        "Triage confirms no material service interruption; core functionality remains available and the request is low impact."
+      ],
+      "recommended_actions": [
+        "Confirm the protocol and application owner, plan migration to modern authentication, and retain the block unless a formal exception is approved."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-16-001",
+    "expected": {
+      "category": "teams",
+      "severity": "P4",
+      "root_cause": "guest_identity_mismatch"
+    },
+    "prediction": {
+      "category": "teams",
+      "severity": "P2",
+      "root_cause": "guest_identity_mismatch",
+      "evidence": [
+        "Multiple guests report access failures, and audit records show invitations sent to aliases different from their sign-in identities.",
+        "Triage confirms no material service interruption; core functionality remains available and the request is low impact."
+      ],
+      "recommended_actions": [
+        "Validate each intended guest identity with the resource owner and correct invitations through the approved guest-access process."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-13-023",
+    "expected": {
+      "category": "sharepoint",
+      "severity": "P1",
+      "root_cause": "site_permission_missing"
+    },
+    "prediction": {
+      "category": "sharepoint",
+      "severity": "P1",
+      "root_cause": "site_permission_missing",
+      "evidence": [
+        "SharePoint returns access denied for the target library while the site is reachable.",
+        "Service desk correlation confirms the same failure across multiple departments and at least two sites; no safe workaround is available."
+      ],
+      "recommended_actions": [
+        "Verify the user's intended role and group membership with the site owner, then grant least-privilege access if approved."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-07-009",
+    "expected": {
+      "category": "endpoint",
+      "severity": "P3",
+      "root_cause": "disk_space_exhausted"
+    },
+    "prediction": {
+      "category": "endpoint",
+      "severity": "P2",
+      "root_cause": "disk_space_exhausted",
+      "evidence": [
+        "The endpoint reports less than 1 GB free and application logs show write failures.",
+        "The service desk confirmed one affected user or endpoint and verified that other users are working normally."
+      ],
+      "recommended_actions": [
+        "Identify approved-to-remove files, clear safe temporary data, and verify free space without deleting user data blindly."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-14-044",
+    "expected": {
+      "category": "sharepoint",
+      "severity": "P2",
+      "root_cause": "storage_limit_reached"
+    },
+    "prediction": {
+      "category": "sharepoint",
+      "severity": "P2",
+      "root_cause": "storage_limit_reached",
+      "evidence": [
+        "The site storage report shows the configured limit has been reached and uploads fail.",
+        "The service desk confirmed multiple affected users in one department; other departments remain operational."
+      ],
+      "recommended_actions": [
+        "Review storage usage and retention requirements, remove content only with owner approval, or request capacity through the tenant process."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-02-021",
+    "expected": {
+      "category": "authentication",
+      "severity": "P1",
+      "root_cause": "account_locked"
+    },
+    "prediction": {
+      "category": "authentication",
+      "severity": "P1",
+      "root_cause": "account_locked",
+      "evidence": [
+        "The account locks again after being unlocked, and failures correlate with one client.",
+        "Service desk correlation confirms the same failure across multiple departments and at least two sites; no safe workaround is available."
+      ],
+      "recommended_actions": [
+        "Correlate failed sign-ins by client and source, then update the stale credential at the originating client."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-10-049",
+    "expected": {
+      "category": "device_compliance",
+      "severity": "P2",
+      "root_cause": "enrollment_profile_mismatch"
+    },
+    "prediction": {
+      "category": "device_compliance",
+      "severity": "P2",
+      "root_cause": "enrollment_profile_mismatch",
+      "evidence": [
+        "New devices in the same deployment group are receiving a profile intended for another platform.",
+        "The service desk confirmed multiple affected users in one department; other departments remain operational."
+      ],
+      "recommended_actions": [
+        "Validate group and profile assignment, correct the mapping through change control, and re-enroll only where required."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-17-007",
+    "expected": {
+      "category": "network",
+      "severity": "P4",
+      "root_cause": "proxy_configuration_invalid"
+    },
+    "prediction": {
+      "category": "network",
+      "severity": "P2",
+      "root_cause": "proxy_configuration_invalid",
+      "evidence": [
+        "Browser diagnostics show requests routed to an obsolete proxy endpoint.",
+        "Triage confirms no material service interruption; core functionality remains available and the request is low impact."
+      ],
+      "recommended_actions": [
+        "Compare endpoint proxy settings with the approved configuration, correct the stale value, and test only approved destinations."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-06-022",
+    "expected": {
+      "category": "conditional_access",
+      "severity": "P2",
+      "root_cause": "policy_scope_mismatch"
+    },
+    "prediction": {
+      "category": "conditional_access",
+      "severity": "P2",
+      "root_cause": "policy_scope_mismatch",
+      "evidence": [
+        "Sign-in records show a Conditional Access policy applied to an unintended group.",
+        "The service desk confirmed multiple affected users in one department; other departments remain operational."
+      ],
+      "recommended_actions": [
+        "Compare include and exclude groups with the approved change, then correct scope through change control."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-13-037",
+    "expected": {
+      "category": "sharepoint",
+      "severity": "P4",
+      "root_cause": "site_permission_missing"
+    },
+    "prediction": {
+      "category": "sharepoint",
+      "severity": "P2",
+      "root_cause": "site_permission_missing",
+      "evidence": [
+        "SharePoint returns access denied for the target library while the site is reachable.",
+        "Triage confirms no material service interruption; core functionality remains available and the request is low impact."
+      ],
+      "recommended_actions": [
+        "Verify the user's intended role and group membership with the site owner, then grant least-privilege access if approved."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-07-019",
+    "expected": {
+      "category": "endpoint",
+      "severity": "P4",
+      "root_cause": "disk_space_exhausted"
+    },
+    "prediction": {
+      "category": "endpoint",
+      "severity": "P2",
+      "root_cause": "disk_space_exhausted",
+      "evidence": [
+        "The endpoint reports less than 1 GB free and application logs show write failures.",
+        "Triage confirms no material service interruption; core functionality remains available and the request is low impact."
+      ],
+      "recommended_actions": [
+        "Identify approved-to-remove files, clear safe temporary data, and verify free space without deleting user data blindly."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-08-004",
+    "expected": {
+      "category": "endpoint",
+      "severity": "P2",
+      "root_cause": "print_queue_stuck"
+    },
+    "prediction": {
+      "category": "endpoint",
+      "severity": "P1",
+      "root_cause": "print_queue_stuck",
+      "evidence": [
+        "The print queue contains a job that remains in deleting or spooling state.",
+        "The service desk confirmed multiple affected users in one department; other departments remain operational."
+      ],
+      "recommended_actions": [
+        "Capture printer and job details, clear the stuck job using the approved procedure, and verify a test print."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-05-036",
+    "expected": {
+      "category": "conditional_access",
+      "severity": "P1",
+      "root_cause": "device_noncompliant"
+    },
+    "prediction": {
+      "category": "conditional_access",
+      "severity": "P1",
+      "root_cause": "device_noncompliant",
+      "evidence": [
+        "The sign-in event names device compliance as the block reason, and several device records show the same failed policy.",
+        "Service desk correlation confirms the same failure across multiple departments and at least two sites; no safe workaround is available."
+      ],
+      "recommended_actions": [
+        "Confirm policy assignment and the affected device set, remediate the underlying rule, and validate compliance before restoring access."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-06-039",
+    "expected": {
+      "category": "conditional_access",
+      "severity": "P2",
+      "root_cause": "policy_scope_mismatch"
+    },
+    "prediction": {
+      "category": "conditional_access",
+      "severity": "P1",
+      "root_cause": "policy_scope_mismatch",
+      "evidence": [
+        "The affected account is missing from the expected group after a directory change, and policy evaluation confirms the mismatch.",
+        "The service desk confirmed multiple affected users in one department; other departments remain operational."
+      ],
+      "recommended_actions": [
+        "Verify group membership and propagation, review policy impact, and test with a controlled account."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-15-014",
+    "expected": {
+      "category": "teams",
+      "severity": "P1",
+      "root_cause": "audio_device_unavailable"
+    },
+    "prediction": {
+      "category": "teams",
+      "severity": "P1",
+      "root_cause": "audio_device_unavailable",
+      "evidence": [
+        "A conference-room Teams setup reports an unavailable shared audio endpoint across multiple scheduled meetings.",
+        "Service desk correlation confirms the same failure across multiple departments and at least two sites; no safe workaround is available."
+      ],
+      "recommended_actions": [
+        "Check the room device's connection and OS audio endpoint, then run a controlled test call before the next meeting."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-10-019",
+    "expected": {
+      "category": "device_compliance",
+      "severity": "P3",
+      "root_cause": "enrollment_profile_mismatch"
+    },
+    "prediction": {
+      "category": "device_compliance",
+      "severity": "P2",
+      "root_cause": "enrollment_profile_mismatch",
+      "evidence": [
+        "New devices in the same deployment group are receiving a profile intended for another platform.",
+        "The service desk confirmed one affected user or endpoint and verified that other users are working normally."
+      ],
+      "recommended_actions": [
+        "Validate group and profile assignment, correct the mapping through change control, and re-enroll only where required."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-13-015",
+    "expected": {
+      "category": "sharepoint",
+      "severity": "P3",
+      "root_cause": "site_permission_missing"
+    },
+    "prediction": {
+      "category": "sharepoint",
+      "severity": "P2",
+      "root_cause": "site_permission_missing",
+      "evidence": [
+        "SharePoint returns access denied for the target library while the site is reachable.",
+        "The service desk confirmed one affected user or endpoint and verified that other users are working normally."
+      ],
+      "recommended_actions": [
+        "Verify the user's intended role and group membership with the site owner, then grant least-privilege access if approved."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-20-035",
+    "expected": {
+      "category": "security",
+      "severity": "P2",
+      "root_cause": "legacy_auth_blocked"
+    },
+    "prediction": {
+      "category": "security",
+      "severity": "P1",
+      "root_cause": "legacy_auth_blocked",
+      "evidence": [
+        "Multiple sign-in events show a legacy protocol used by a shared business application, and policy blocks those attempts.",
+        "The service desk confirmed multiple affected users in one department; other departments remain operational."
+      ],
+      "recommended_actions": [
+        "Confirm the protocol and application owner, plan migration to modern authentication, and retain the block unless a formal exception is approved."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-01-024",
+    "expected": {
+      "category": "authentication",
+      "severity": "P3",
+      "root_cause": "invalid_credentials"
+    },
+    "prediction": {
+      "category": "authentication",
+      "severity": "P1",
+      "root_cause": "invalid_credentials",
+      "evidence": [
+        "Other accounts authenticate successfully, while this account receives a credential rejection.",
+        "The service desk confirmed one affected user or endpoint and verified that other users are working normally."
+      ],
+      "recommended_actions": [
+        "Inspect the affected account's sign-in details and test a fresh sign-in without exposing credentials."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-08-049",
+    "expected": {
+      "category": "endpoint",
+      "severity": "P4",
+      "root_cause": "print_queue_stuck"
+    },
+    "prediction": {
+      "category": "endpoint",
+      "severity": "P2",
+      "root_cause": "print_queue_stuck",
+      "evidence": [
+        "Several users at the same site have queued jobs that remain stalled while the shared printer is reachable.",
+        "Triage confirms no material service interruption; core functionality remains available and the request is low impact."
+      ],
+      "recommended_actions": [
+        "Check the shared queue and spooler health, then follow the endpoint support procedure to clear the backlog and verify a test print."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-04-039",
+    "expected": {
+      "category": "identity",
+      "severity": "P4",
+      "root_cause": "oauth_consent_missing"
+    },
+    "prediction": {
+      "category": "identity",
+      "severity": "P2",
+      "root_cause": "oauth_consent_missing",
+      "evidence": [
+        "Requested application scopes are absent from the tenant's granted-consent record.",
+        "Triage confirms no material service interruption; core functionality remains available and the request is low impact."
+      ],
+      "recommended_actions": [
+        "Compare requested scopes with the approved app registration and route the request to the application owner."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-17-019",
+    "expected": {
+      "category": "network",
+      "severity": "P3",
+      "root_cause": "proxy_configuration_invalid"
+    },
+    "prediction": {
+      "category": "network",
+      "severity": "P2",
+      "root_cause": "proxy_configuration_invalid",
+      "evidence": [
+        "Browser diagnostics show requests routed to an obsolete proxy endpoint.",
+        "The service desk confirmed one affected user or endpoint and verified that other users are working normally."
+      ],
+      "recommended_actions": [
+        "Compare endpoint proxy settings with the approved configuration, correct the stale value, and test only approved destinations."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-15-018",
+    "expected": {
+      "category": "teams",
+      "severity": "P4",
+      "root_cause": "audio_device_unavailable"
+    },
+    "prediction": {
+      "category": "teams",
+      "severity": "P1",
+      "root_cause": "audio_device_unavailable",
+      "evidence": [
+        "A conference-room Teams setup reports an unavailable shared audio endpoint across multiple scheduled meetings.",
+        "Triage confirms no material service interruption; core functionality remains available and the request is low impact."
+      ],
+      "recommended_actions": [
+        "Check the room device's connection and OS audio endpoint, then run a controlled test call before the next meeting."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-12-042",
+    "expected": {
+      "category": "exchange",
+      "severity": "P4",
+      "root_cause": "outlook_profile_corrupt"
+    },
+    "prediction": {
+      "category": "exchange",
+      "severity": "P2",
+      "root_cause": "outlook_profile_corrupt",
+      "evidence": [
+        "Outlook repeatedly fails to load the profile while webmail works for the same account.",
+        "Triage confirms no material service interruption; core functionality remains available and the request is low impact."
+      ],
+      "recommended_actions": [
+        "Confirm service health and capture diagnostics, then create a test profile following support procedure before replacing the user's profile."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-18-040",
+    "expected": {
+      "category": "network",
+      "severity": "P4",
+      "root_cause": "dns_resolution_failure"
+    },
+    "prediction": {
+      "category": "network",
+      "severity": "P2",
+      "root_cause": "dns_resolution_failure",
+      "evidence": [
+        "Name-resolution tests fail for the service hostname while the configured DNS server is unreachable.",
+        "Triage confirms no material service interruption; core functionality remains available and the request is low impact."
+      ],
+      "recommended_actions": [
+        "Check assigned DNS servers and network/VPN state, then retest resolution after approved remediation."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-03-002",
+    "expected": {
+      "category": "identity",
+      "severity": "P2",
+      "root_cause": "mfa_registration_missing"
+    },
+    "prediction": {
+      "category": "identity",
+      "severity": "P2",
+      "root_cause": "mfa_registration_missing",
+      "evidence": [
+        "Authentication details state that a required method is not registered.",
+        "The service desk confirmed multiple affected users in one department; other departments remain operational."
+      ],
+      "recommended_actions": [
+        "Check the authentication-method policy and registration state; do not bypass MFA as a routine workaround."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-03-042",
+    "expected": {
+      "category": "identity",
+      "severity": "P3",
+      "root_cause": "mfa_registration_missing"
+    },
+    "prediction": {
+      "category": "identity",
+      "severity": "P2",
+      "root_cause": "mfa_registration_missing",
+      "evidence": [
+        "Authentication details state that a required method is not registered.",
+        "The service desk confirmed one affected user or endpoint and verified that other users are working normally."
+      ],
+      "recommended_actions": [
+        "Check the authentication-method policy and registration state; do not bypass MFA as a routine workaround."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-08-027",
+    "expected": {
+      "category": "endpoint",
+      "severity": "P3",
+      "root_cause": "print_queue_stuck"
+    },
+    "prediction": {
+      "category": "endpoint",
+      "severity": "P2",
+      "root_cause": "print_queue_stuck",
+      "evidence": [
+        "Several users at the same site have queued jobs that remain stalled while the shared printer is reachable.",
+        "The service desk confirmed one affected user or endpoint and verified that other users are working normally."
+      ],
+      "recommended_actions": [
+        "Check the shared queue and spooler health, then follow the endpoint support procedure to clear the backlog and verify a test print."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-19-008",
+    "expected": {
+      "category": "security",
+      "severity": "P2",
+      "root_cause": "suspicious_signin_detected"
+    },
+    "prediction": {
+      "category": "security",
+      "severity": "P2",
+      "root_cause": "suspicious_signin_detected",
+      "evidence": [
+        "Risk telemetry identifies anomalous sign-ins across several accounts with a shared indicator.",
+        "The service desk confirmed multiple affected users in one department; other departments remain operational."
+      ],
+      "recommended_actions": [
+        "Review correlated sign-in and audit events, preserve evidence, and escalate promptly under the security playbook; containment requires authorized security approval."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-12-049",
+    "expected": {
+      "category": "exchange",
+      "severity": "P3",
+      "root_cause": "outlook_profile_corrupt"
+    },
+    "prediction": {
+      "category": "exchange",
+      "severity": "P2",
+      "root_cause": "outlook_profile_corrupt",
+      "evidence": [
+        "Multiple endpoints show the same Outlook startup failure after a managed client update, while webmail remains available.",
+        "The service desk confirmed one affected user or endpoint and verified that other users are working normally."
+      ],
+      "recommended_actions": [
+        "Check client deployment and diagnostics, test a clean profile on a controlled device, and preserve local data before rebuilding caches."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-08-021",
+    "expected": {
+      "category": "endpoint",
+      "severity": "P1",
+      "root_cause": "print_queue_stuck"
+    },
+    "prediction": {
+      "category": "endpoint",
+      "severity": "P1",
+      "root_cause": "print_queue_stuck",
+      "evidence": [
+        "Several users at the same site have queued jobs that remain stalled while the shared printer is reachable.",
+        "Service desk correlation confirms the same failure across multiple departments and at least two sites; no safe workaround is available."
+      ],
+      "recommended_actions": [
+        "Check the shared queue and spooler health, then follow the endpoint support procedure to clear the backlog and verify a test print."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-09-039",
+    "expected": {
+      "category": "device_compliance",
+      "severity": "P4",
+      "root_cause": "stale_compliance_sync"
+    },
+    "prediction": {
+      "category": "device_compliance",
+      "severity": "P2",
+      "root_cause": "stale_compliance_sync",
+      "evidence": [
+        "The management console shows the device last checked in several days ago despite recent user activity.",
+        "Triage confirms no material service interruption; core functionality remains available and the request is low impact."
+      ],
+      "recommended_actions": [
+        "Verify connectivity and enrollment, trigger a supported management sync, and confirm the updated check-in timestamp."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-03-030",
+    "expected": {
+      "category": "identity",
+      "severity": "P1",
+      "root_cause": "mfa_registration_missing"
+    },
+    "prediction": {
+      "category": "identity",
+      "severity": "P1",
+      "root_cause": "mfa_registration_missing",
+      "evidence": [
+        "Authentication details state that a required method is not registered.",
+        "Service desk correlation confirms the same failure across multiple departments and at least two sites; no safe workaround is available."
+      ],
+      "recommended_actions": [
+        "Check the authentication-method policy and registration state; do not bypass MFA as a routine workaround."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-04-033",
+    "expected": {
+      "category": "identity",
+      "severity": "P2",
+      "root_cause": "oauth_consent_missing"
+    },
+    "prediction": {
+      "category": "identity",
+      "severity": "P2",
+      "root_cause": "oauth_consent_missing",
+      "evidence": [
+        "Requested application scopes are absent from the tenant's granted-consent record.",
+        "The service desk confirmed multiple affected users in one department; other departments remain operational."
+      ],
+      "recommended_actions": [
+        "Compare requested scopes with the approved app registration and route the request to the application owner."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-17-018",
+    "expected": {
+      "category": "network",
+      "severity": "P1",
+      "root_cause": "proxy_configuration_invalid"
+    },
+    "prediction": {
+      "category": "network",
+      "severity": "P1",
+      "root_cause": "proxy_configuration_invalid",
+      "evidence": [
+        "Multiple endpoints in the same network segment fail with proxy authentication errors after a configuration change.",
+        "Service desk correlation confirms the same failure across multiple departments and at least two sites; no safe workaround is available."
+      ],
+      "recommended_actions": [
+        "Verify proxy address, authentication, and policy assignment with network operations; do not bypass the corporate proxy."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-04-042",
+    "expected": {
+      "category": "identity",
+      "severity": "P1",
+      "root_cause": "oauth_consent_missing"
+    },
+    "prediction": {
+      "category": "identity",
+      "severity": "P1",
+      "root_cause": "oauth_consent_missing",
+      "evidence": [
+        "The application sign-in trace reports missing consent for a requested permission.",
+        "Service desk correlation confirms the same failure across multiple departments and at least two sites; no safe workaround is available."
+      ],
+      "recommended_actions": [
+        "Review the publisher, requested scopes, and business approval; obtain admin consent only through the approved review process."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-12-038",
+    "expected": {
+      "category": "exchange",
+      "severity": "P1",
+      "root_cause": "outlook_profile_corrupt"
+    },
+    "prediction": {
+      "category": "exchange",
+      "severity": "P1",
+      "root_cause": "outlook_profile_corrupt",
+      "evidence": [
+        "Outlook repeatedly fails to load the profile while webmail works for the same account.",
+        "Service desk correlation confirms the same failure across multiple departments and at least two sites; no safe workaround is available."
+      ],
+      "recommended_actions": [
+        "Confirm service health and capture diagnostics, then create a test profile following support procedure before replacing the user's profile."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-09-003",
+    "expected": {
+      "category": "device_compliance",
+      "severity": "P1",
+      "root_cause": "stale_compliance_sync"
+    },
+    "prediction": {
+      "category": "device_compliance",
+      "severity": "P1",
+      "root_cause": "stale_compliance_sync",
+      "evidence": [
+        "The management console shows the device last checked in several days ago despite recent user activity.",
+        "Service desk correlation confirms the same failure across multiple departments and at least two sites; no safe workaround is available."
+      ],
+      "recommended_actions": [
+        "Verify connectivity and enrollment, trigger a supported management sync, and confirm the updated check-in timestamp."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-14-027",
+    "expected": {
+      "category": "sharepoint",
+      "severity": "P4",
+      "root_cause": "storage_limit_reached"
+    },
+    "prediction": {
+      "category": "sharepoint",
+      "severity": "P2",
+      "root_cause": "storage_limit_reached",
+      "evidence": [
+        "Storage reports show several sites in one tenant segment have reached their assigned quotas and uploads are failing.",
+        "Triage confirms no material service interruption; core functionality remains available and the request is low impact."
+      ],
+      "recommended_actions": [
+        "Confirm site-level usage and quota configuration, then follow the approved capacity or cleanup workflow with site owners."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-16-022",
+    "expected": {
+      "category": "teams",
+      "severity": "P3",
+      "root_cause": "guest_identity_mismatch"
+    },
+    "prediction": {
+      "category": "teams",
+      "severity": "P2",
+      "root_cause": "guest_identity_mismatch",
+      "evidence": [
+        "The invitation was sent to one email identity, but the guest signed in using a different account.",
+        "The service desk confirmed one affected user or endpoint and verified that other users are working normally."
+      ],
+      "recommended_actions": [
+        "Confirm the invited address with the resource owner and have the guest switch to the invited identity; re-invite only if approved."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-02-041",
+    "expected": {
+      "category": "authentication",
+      "severity": "P4",
+      "root_cause": "account_locked"
+    },
+    "prediction": {
+      "category": "authentication",
+      "severity": "P2",
+      "root_cause": "account_locked",
+      "evidence": [
+        "The account locks again after being unlocked, and failures correlate with one client.",
+        "Triage confirms no material service interruption; core functionality remains available and the request is low impact."
+      ],
+      "recommended_actions": [
+        "Correlate failed sign-ins by client and source, then update the stale credential at the originating client."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-18-028",
+    "expected": {
+      "category": "network",
+      "severity": "P2",
+      "root_cause": "dns_resolution_failure"
+    },
+    "prediction": {
+      "category": "network",
+      "severity": "P1",
+      "root_cause": "dns_resolution_failure",
+      "evidence": [
+        "Name-resolution tests fail for the service hostname while the configured DNS server is unreachable.",
+        "The service desk confirmed multiple affected users in one department; other departments remain operational."
+      ],
+      "recommended_actions": [
+        "Check assigned DNS servers and network/VPN state, then retest resolution after approved remediation."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-19-033",
+    "expected": {
+      "category": "security",
+      "severity": "P3",
+      "root_cause": "suspicious_signin_detected"
+    },
+    "prediction": {
+      "category": "security",
+      "severity": "P2",
+      "root_cause": "suspicious_signin_detected",
+      "evidence": [
+        "Identity protection marks one sign-in as high risk and the source location is inconsistent with the user's known activity.",
+        "The service desk confirmed one affected user or endpoint and verified that other users are working normally."
+      ],
+      "recommended_actions": [
+        "Follow the security incident playbook, preserve sign-in evidence, verify the user through a trusted channel, and escalate for containment."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-20-037",
+    "expected": {
+      "category": "security",
+      "severity": "P1",
+      "root_cause": "legacy_auth_blocked"
+    },
+    "prediction": {
+      "category": "security",
+      "severity": "P1",
+      "root_cause": "legacy_auth_blocked",
+      "evidence": [
+        "Multiple sign-in events show a legacy protocol used by a shared business application, and policy blocks those attempts.",
+        "Service desk correlation confirms the same failure across multiple departments and at least two sites; no safe workaround is available."
+      ],
+      "recommended_actions": [
+        "Confirm the protocol and application owner, plan migration to modern authentication, and retain the block unless a formal exception is approved."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-06-009",
+    "expected": {
+      "category": "conditional_access",
+      "severity": "P4",
+      "root_cause": "policy_scope_mismatch"
+    },
+    "prediction": {
+      "category": "conditional_access",
+      "severity": "P2",
+      "root_cause": "policy_scope_mismatch",
+      "evidence": [
+        "The affected account is missing from the expected group after a directory change, and policy evaluation confirms the mismatch.",
+        "Triage confirms no material service interruption; core functionality remains available and the request is low impact."
+      ],
+      "recommended_actions": [
+        "Verify group membership and propagation, review policy impact, and test with a controlled account."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-05-045",
+    "expected": {
+      "category": "conditional_access",
+      "severity": "P2",
+      "root_cause": "device_noncompliant"
+    },
+    "prediction": {
+      "category": "conditional_access",
+      "severity": "P2",
+      "root_cause": "device_noncompliant",
+      "evidence": [
+        "Conditional Access evaluation requires a compliant device, and management reports a failed compliance rule.",
+        "The service desk confirmed multiple affected users in one department; other departments remain operational."
+      ],
+      "recommended_actions": [
+        "Inspect the exact failed rule, remediate it, sync the device, and recheck compliance before retrying access."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-20-025",
+    "expected": {
+      "category": "security",
+      "severity": "P3",
+      "root_cause": "legacy_auth_blocked"
+    },
+    "prediction": {
+      "category": "security",
+      "severity": "P2",
+      "root_cause": "legacy_auth_blocked",
+      "evidence": [
+        "Multiple sign-in events show a legacy protocol used by a shared business application, and policy blocks those attempts.",
+        "The service desk confirmed one affected user or endpoint and verified that other users are working normally."
+      ],
+      "recommended_actions": [
+        "Confirm the protocol and application owner, plan migration to modern authentication, and retain the block unless a formal exception is approved."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-11-047",
+    "expected": {
+      "category": "exchange",
+      "severity": "P1",
+      "root_cause": "mailbox_quota_exceeded"
+    },
+    "prediction": {
+      "category": "exchange",
+      "severity": "P1",
+      "root_cause": "mailbox_quota_exceeded",
+      "evidence": [
+        "Exchange diagnostics show the mailbox at its configured quota and new mail delivery is affected.",
+        "Service desk correlation confirms the same failure across multiple departments and at least two sites; no safe workaround is available."
+      ],
+      "recommended_actions": [
+        "Check mailbox usage and retention policy, identify approved cleanup or archive options, and verify mail flow after space is recovered."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-06-025",
+    "expected": {
+      "category": "conditional_access",
+      "severity": "P3",
+      "root_cause": "policy_scope_mismatch"
+    },
+    "prediction": {
+      "category": "conditional_access",
+      "severity": "P2",
+      "root_cause": "policy_scope_mismatch",
+      "evidence": [
+        "The affected account is missing from the expected group after a directory change, and policy evaluation confirms the mismatch.",
+        "The service desk confirmed one affected user or endpoint and verified that other users are working normally."
+      ],
+      "recommended_actions": [
+        "Verify group membership and propagation, review policy impact, and test with a controlled account."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-02-005",
+    "expected": {
+      "category": "authentication",
+      "severity": "P3",
+      "root_cause": "account_locked"
+    },
+    "prediction": {
+      "category": "authentication",
+      "severity": "P2",
+      "root_cause": "account_locked",
+      "evidence": [
+        "The account locks again after being unlocked, and failures correlate with one client.",
+        "The service desk confirmed one affected user or endpoint and verified that other users are working normally."
+      ],
+      "recommended_actions": [
+        "Correlate failed sign-ins by client and source, then update the stale credential at the originating client."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-18-002",
+    "expected": {
+      "category": "network",
+      "severity": "P2",
+      "root_cause": "dns_resolution_failure"
+    },
+    "prediction": {
+      "category": "network",
+      "severity": "P2",
+      "root_cause": "dns_resolution_failure",
+      "evidence": [
+        "Name-resolution tests fail for the service hostname while the configured DNS server is unreachable.",
+        "The service desk confirmed multiple affected users in one department; other departments remain operational."
+      ],
+      "recommended_actions": [
+        "Check assigned DNS servers and network/VPN state, then retest resolution after approved remediation."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-14-012",
+    "expected": {
+      "category": "sharepoint",
+      "severity": "P3",
+      "root_cause": "storage_limit_reached"
+    },
+    "prediction": {
+      "category": "sharepoint",
+      "severity": "P2",
+      "root_cause": "storage_limit_reached",
+      "evidence": [
+        "The site storage report shows the configured limit has been reached and uploads fail.",
+        "The service desk confirmed one affected user or endpoint and verified that other users are working normally."
+      ],
+      "recommended_actions": [
+        "Review storage usage and retention requirements, remove content only with owner approval, or request capacity through the tenant process."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-15-038",
+    "expected": {
+      "category": "teams",
+      "severity": "P2",
+      "root_cause": "audio_device_unavailable"
+    },
+    "prediction": {
+      "category": "teams",
+      "severity": "P1",
+      "root_cause": "audio_device_unavailable",
+      "evidence": [
+        "A conference-room Teams setup reports an unavailable shared audio endpoint across multiple scheduled meetings.",
+        "The service desk confirmed multiple affected users in one department; other departments remain operational."
+      ],
+      "recommended_actions": [
+        "Check the room device's connection and OS audio endpoint, then run a controlled test call before the next meeting."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-02-015",
+    "expected": {
+      "category": "authentication",
+      "severity": "P2",
+      "root_cause": "account_locked"
+    },
+    "prediction": {
+      "category": "authentication",
+      "severity": "P2",
+      "root_cause": "account_locked",
+      "evidence": [
+        "The account locks again after being unlocked, and failures correlate with one client.",
+        "The service desk confirmed multiple affected users in one department; other departments remain operational."
+      ],
+      "recommended_actions": [
+        "Correlate failed sign-ins by client and source, then update the stale credential at the originating client."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-01-011",
+    "expected": {
+      "category": "authentication",
+      "severity": "P1",
+      "root_cause": "invalid_credentials"
+    },
+    "prediction": {
+      "category": "authentication",
+      "severity": "P1",
+      "root_cause": "invalid_credentials",
+      "evidence": [
+        "A password change is recorded, but one client continues submitting an old saved credential.",
+        "Service desk correlation confirms the same failure across multiple departments and at least two sites; no safe workaround is available."
+      ],
+      "recommended_actions": [
+        "Update the saved credential in the affected client and review stale sessions according to policy."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-02-031",
+    "expected": {
+      "category": "authentication",
+      "severity": "P2",
+      "root_cause": "account_locked"
+    },
+    "prediction": {
+      "category": "authentication",
+      "severity": "P2",
+      "root_cause": "account_locked",
+      "evidence": [
+        "The account locks again after being unlocked, and failures correlate with one client.",
+        "The service desk confirmed multiple affected users in one department; other departments remain operational."
+      ],
+      "recommended_actions": [
+        "Correlate failed sign-ins by client and source, then update the stale credential at the originating client."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-01-020",
+    "expected": {
+      "category": "authentication",
+      "severity": "P2",
+      "root_cause": "invalid_credentials"
+    },
+    "prediction": {
+      "category": "authentication",
+      "severity": "P1",
+      "root_cause": "invalid_credentials",
+      "evidence": [
+        "A password change is recorded, but one client continues submitting an old saved credential.",
+        "The service desk confirmed multiple affected users in one department; other departments remain operational."
+      ],
+      "recommended_actions": [
+        "Update the saved credential in the affected client and review stale sessions according to policy."
+      ],
+      "human_review_required": true
+    }
+  },
+  {
+    "id": "ITSM-11-015",
+    "expected": {
+      "category": "exchange",
+      "severity": "P3",
+      "root_cause": "mailbox_quota_exceeded"
+    },
+    "prediction": {
+      "category": "exchange",
+      "severity": "P2",
+      "root_cause": "mailbox_quota_exceeded",
+      "evidence": [
+        "Exchange diagnostics show the mailbox at its configured quota and new mail delivery is affected.",
+        "The service desk confirmed one affected user or endpoint and verified that other users are working normally."
+      ],
+      "recommended_actions": [
+        "Check mailbox usage and retention policy, identify approved cleanup or archive options, and verify mail flow after space is recovered."
+      ],
+      "human_review_required": true
+    }
+  }
+]

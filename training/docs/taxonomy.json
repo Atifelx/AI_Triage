@@ -1,0 +1,148 @@
+{
+  "categories": [
+    "authentication",
+    "conditional_access",
+    "device_compliance",
+    "endpoint",
+    "exchange",
+    "identity",
+    "network",
+    "security",
+    "sharepoint",
+    "teams"
+  ],
+  "severity_labels": [
+    "P1",
+    "P2",
+    "P3",
+    "P4"
+  ],
+  "root_causes": [
+    {
+      "category": "authentication",
+      "root_cause": "invalid_credentials",
+      "label": "Invalid credentials or stale cached password",
+      "definition": "The account or client is submitting a credential that is no longer valid."
+    },
+    {
+      "category": "authentication",
+      "root_cause": "account_locked",
+      "label": "Account lockout",
+      "definition": "Repeated failed sign-ins have triggered account lockout."
+    },
+    {
+      "category": "identity",
+      "root_cause": "mfa_registration_missing",
+      "label": "MFA registration missing",
+      "definition": "The required multi-factor authentication method is not registered."
+    },
+    {
+      "category": "identity",
+      "root_cause": "oauth_consent_missing",
+      "label": "OAuth consent not granted",
+      "definition": "An application lacks approved consent for the permissions it requests."
+    },
+    {
+      "category": "conditional_access",
+      "root_cause": "device_noncompliant",
+      "label": "Device compliance requirement failed",
+      "definition": "A Conditional Access policy blocks access because one or more devices are noncompliant."
+    },
+    {
+      "category": "conditional_access",
+      "root_cause": "policy_scope_mismatch",
+      "label": "Conditional Access policy scope mismatch",
+      "definition": "A policy assignment or exclusion does not match the intended user or group scope."
+    },
+    {
+      "category": "endpoint",
+      "root_cause": "disk_space_exhausted",
+      "label": "Endpoint disk space exhausted",
+      "definition": "Insufficient free disk space prevents an application or operating-system operation."
+    },
+    {
+      "category": "endpoint",
+      "root_cause": "print_queue_stuck",
+      "label": "Print queue stalled",
+      "definition": "A stuck spooler job or queue prevents printing."
+    },
+    {
+      "category": "device_compliance",
+      "root_cause": "stale_compliance_sync",
+      "label": "Stale compliance state",
+      "definition": "The management service has not received a recent device compliance check-in."
+    },
+    {
+      "category": "device_compliance",
+      "root_cause": "enrollment_profile_mismatch",
+      "label": "Enrollment profile mismatch",
+      "definition": "The device was enrolled with a profile that does not match the intended deployment."
+    },
+    {
+      "category": "exchange",
+      "root_cause": "mailbox_quota_exceeded",
+      "label": "Mailbox quota exceeded",
+      "definition": "Mailbox storage has reached its configured quota."
+    },
+    {
+      "category": "exchange",
+      "root_cause": "outlook_profile_corrupt",
+      "label": "Corrupt Outlook profile",
+      "definition": "A local Outlook profile or cache is damaged and prevents normal startup or synchronization."
+    },
+    {
+      "category": "sharepoint",
+      "root_cause": "site_permission_missing",
+      "label": "SharePoint permission missing",
+      "definition": "The user does not have the required permission on the target site or library."
+    },
+    {
+      "category": "sharepoint",
+      "root_cause": "storage_limit_reached",
+      "label": "SharePoint storage limit reached",
+      "definition": "The site or tenant storage limit prevents new content from being uploaded."
+    },
+    {
+      "category": "teams",
+      "root_cause": "audio_device_unavailable",
+      "label": "Teams audio device unavailable",
+      "definition": "The selected microphone or speaker is unavailable to the application."
+    },
+    {
+      "category": "teams",
+      "root_cause": "guest_identity_mismatch",
+      "label": "Guest identity mismatch",
+      "definition": "The guest is signing in with an identity different from the invited identity."
+    },
+    {
+      "category": "network",
+      "root_cause": "proxy_configuration_invalid",
+      "label": "Invalid proxy configuration",
+      "definition": "A proxy setting or authentication issue blocks access to required services."
+    },
+    {
+      "category": "network",
+      "root_cause": "dns_resolution_failure",
+      "label": "DNS resolution failure",
+      "definition": "The endpoint cannot resolve a service hostname through its configured DNS path."
+    },
+    {
+      "category": "security",
+      "root_cause": "suspicious_signin_detected",
+      "label": "Suspicious sign-in",
+      "definition": "Sign-in telemetry indicates a risky or anomalous sign-in requiring security review."
+    },
+    {
+      "category": "security",
+      "root_cause": "legacy_auth_blocked",
+      "label": "Legacy authentication blocked",
+      "definition": "A client uses a legacy authentication protocol that is blocked by policy."
+    }
+  ],
+  "severity_policy": {
+    "P1": "Confirmed critical service or security impact across multiple departments/sites; immediate major-incident/security escalation.",
+    "P2": "Multiple users or a business-critical workflow materially impaired; prompt service-owner coordination.",
+    "P3": "One user or a limited endpoint scope; standard support handling and workaround may exist.",
+    "P4": "Informational, cosmetic, or low-impact request; no material service interruption."
+  }
+}

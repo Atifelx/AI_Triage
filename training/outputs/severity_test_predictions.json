@@ -1,0 +1,865 @@
+{
+  "model": "google/gemma-3-270m-it",
+  "adapter": "/Users/ml/AI-Lab/incident_triage_dataset_v3/outputs/gemma3-270m-severity-lora/best_adapter",
+  "test_examples": 100,
+  "correct": 93,
+  "accuracy": 0.93,
+  "valid_severity_predictions": 100,
+  "invalid_predictions": 0,
+  "macro_f1": 0.9301,
+  "per_class": {
+    "P1": {
+      "precision": 1.0,
+      "recall": 0.76,
+      "f1": 0.8636,
+      "support": 25
+    },
+    "P2": {
+      "precision": 0.7812,
+      "recall": 1.0,
+      "f1": 0.8772,
+      "support": 25
+    },
+    "P3": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "support": 25
+    },
+    "P4": {
+      "precision": 1.0,
+      "recall": 0.96,
+      "f1": 0.9796,
+      "support": 25
+    }
+  },
+  "confusion_matrix_actual_rows_predicted_columns": {
+    "P1": {
+      "P1": 19,
+      "P2": 6,
+      "P3": 0,
+      "P4": 0
+    },
+    "P2": {
+      "P1": 0,
+      "P2": 25,
+      "P3": 0,
+      "P4": 0
+    },
+    "P3": {
+      "P1": 0,
+      "P2": 0,
+      "P3": 25,
+      "P4": 0
+    },
+    "P4": {
+      "P1": 0,
+      "P2": 1,
+      "P3": 0,
+      "P4": 24
+    }
+  },
+  "total_evaluation_seconds": 27.48,
+  "predictions": [
+    {
+      "id": "ITSM-05-027",
+      "expected": "P3",
+      "predicted": "P3",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P3\"}",
+      "inference_seconds": 0.351
+    },
+    {
+      "id": "ITSM-13-041",
+      "expected": "P2",
+      "predicted": "P2",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P2\"}",
+      "inference_seconds": 0.256
+    },
+    {
+      "id": "ITSM-19-026",
+      "expected": "P4",
+      "predicted": "P4",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P4\"}",
+      "inference_seconds": 0.266
+    },
+    {
+      "id": "ITSM-11-042",
+      "expected": "P2",
+      "predicted": "P2",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P2\"}",
+      "inference_seconds": 0.264
+    },
+    {
+      "id": "ITSM-20-033",
+      "expected": "P4",
+      "predicted": "P4",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P4\"}",
+      "inference_seconds": 0.262
+    },
+    {
+      "id": "ITSM-14-046",
+      "expected": "P1",
+      "predicted": "P1",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P1\"}",
+      "inference_seconds": 0.279
+    },
+    {
+      "id": "ITSM-10-021",
+      "expected": "P4",
+      "predicted": "P4",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P4\"}",
+      "inference_seconds": 0.264
+    },
+    {
+      "id": "ITSM-12-018",
+      "expected": "P2",
+      "predicted": "P2",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P2\"}",
+      "inference_seconds": 0.264
+    },
+    {
+      "id": "ITSM-02-035",
+      "expected": "P3",
+      "predicted": "P3",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P3\"}",
+      "inference_seconds": 0.284
+    },
+    {
+      "id": "ITSM-18-024",
+      "expected": "P1",
+      "predicted": "P1",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P1\"}",
+      "inference_seconds": 0.282
+    },
+    {
+      "id": "ITSM-18-044",
+      "expected": "P3",
+      "predicted": "P3",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P3\"}",
+      "inference_seconds": 0.266
+    },
+    {
+      "id": "ITSM-11-048",
+      "expected": "P4",
+      "predicted": "P4",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P4\"}",
+      "inference_seconds": 0.271
+    },
+    {
+      "id": "ITSM-04-050",
+      "expected": "P3",
+      "predicted": "P3",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P3\"}",
+      "inference_seconds": 0.26
+    },
+    {
+      "id": "ITSM-19-035",
+      "expected": "P1",
+      "predicted": "P1",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P1\"}",
+      "inference_seconds": 0.273
+    },
+    {
+      "id": "ITSM-14-016",
+      "expected": "P2",
+      "predicted": "P2",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P2\"}",
+      "inference_seconds": 0.263
+    },
+    {
+      "id": "ITSM-12-014",
+      "expected": "P4",
+      "predicted": "P4",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P4\"}",
+      "inference_seconds": 0.272
+    },
+    {
+      "id": "ITSM-10-050",
+      "expected": "P2",
+      "predicted": "P2",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P2\"}",
+      "inference_seconds": 0.28
+    },
+    {
+      "id": "ITSM-09-009",
+      "expected": "P2",
+      "predicted": "P2",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P2\"}",
+      "inference_seconds": 0.266
+    },
+    {
+      "id": "ITSM-08-046",
+      "expected": "P4",
+      "predicted": "P4",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P4\"}",
+      "inference_seconds": 0.263
+    },
+    {
+      "id": "ITSM-16-026",
+      "expected": "P2",
+      "predicted": "P2",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P2\"}",
+      "inference_seconds": 0.281
+    },
+    {
+      "id": "ITSM-10-029",
+      "expected": "P3",
+      "predicted": "P3",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P3\"}",
+      "inference_seconds": 0.266
+    },
+    {
+      "id": "ITSM-04-031",
+      "expected": "P4",
+      "predicted": "P4",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P4\"}",
+      "inference_seconds": 0.267
+    },
+    {
+      "id": "ITSM-15-021",
+      "expected": "P3",
+      "predicted": "P3",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P3\"}",
+      "inference_seconds": 0.267
+    },
+    {
+      "id": "ITSM-06-048",
+      "expected": "P1",
+      "predicted": "P1",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P1\"}",
+      "inference_seconds": 0.283
+    },
+    {
+      "id": "ITSM-04-010",
+      "expected": "P1",
+      "predicted": "P1",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P1\"}",
+      "inference_seconds": 0.268
+    },
+    {
+      "id": "ITSM-08-015",
+      "expected": "P1",
+      "predicted": "P1",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P1\"}",
+      "inference_seconds": 0.272
+    },
+    {
+      "id": "ITSM-07-018",
+      "expected": "P2",
+      "predicted": "P2",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P2\"}",
+      "inference_seconds": 0.286
+    },
+    {
+      "id": "ITSM-03-041",
+      "expected": "P4",
+      "predicted": "P4",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P4\"}",
+      "inference_seconds": 0.283
+    },
+    {
+      "id": "ITSM-09-048",
+      "expected": "P3",
+      "predicted": "P3",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P3\"}",
+      "inference_seconds": 0.263
+    },
+    {
+      "id": "ITSM-16-020",
+      "expected": "P1",
+      "predicted": "P1",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P1\"}",
+      "inference_seconds": 0.264
+    },
+    {
+      "id": "ITSM-16-023",
+      "expected": "P4",
+      "predicted": "P4",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P4\"}",
+      "inference_seconds": 0.267
+    },
+    {
+      "id": "ITSM-07-025",
+      "expected": "P1",
+      "predicted": "P1",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P1\"}",
+      "inference_seconds": 0.266
+    },
+    {
+      "id": "ITSM-10-017",
+      "expected": "P1",
+      "predicted": "P2",
+      "correct": false,
+      "raw_output": "{\"severity\":\"P2\"}",
+      "inference_seconds": 0.267
+    },
+    {
+      "id": "ITSM-06-017",
+      "expected": "P3",
+      "predicted": "P3",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P3\"}",
+      "inference_seconds": 0.266
+    },
+    {
+      "id": "ITSM-05-033",
+      "expected": "P4",
+      "predicted": "P4",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P4\"}",
+      "inference_seconds": 0.287
+    },
+    {
+      "id": "ITSM-18-009",
+      "expected": "P3",
+      "predicted": "P3",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P3\"}",
+      "inference_seconds": 0.287
+    },
+    {
+      "id": "ITSM-01-012",
+      "expected": "P4",
+      "predicted": "P4",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P4\"}",
+      "inference_seconds": 0.265
+    },
+    {
+      "id": "ITSM-14-021",
+      "expected": "P3",
+      "predicted": "P3",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P3\"}",
+      "inference_seconds": 0.258
+    },
+    {
+      "id": "ITSM-12-025",
+      "expected": "P1",
+      "predicted": "P1",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P1\"}",
+      "inference_seconds": 0.266
+    },
+    {
+      "id": "ITSM-17-025",
+      "expected": "P2",
+      "predicted": "P2",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P2\"}",
+      "inference_seconds": 0.256
+    },
+    {
+      "id": "ITSM-20-005",
+      "expected": "P1",
+      "predicted": "P1",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P1\"}",
+      "inference_seconds": 0.262
+    },
+    {
+      "id": "ITSM-16-025",
+      "expected": "P1",
+      "predicted": "P1",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P1\"}",
+      "inference_seconds": 0.262
+    },
+    {
+      "id": "ITSM-20-023",
+      "expected": "P4",
+      "predicted": "P2",
+      "correct": false,
+      "raw_output": "{\"severity\":\"P2\"}",
+      "inference_seconds": 0.262
+    },
+    {
+      "id": "ITSM-16-001",
+      "expected": "P4",
+      "predicted": "P4",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P4\"}",
+      "inference_seconds": 0.259
+    },
+    {
+      "id": "ITSM-13-023",
+      "expected": "P1",
+      "predicted": "P1",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P1\"}",
+      "inference_seconds": 0.262
+    },
+    {
+      "id": "ITSM-07-009",
+      "expected": "P3",
+      "predicted": "P3",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P3\"}",
+      "inference_seconds": 0.257
+    },
+    {
+      "id": "ITSM-14-044",
+      "expected": "P2",
+      "predicted": "P2",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P2\"}",
+      "inference_seconds": 0.27
+    },
+    {
+      "id": "ITSM-02-021",
+      "expected": "P1",
+      "predicted": "P2",
+      "correct": false,
+      "raw_output": "{\"severity\":\"P2\"}",
+      "inference_seconds": 0.279
+    },
+    {
+      "id": "ITSM-10-049",
+      "expected": "P2",
+      "predicted": "P2",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P2\"}",
+      "inference_seconds": 0.257
+    },
+    {
+      "id": "ITSM-17-007",
+      "expected": "P4",
+      "predicted": "P4",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P4\"}",
+      "inference_seconds": 0.262
+    },
+    {
+      "id": "ITSM-06-022",
+      "expected": "P2",
+      "predicted": "P2",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P2\"}",
+      "inference_seconds": 0.263
+    },
+    {
+      "id": "ITSM-13-037",
+      "expected": "P4",
+      "predicted": "P4",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P4\"}",
+      "inference_seconds": 0.385
+    },
+    {
+      "id": "ITSM-07-019",
+      "expected": "P4",
+      "predicted": "P4",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P4\"}",
+      "inference_seconds": 0.319
+    },
+    {
+      "id": "ITSM-08-004",
+      "expected": "P2",
+      "predicted": "P2",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P2\"}",
+      "inference_seconds": 0.265
+    },
+    {
+      "id": "ITSM-05-036",
+      "expected": "P1",
+      "predicted": "P1",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P1\"}",
+      "inference_seconds": 0.29
+    },
+    {
+      "id": "ITSM-06-039",
+      "expected": "P2",
+      "predicted": "P2",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P2\"}",
+      "inference_seconds": 0.344
+    },
+    {
+      "id": "ITSM-15-014",
+      "expected": "P1",
+      "predicted": "P1",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P1\"}",
+      "inference_seconds": 0.294
+    },
+    {
+      "id": "ITSM-10-019",
+      "expected": "P3",
+      "predicted": "P3",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P3\"}",
+      "inference_seconds": 0.293
+    },
+    {
+      "id": "ITSM-13-015",
+      "expected": "P3",
+      "predicted": "P3",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P3\"}",
+      "inference_seconds": 0.289
+    },
+    {
+      "id": "ITSM-20-035",
+      "expected": "P2",
+      "predicted": "P2",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P2\"}",
+      "inference_seconds": 0.28
+    },
+    {
+      "id": "ITSM-01-024",
+      "expected": "P3",
+      "predicted": "P3",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P3\"}",
+      "inference_seconds": 0.274
+    },
+    {
+      "id": "ITSM-08-049",
+      "expected": "P4",
+      "predicted": "P4",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P4\"}",
+      "inference_seconds": 0.273
+    },
+    {
+      "id": "ITSM-04-039",
+      "expected": "P4",
+      "predicted": "P4",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P4\"}",
+      "inference_seconds": 0.26
+    },
+    {
+      "id": "ITSM-17-019",
+      "expected": "P3",
+      "predicted": "P3",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P3\"}",
+      "inference_seconds": 0.258
+    },
+    {
+      "id": "ITSM-15-018",
+      "expected": "P4",
+      "predicted": "P4",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P4\"}",
+      "inference_seconds": 0.265
+    },
+    {
+      "id": "ITSM-12-042",
+      "expected": "P4",
+      "predicted": "P4",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P4\"}",
+      "inference_seconds": 0.263
+    },
+    {
+      "id": "ITSM-18-040",
+      "expected": "P4",
+      "predicted": "P4",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P4\"}",
+      "inference_seconds": 0.258
+    },
+    {
+      "id": "ITSM-03-002",
+      "expected": "P2",
+      "predicted": "P2",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P2\"}",
+      "inference_seconds": 0.28
+    },
+    {
+      "id": "ITSM-03-042",
+      "expected": "P3",
+      "predicted": "P3",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P3\"}",
+      "inference_seconds": 0.299
+    },
+    {
+      "id": "ITSM-08-027",
+      "expected": "P3",
+      "predicted": "P3",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P3\"}",
+      "inference_seconds": 0.281
+    },
+    {
+      "id": "ITSM-19-008",
+      "expected": "P2",
+      "predicted": "P2",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P2\"}",
+      "inference_seconds": 0.273
+    },
+    {
+      "id": "ITSM-12-049",
+      "expected": "P3",
+      "predicted": "P3",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P3\"}",
+      "inference_seconds": 0.265
+    },
+    {
+      "id": "ITSM-08-021",
+      "expected": "P1",
+      "predicted": "P2",
+      "correct": false,
+      "raw_output": "{\"severity\":\"P2\"}",
+      "inference_seconds": 0.285
+    },
+    {
+      "id": "ITSM-09-039",
+      "expected": "P4",
+      "predicted": "P4",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P4\"}",
+      "inference_seconds": 0.272
+    },
+    {
+      "id": "ITSM-03-030",
+      "expected": "P1",
+      "predicted": "P2",
+      "correct": false,
+      "raw_output": "{\"severity\":\"P2\"}",
+      "inference_seconds": 0.268
+    },
+    {
+      "id": "ITSM-04-033",
+      "expected": "P2",
+      "predicted": "P2",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P2\"}",
+      "inference_seconds": 0.258
+    },
+    {
+      "id": "ITSM-17-018",
+      "expected": "P1",
+      "predicted": "P2",
+      "correct": false,
+      "raw_output": "{\"severity\":\"P2\"}",
+      "inference_seconds": 0.268
+    },
+    {
+      "id": "ITSM-04-042",
+      "expected": "P1",
+      "predicted": "P1",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P1\"}",
+      "inference_seconds": 0.264
+    },
+    {
+      "id": "ITSM-12-038",
+      "expected": "P1",
+      "predicted": "P1",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P1\"}",
+      "inference_seconds": 0.262
+    },
+    {
+      "id": "ITSM-09-003",
+      "expected": "P1",
+      "predicted": "P1",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P1\"}",
+      "inference_seconds": 0.258
+    },
+    {
+      "id": "ITSM-14-027",
+      "expected": "P4",
+      "predicted": "P4",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P4\"}",
+      "inference_seconds": 0.254
+    },
+    {
+      "id": "ITSM-16-022",
+      "expected": "P3",
+      "predicted": "P3",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P3\"}",
+      "inference_seconds": 0.261
+    },
+    {
+      "id": "ITSM-02-041",
+      "expected": "P4",
+      "predicted": "P4",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P4\"}",
+      "inference_seconds": 0.26
+    },
+    {
+      "id": "ITSM-18-028",
+      "expected": "P2",
+      "predicted": "P2",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P2\"}",
+      "inference_seconds": 0.26
+    },
+    {
+      "id": "ITSM-19-033",
+      "expected": "P3",
+      "predicted": "P3",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P3\"}",
+      "inference_seconds": 0.254
+    },
+    {
+      "id": "ITSM-20-037",
+      "expected": "P1",
+      "predicted": "P2",
+      "correct": false,
+      "raw_output": "{\"severity\":\"P2\"}",
+      "inference_seconds": 0.264
+    },
+    {
+      "id": "ITSM-06-009",
+      "expected": "P4",
+      "predicted": "P4",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P4\"}",
+      "inference_seconds": 0.276
+    },
+    {
+      "id": "ITSM-05-045",
+      "expected": "P2",
+      "predicted": "P2",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P2\"}",
+      "inference_seconds": 0.259
+    },
+    {
+      "id": "ITSM-20-025",
+      "expected": "P3",
+      "predicted": "P3",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P3\"}",
+      "inference_seconds": 0.261
+    },
+    {
+      "id": "ITSM-11-047",
+      "expected": "P1",
+      "predicted": "P1",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P1\"}",
+      "inference_seconds": 0.262
+    },
+    {
+      "id": "ITSM-06-025",
+      "expected": "P3",
+      "predicted": "P3",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P3\"}",
+      "inference_seconds": 0.252
+    },
+    {
+      "id": "ITSM-02-005",
+      "expected": "P3",
+      "predicted": "P3",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P3\"}",
+      "inference_seconds": 0.247
+    },
+    {
+      "id": "ITSM-18-002",
+      "expected": "P2",
+      "predicted": "P2",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P2\"}",
+      "inference_seconds": 0.272
+    },
+    {
+      "id": "ITSM-14-012",
+      "expected": "P3",
+      "predicted": "P3",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P3\"}",
+      "inference_seconds": 0.272
+    },
+    {
+      "id": "ITSM-15-038",
+      "expected": "P2",
+      "predicted": "P2",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P2\"}",
+      "inference_seconds": 0.269
+    },
+    {
+      "id": "ITSM-02-015",
+      "expected": "P2",
+      "predicted": "P2",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P2\"}",
+      "inference_seconds": 0.275
+    },
+    {
+      "id": "ITSM-01-011",
+      "expected": "P1",
+      "predicted": "P1",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P1\"}",
+      "inference_seconds": 0.266
+    },
+    {
+      "id": "ITSM-02-031",
+      "expected": "P2",
+      "predicted": "P2",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P2\"}",
+      "inference_seconds": 0.326
+    },
+    {
+      "id": "ITSM-01-020",
+      "expected": "P2",
+      "predicted": "P2",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P2\"}",
+      "inference_seconds": 0.273
+    },
+    {
+      "id": "ITSM-11-015",
+      "expected": "P3",
+      "predicted": "P3",
+      "correct": true,
+      "raw_output": "{\"severity\":\"P3\"}",
+      "inference_seconds": 0.275
+    }
+  ]
+}

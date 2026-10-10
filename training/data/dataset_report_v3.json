@@ -1,0 +1,76 @@
+{
+  "status": "PASS",
+  "summaries": {
+    "incident_train_v3.jsonl": {
+      "rows": 800,
+      "categories": {
+        "network": 80,
+        "device_compliance": 80,
+        "conditional_access": 80,
+        "teams": 80,
+        "endpoint": 80,
+        "security": 80,
+        "identity": 80,
+        "authentication": 80,
+        "sharepoint": 80,
+        "exchange": 80
+      },
+      "severity": {
+        "P4": 200,
+        "P1": 200,
+        "P3": 200,
+        "P2": 200
+      },
+      "root_causes": 20,
+      "duplicate_inputs": 0
+    },
+    "incident_val_v3.jsonl": {
+      "rows": 100,
+      "categories": {
+        "endpoint": 10,
+        "network": 10,
+        "teams": 10,
+        "device_compliance": 10,
+        "security": 10,
+        "conditional_access": 10,
+        "authentication": 10,
+        "exchange": 10,
+        "sharepoint": 10,
+        "identity": 10
+      },
+      "severity": {
+        "P2": 25,
+        "P3": 25,
+        "P1": 25,
+        "P4": 25
+      },
+      "root_causes": 20,
+      "duplicate_inputs": 0
+    },
+    "incident_test_v3.jsonl": {
+      "rows": 100,
+      "categories": {
+        "conditional_access": 10,
+        "sharepoint": 10,
+        "security": 10,
+        "exchange": 10,
+        "device_compliance": 10,
+        "authentication": 10,
+        "network": 10,
+        "identity": 10,
+        "endpoint": 10,
+        "teams": 10
+      },
+      "severity": {
+        "P3": 25,
+        "P2": 25,
+        "P4": 25,
+        "P1": 25
+      },
+      "root_causes": 20,
+      "duplicate_inputs": 0
+    }
+  },
+  "errors": [],
+  "note": "Structural and consistency checks only; synthetic examples require IT-SME review and evaluation on held-out real incidents before production claims."
+}

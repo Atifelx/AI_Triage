@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+backend/.env
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+frontend/.env.local
+
+.DS_Store
+
+# Local tool / editor state
+.claude/
+frontend/.claude/
+
+# Re-training writes adapters/checkpoints here; the shipped model is backend/models/
+training/outputs/*/
+
+# Model: the fine-tuned adapter and the base model's small config files are committed.
+# The base weights (511 MB) are downloaded by backend/scripts/download_model.py
+# (checksum-verified); the base tokenizer files are unused (the adapter ships its own).
+backend/models/*/base/*
+!backend/models/*/base/config.json
+!backend/models/*/base/generation_config.json
+!backend/models/*/base/README.md
+!backend/models/*/base/HF_REVISION
+*.safetensors.part

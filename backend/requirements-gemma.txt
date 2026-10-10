@@ -1,0 +1,8 @@
+# Extra dependencies for INFERENCE_PROVIDER=gemma only.
+# Your existing ~/AI-Lab/.venv already has these (they were used for training).
+# Install into a fresh environment with:  pip install -r requirements-gemma.txt
+-r requirements.txt
+torch>=2.2
+transformers>=4.56  # `dtype=` argument; ~/AI-Lab/.venv has 5.19
+peft>=0.13
+accelerate>=0.30

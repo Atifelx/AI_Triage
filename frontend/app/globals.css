@@ -1,0 +1,34 @@
+@import "tailwindcss";
+
+@theme {
+  /* System fonts: no network fetch at build time. */
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+html {
+  color-scheme: light;
+}
+
+body {
+  @apply bg-slate-100 font-sans text-slate-900;
+}
+
+/* Diagonal hazard stripes used exclusively for mock-mode labelling. */
+.mock-stripes {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgb(251 191 36 / 0.18) 0 8px,
+    transparent 8px 16px
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
