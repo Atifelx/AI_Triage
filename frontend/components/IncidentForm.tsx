@@ -50,13 +50,13 @@ export function IncidentForm({
   });
 
   const area = (
-    field: "description" | "business_impact" | "diagnostic_evidence",
+    field: "description" | "business_impact" | "diagnostic_evidence" | "scope_check" | "additional_context",
     placeholder: string,
     rows: number,
     hint?: string,
   ) => ({
     id: `f-${field}`,
-    value: values[field],
+    value: values[field] ?? "",
     disabled: submitting,
     placeholder,
     rows,
@@ -68,37 +68,52 @@ export function IncidentForm({
 
   const evidenceHint = "Logs, error codes or checks performed. Keep credentials and personal data out.";
   const listHint = "Press Enter or comma to add each entry.";
+  const scopeHint = "What triage confirmed about the scope. Leave empty to derive it from users, departments, sites and workaround.";
 
   return (
-    <section aria-labelledby="incident-form-heading" className="rounded-xl border border-slate-200 bg-white shadow-sm">
-      <div className="flex flex-col gap-3 border-b border-slate-200 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h2 id="incident-form-heading" className="text-base font-semibold text-slate-900">
+    <section aria-labelledby="incident-form-heading" className="rounded-2xl border border-line bg-surface shadow-card">
+      {/* Sticky action bar: Analyze stays visible while the form scrolls. */}
+      <div className="sticky top-0 z-10 flex flex-col gap-3 rounded-t-2xl border-b border-line bg-surface/95 px-6 py-4 backdrop-blur sm:flex-row sm:items-center sm:justify-between">
+        <div className="min-w-0">
+          <h2 id="incident-form-heading" className="text-base font-semibold text-ink">
             New incident
           </h2>
-          <p className="text-xs text-slate-500">Describe the incident, its scope and its business impact.</p>
+          <p className="text-[13px] text-muted" aria-live="polite">
+            {blockedReason ?? "Describe the incident, its scope and its business impact. A human reviews every result."}
+          </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <button
             type="button"
             onClick={onLoadSample}
             disabled={submitting}
-            className="rounded-md border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-sm hover:bg-slate-50 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
+            className="rounded-lg border border-signal/30 bg-signal/5 px-3 py-1.5 text-sm font-medium text-signal-strong hover:bg-signal/10 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal"
           >
-            Load sample incident
+            Load example
           </button>
           <button
             type="button"
             onClick={onClear}
             disabled={submitting}
-            className="rounded-md border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-sm hover:bg-slate-50 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
+            className="rounded-lg border border-line bg-surface px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-canvas disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal"
           >
             Clear form
+          </button>
+          <button
+            type="submit"
+            form="incident-form"
+            disabled={submitting || blockedReason !== null}
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-signal px-5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-signal-strong disabled:cursor-not-allowed disabled:bg-slate-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal"
+          >
+            {submitting && (
+              <span aria-hidden="true" className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+            )}
+            {submitting ? "Analyzing…" : "Analyze incident"}
           </button>
         </div>
       </div>
 
-      <form noValidate onSubmit={handleSubmit} aria-busy={submitting} className="grid grid-cols-1 gap-5 px-5 py-5 md:grid-cols-2">
+      <form id="incident-form" noValidate onSubmit={handleSubmit} aria-busy={submitting} className="grid grid-cols-1 gap-5 px-6 py-5 md:grid-cols-2">
         <Field
           id="f-title"
           label="Incident title"
@@ -189,13 +204,13 @@ export function IncidentForm({
           <legend className="mb-1.5 text-sm font-medium text-slate-800">
             Workaround available<span className="ml-0.5 text-red-700" aria-hidden="true">*</span>
           </legend>
-          <div className="inline-flex rounded-md border border-slate-300 bg-slate-50 p-0.5 shadow-sm">
+          <div className="inline-flex rounded-md border border-slate-300 bg-canvas p-0.5 shadow-sm">
             {WORKAROUND_OPTIONS.map((option) => {
               const checked = values.workaround === option.value;
               return (
                 <label
                   key={option.value}
-                  className={`cursor-pointer rounded px-4 py-1.5 text-sm font-medium has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-sky-600 ${
+                  className={`cursor-pointer rounded px-4 py-1.5 text-[15px] font-normal has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-signal ${
                     checked ? "bg-slate-900 text-white shadow" : "text-slate-700 hover:bg-white"
                   } ${submitting ? "pointer-events-none opacity-60" : ""}`}
                 >
@@ -231,24 +246,25 @@ export function IncidentForm({
           <textarea {...area("diagnostic_evidence", "e.g. Authentication failures in sign-in logs", 3, evidenceHint)} />
         </Field>
 
-        <div className="flex flex-col-reverse gap-3 border-t border-slate-200 pt-4 sm:flex-row sm:items-center sm:justify-between md:col-span-2">
-          <p className="text-xs text-slate-500" aria-live="polite">
-            {blockedReason ?? "Severity is an AI suggestion. A human must review every result."}
-          </p>
-          <button
-            type="submit"
-            disabled={submitting || blockedReason !== null}
-            className="inline-flex items-center justify-center gap-2 rounded-md bg-sky-700 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-sky-800 disabled:cursor-not-allowed disabled:bg-slate-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-700"
-          >
-            {submitting && (
-              <span
-                aria-hidden="true"
-                className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white"
-              />
-            )}
-            {submitting ? "Analyzing…" : "Analyze incident"}
-          </button>
-        </div>
+        <Field
+          id="f-scope_check"
+          label="Scope check"
+          hint={scopeHint}
+          error={errors.scope_check}
+          className="md:col-span-2"
+        >
+          <textarea {...area("scope_check", "e.g. The service desk confirmed multiple affected users in one department", 2, scopeHint)} />
+        </Field>
+
+        <Field
+          id="f-additional_context"
+          label="Additional context"
+          error={errors.additional_context}
+          className="md:col-span-2"
+        >
+          <textarea {...area("additional_context", "e.g. The issue has not been reproduced on an unrelated endpoint", 2)} />
+        </Field>
+
       </form>
     </section>
   );

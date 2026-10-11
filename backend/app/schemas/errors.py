@@ -13,6 +13,8 @@ class ErrorBody(BaseModel):
     message: str
     request_id: str | None = None
     details: list[FieldError] | None = None
+    # Exact model output; only included when EXPOSE_RAW_OUTPUT is enabled.
+    raw_output: str | None = None
 
 
 class ErrorResponse(BaseModel):

@@ -5,7 +5,7 @@ const TONES: Record<StatusTone, { pill: string; dot: string }> = {
   danger: { pill: "border-red-400/50 bg-red-500/15 text-red-200", dot: "bg-red-400" },
   info: { pill: "border-sky-400/40 bg-sky-400/10 text-sky-200", dot: "bg-sky-400" },
   mock: { pill: "border-amber-300/60 bg-amber-300/15 text-amber-100", dot: "bg-amber-300" },
-  neutral: { pill: "border-slate-500/50 bg-slate-500/10 text-slate-300", dot: "bg-slate-400" },
+  neutral: { pill: "border-slate-500/50 bg-canvas0/10 text-slate-300", dot: "bg-slate-400" },
 };
 
 interface StatusPillProps {

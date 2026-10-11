@@ -1,19 +1,25 @@
 from __future__ import annotations
 
+import logging
+
 from fastapi import APIRouter, Depends, Path, Request
+from pydantic import ValidationError
 
 from app.api.deps import get_request_id
 from app.schemas.errors import ErrorResponse
+from app.schemas.incident import TriageRequest
 from app.schemas.ticket import (
     EvaluationResponse,
     NextTicketResponse,
     TicketAnalysisResponse,
+    TicketFullAnalysisResponse,
     TicketOut,
     TicketResultOut,
     TicketSessionResponse,
 )
 from app.services.ticket_queue import QueuedTicket, TicketAnalysis, TicketService
 
+logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/api/v1/tickets", tags=["tickets"])
 
 _UNAVAILABLE = {503: {"model": ErrorResponse, "description": "Ticket file missing or invalid"}}
@@ -21,6 +27,16 @@ _UNAVAILABLE = {503: {"model": ErrorResponse, "description": "Ticket file missin
 
 def get_ticket_service(request: Request) -> TicketService:
     return request.app.state.ticket_service
+
+
+def _incident(ticket: QueuedTicket) -> TriageRequest | None:
+    if not ticket.incident:
+        return None
+    try:
+        return TriageRequest(**ticket.incident)
+    except ValidationError:
+        logger.warning("Ticket incident fields invalid; review uses the description only", extra={"ticket_id": ticket.ticket_id})
+        return None
 
 
 def _ticket_out(ticket: QueuedTicket, total: int) -> TicketOut:
@@ -31,11 +47,21 @@ def _ticket_out(ticket: QueuedTicket, total: int) -> TicketOut:
         description=ticket.description,
         position=ticket.position,
         total=total,
+        incident=_incident(ticket),
     )
 
 
-def _result_out(r: TicketAnalysis) -> TicketResultOut:
+def _result_out(r: TicketAnalysis, *, include_triage: bool = False) -> TicketResultOut:
     return TicketResultOut(
+        mode=r.mode,  # type: ignore[arg-type]
+        predicted_category=r.predicted_category,
+        predicted_root_cause=r.predicted_root_cause,
+        expected_category=r.expected_category,
+        expected_root_cause=r.expected_root_cause,
+        category_correct=r.category_correct,
+        root_cause_correct=r.root_cause_correct,
+        triage_severity=r.triage_severity,
+        triage=r.full if include_triage else None,
         ticket_id=r.ticket_id,
         title=r.title,
         request_id=r.request_id,
@@ -82,7 +108,7 @@ def session(service: TicketService = Depends(get_ticket_service)) -> TicketSessi
         analyzed=snap["analyzed"],
         exhausted=snap["exhausted"],
         current=_ticket_out(current, snap["total"]) if current else None,
-        current_analysis=_result_out(analysis) if analysis else None,
+        current_analysis=_result_out(analysis, include_triage=True) if analysis else None,
     )
 
 
@@ -126,6 +152,39 @@ def analyze_ticket(
         created_at=r.analyzed_at,
         expected_severity=r.expected_severity,
         correct=r.correct,
+    )
+
+
+@router.post(
+    "/{ticket_id}/analyze/full",
+    response_model=TicketFullAnalysisResponse,
+    responses={
+        404: {"model": ErrorResponse, "description": "Unknown ticket_id"},
+        409: {"model": ErrorResponse, "description": "Ticket not issued in this session"},
+        500: {"model": ErrorResponse, "description": "Inference failed"},
+        502: {"model": ErrorResponse, "description": "Model returned invalid output"},
+        503: {"model": ErrorResponse, "description": "Provider, triage adapter or ticket queue unavailable"},
+        504: {"model": ErrorResponse, "description": "Generation exceeded TRIAGE_TIMEOUT_S"},
+    },
+)
+def analyze_ticket_full(
+    ticket_id: str = Path(min_length=1, max_length=64, pattern=r"^[A-Za-z0-9_.-]+$"),
+    service: TicketService = Depends(get_ticket_service),
+    request_id: str = Depends(get_request_id),
+) -> TicketFullAnalysisResponse:
+    """Five-field analysis of a queued ticket. The model receives the description only."""
+    r = service.analyze_full(ticket_id, request_id=request_id)
+    if r.full is None or r.correct is None:
+        raise RuntimeError("analyze_full() returned without an analysis")  # unreachable: invalid output raises
+    return TicketFullAnalysisResponse(
+        ticket_id=r.ticket_id,
+        triage=r.full,
+        expected_severity=r.expected_severity,
+        expected_category=r.expected_category,
+        expected_root_cause=r.expected_root_cause,
+        severity_correct=r.correct,
+        category_correct=r.category_correct,
+        root_cause_correct=r.root_cause_correct,
     )
 
 

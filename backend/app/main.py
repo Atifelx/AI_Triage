@@ -15,9 +15,10 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app import __version__
 from app.api.errors import register_exception_handlers
-from app.api.routes import health, tickets, triage
+from app.api.routes import examples, health, integrations, tickets, triage
 from app.core.config import Settings, get_settings
 from app.core.logging import configure_logging
+from app.services.integrations.service import IntegrationService
 from app.services.providers.base import InferenceProvider
 from app.services.providers.factory import build_provider
 from app.services.ticket_queue import TicketQueue, TicketService
@@ -34,8 +35,14 @@ def create_app(
     settings = settings or get_settings()
     configure_logging(settings.log_level)
     provider = provider or build_provider(settings)
-    service = TriageService(provider, history_size=settings.history_size)
-    ticket_service = TicketService(TicketQueue.from_file(settings.resolved_tickets_path), provider)
+    service = TriageService(
+        provider,
+        history_size=settings.history_size,
+        severity_cross_check=settings.severity_cross_check,
+        expose_raw_output=settings.expose_raw_output,
+        triage_adapter_dir=settings.resolved_triage_adapter_path,
+    )
+    ticket_service = TicketService(TicketQueue.from_file(settings.resolved_tickets_path), provider, service)
 
     @asynccontextmanager
     async def lifespan(app: FastAPI):
@@ -60,6 +67,7 @@ def create_app(
     app.state.settings = settings
     app.state.triage_service = service
     app.state.ticket_service = ticket_service
+    app.state.integration_service = IntegrationService()
 
     app.add_middleware(
         CORSMiddleware,
@@ -92,6 +100,8 @@ def create_app(
     app.include_router(health.router)
     app.include_router(triage.router)
     app.include_router(tickets.router)
+    app.include_router(integrations.router)
+    app.include_router(examples.router)
     return app
 
 

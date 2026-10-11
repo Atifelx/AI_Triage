@@ -2,10 +2,18 @@ import type {
   ErrorEnvelope,
   EvaluationResponse,
   FieldError,
+  FullTriageResponse,
+  DispatchPreview,
+  DispatchRequest,
+  DispatchResult,
+  IntegrationsCatalog,
+  ExamplesResponse,
+  TicketFullAnalysis,
   HealthResponse,
   NextTicketResponse,
   TicketAnalysisResponse,
   TicketSession,
+  TriageEvaluationResponse,
   TriageRequest,
   TriageResponse,
 } from "./types";
@@ -28,6 +36,8 @@ export type ApiErrorKind =
   | "not_found" // 404
   | "conflict" // 409 ticket_not_issued
   | "queue_unavailable" // 503 tickets_unavailable
+  | "triage_unavailable" // 503 triage_unavailable (no five-field adapter loaded)
+  | "timeout" // 504 inference_timeout (generation hit the time limit)
   | "unknown";
 
 export class ApiError extends Error {
@@ -38,6 +48,8 @@ export class ApiError extends Error {
     public readonly code: string | null = null,
     public readonly requestId: string | null = null,
     public readonly fieldErrors: FieldError[] = [],
+    /** Raw model output; only sent by the backend in development (EXPOSE_RAW_OUTPUT). */
+    public readonly rawOutput: string | null = null,
   ) {
     super(message);
     this.name = "ApiError";
@@ -59,6 +71,8 @@ const KIND_BY_CODE: Record<string, ApiErrorKind> = {
   not_found: "not_found",
   ticket_not_issued: "conflict",
   tickets_unavailable: "queue_unavailable",
+  triage_unavailable: "triage_unavailable",
+  inference_timeout: "timeout",
 };
 
 function isErrorEnvelope(value: unknown): value is ErrorEnvelope {
@@ -98,7 +112,7 @@ async function request<T>(path: string, init: RequestOptions, timeoutMs: number)
     const timedOut = controller.signal.aborted && !outerSignal?.aborted;
     if (outerSignal?.aborted) throw err; // caller cancelled; not an API failure
     throw new ApiError(
-      "network",
+      timedOut ? "timeout" : "network",
       timedOut
         ? "The backend did not respond in time."
         : `Cannot reach the triage API at ${API_BASE_URL}. Check that the backend is running.`,
@@ -123,7 +137,7 @@ async function request<T>(path: string, init: RequestOptions, timeoutMs: number)
   }
 
   if (isErrorEnvelope(body)) {
-    const { code, message, request_id, details } = body.error;
+    const { code, message, request_id, details, raw_output } = body.error;
     throw new ApiError(
       KIND_BY_CODE[code] ?? "unknown",
       message,
@@ -131,6 +145,7 @@ async function request<T>(path: string, init: RequestOptions, timeoutMs: number)
       code,
       request_id ?? null,
       details ?? [],
+      raw_output ?? null,
     );
   }
   throw new ApiError("unknown", `Unexpected response from the backend (HTTP ${response.status}).`, response.status);
@@ -151,6 +166,45 @@ export function submitTriage(payload: TriageRequest, signal?: AbortSignal): Prom
     },
     TRIAGE_TIMEOUT_MS,
   );
+}
+
+/** Five-field analysis from the incident-triage adapter. */
+export function submitFullTriage(payload: TriageRequest, signal?: AbortSignal): Promise<FullTriageResponse> {
+  return request<FullTriageResponse>(
+    "/api/v1/triage/full",
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+      signal,
+    },
+    TRIAGE_TIMEOUT_MS,
+  );
+}
+
+export function getTriageEvaluation(signal?: AbortSignal): Promise<TriageEvaluationResponse> {
+  return request<TriageEvaluationResponse>("/api/v1/triage/evaluation", { method: "GET", signal }, HEALTH_TIMEOUT_MS);
+}
+
+// ---- Post-review routing ----------------------------------------------------
+
+const json = (body: unknown) => ({
+  method: "POST" as const,
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(body),
+});
+
+export function getIntegrations(signal?: AbortSignal): Promise<IntegrationsCatalog> {
+  return request<IntegrationsCatalog>("/api/v1/integrations", { method: "GET", signal }, HEALTH_TIMEOUT_MS);
+}
+
+/** Routing plan and exact API requests for an approved ticket (no side effects). */
+export function previewDispatch(body: DispatchRequest): Promise<DispatchPreview> {
+  return request<DispatchPreview>("/api/v1/dispatch/preview", json(body), HEALTH_TIMEOUT_MS);
+}
+
+export function dispatchTicket(body: DispatchRequest): Promise<DispatchResult> {
+  return request<DispatchResult>("/api/v1/dispatch", json(body), HEALTH_TIMEOUT_MS);
 }
 
 export function getTriage(requestId: string, signal?: AbortSignal): Promise<TriageResponse> {
@@ -183,6 +237,19 @@ export function analyzeTicket(ticketId: string, signal?: AbortSignal): Promise<T
     { method: "POST", signal },
     TRIAGE_TIMEOUT_MS,
   );
+}
+
+/** Five-field analysis of a queued ticket (reference labels attached after inference). */
+export function analyzeTicketFull(ticketId: string, signal?: AbortSignal): Promise<TicketFullAnalysis> {
+  return request<TicketFullAnalysis>(
+    `/api/v1/tickets/${encodeURIComponent(ticketId)}/analyze/full`,
+    { method: "POST", signal },
+    TRIAGE_TIMEOUT_MS,
+  );
+}
+
+export function getExamples(signal?: AbortSignal): Promise<ExamplesResponse> {
+  return request<ExamplesResponse>("/api/v1/examples", { method: "GET", signal }, HEALTH_TIMEOUT_MS);
 }
 
 export function getEvaluation(signal?: AbortSignal): Promise<EvaluationResponse> {

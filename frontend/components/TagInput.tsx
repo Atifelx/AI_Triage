@@ -50,14 +50,14 @@ export function TagInput({
       className={`flex min-h-[42px] flex-wrap items-center gap-1.5 rounded-md border bg-white px-2 py-1.5 shadow-sm focus-within:ring-2 ${
         invalid
           ? "border-red-500 focus-within:ring-red-200"
-          : "border-slate-300 focus-within:border-sky-600 focus-within:ring-sky-100"
-      } ${disabled ? "bg-slate-50" : ""}`}
+          : "border-slate-300 focus-within:border-signal focus-within:ring-sky-100"
+      } ${disabled ? "bg-canvas" : ""}`}
     >
       <ul className="contents" aria-label={`Selected ${itemName}s`}>
         {values.map((value, index) => (
           <li
             key={`${value}-${index}`}
-            className="inline-flex items-center gap-1 rounded bg-slate-100 py-0.5 pl-2 pr-1 text-xs font-medium text-slate-800 ring-1 ring-slate-200"
+            className="inline-flex items-center gap-1 rounded bg-slate-100 py-0.5 pl-2 pr-1 text-sm font-normal text-ink ring-1 ring-slate-200"
           >
             {value}
             <button
@@ -65,7 +65,7 @@ export function TagInput({
               disabled={disabled}
               onClick={() => onChange(values.filter((_, i) => i !== index))}
               aria-label={`Remove ${itemName} ${value}`}
-              className="grid h-4 w-4 place-items-center rounded text-slate-500 hover:bg-slate-200 hover:text-slate-900 focus-visible:outline-2 focus-visible:outline-sky-600"
+              className="grid h-4 w-4 place-items-center rounded text-muted hover:bg-slate-200 hover:text-ink focus-visible:outline-2 focus-visible:outline-signal"
             >
               <span aria-hidden="true">×</span>
             </button>
@@ -87,7 +87,7 @@ export function TagInput({
         }}
         onKeyDown={onKeyDown}
         onBlur={() => draft.trim() && commit(draft)}
-        className="min-w-[8rem] flex-1 border-0 bg-transparent px-1 py-0.5 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none"
+        className="min-w-[8rem] flex-1 border-0 bg-transparent px-1 py-0.5 text-[16px] text-ink placeholder:text-slate-400 focus:outline-none"
       />
     </div>
   );

@@ -11,7 +11,7 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from app.schemas.incident import Severity
+from app.schemas.incident import FullTriageResponse, Severity, TriageRequest
 
 
 class TicketOut(BaseModel):
@@ -20,6 +20,9 @@ class TicketOut(BaseModel):
     description: str
     position: int = Field(description="1-based position in the queue")
     total: int
+    incident: TriageRequest | None = Field(
+        default=None, description="Structured fields for the review ticket; the model receives `description` only"
+    )
 
 
 class NextTicketResponse(BaseModel):
@@ -47,6 +50,28 @@ class TicketResultOut(BaseModel):
     is_mock: bool
     inference_ms: float | None
     analyzed_at: datetime
+    mode: Literal["severity", "full"] = "severity"
+    predicted_category: str | None = None
+    predicted_root_cause: str | None = None
+    expected_category: str | None = None
+    expected_root_cause: str | None = None
+    category_correct: bool | None = None
+    root_cause_correct: bool | None = None
+    triage_severity: Severity | None = Field(default=None, description="Triage adapter's own severity (full mode)")
+    triage: FullTriageResponse | None = Field(default=None, description="Full analysis (session view only)")
+
+
+class TicketFullAnalysisResponse(BaseModel):
+    """POST /api/v1/tickets/{ticket_id}/analyze/full — reference labels attached after inference."""
+
+    ticket_id: str
+    triage: FullTriageResponse
+    expected_severity: Severity
+    expected_category: str | None
+    expected_root_cause: str | None
+    severity_correct: bool
+    category_correct: bool | None
+    root_cause_correct: bool | None
 
 
 class TicketAnalysisResponse(BaseModel):
@@ -91,5 +116,9 @@ class EvaluationResponse(BaseModel):
     labels: list[Severity]
     confusion_matrix: dict[str, dict[str, int]] = Field(
         description="rows = expected severity, columns = predicted severity plus 'invalid'"
+    )
+    full_analyzed: int = 0
+    field_metrics: dict[str, dict[str, int]] = Field(
+        default_factory=dict, description="Full-mode accuracy per field: {correct, total}"
     )
     results: list[TicketResultOut]

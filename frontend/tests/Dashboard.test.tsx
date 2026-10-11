@@ -22,7 +22,8 @@ describe("Dashboard", () => {
     expect(within(status()).getByText("Mock")).toBeInTheDocument();
     expect(within(status()).getByText("Mock mode · no model")).toBeInTheDocument();
 
-    await user.click(screen.getByRole("button", { name: "Load sample incident" }));
+    await user.click(screen.getByRole("button", { name: "Load example" }));
+    await screen.findByDisplayValue("Microsoft 365 sign-in failures");
     await user.click(analyze());
 
     expect(await screen.findByText("MOCK RESULT")).toBeInTheDocument();
@@ -55,7 +56,8 @@ describe("Dashboard", () => {
     });
     renderInShell(<Dashboard />);
     await screen.findByText(/MOCK INFERENCE ACTIVE/);
-    await user.click(screen.getByRole("button", { name: "Load sample incident" }));
+    await user.click(screen.getByRole("button", { name: "Load example" }));
+    await screen.findByDisplayValue("Microsoft 365 sign-in failures");
     await user.click(analyze());
 
     expect(analyze()).toBeDisabled();
@@ -84,7 +86,8 @@ describe("Dashboard", () => {
     await waitFor(() => expect(within(status()).getByText("Ready")).toBeInTheDocument());
     expect(screen.queryByText(/MOCK INFERENCE ACTIVE/)).not.toBeInTheDocument();
 
-    await user.click(screen.getByRole("button", { name: "Load sample incident" }));
+    await user.click(screen.getByRole("button", { name: "Load example" }));
+    await screen.findByDisplayValue("Microsoft 365 sign-in failures");
     await user.click(analyze());
     expect(await screen.findByText("Model returned invalid output")).toBeInTheDocument();
 
@@ -108,7 +111,8 @@ describe("Dashboard", () => {
     });
     renderInShell(<Dashboard />);
     await screen.findByText(/MOCK INFERENCE ACTIVE/);
-    await user.click(screen.getByRole("button", { name: "Load sample incident" }));
+    await user.click(screen.getByRole("button", { name: "Load example" }));
+    await screen.findByDisplayValue("Microsoft 365 sign-in failures");
     await user.click(analyze());
 
     expect(await screen.findByText("Value error, duplicate entry: 'Pune'")).toBeInTheDocument();

@@ -1,10 +1,10 @@
 # Enterprise AI Incident Triage
 
-Incident Model · Gemma OpenWeight. A working IT incident severity triage application built on a fine-tuned Gemma 3 270M model:
+**TriageLens.** An IT incident triage application built on a fine-tuned Gemma 3 270M model with two LoRA adapters:
 
-- **`backend/`**: FastAPI service with a provider-based inference layer. The providers are `mock` (synthetic) and `gemma` (Gemma 3 270M IT plus the project's fine-tuned severity LoRA adapter).
-- **`frontend/`**: Next.js (App Router, TypeScript, Tailwind CSS) operations dashboard with three views: manual triage, a ticket queue, and model evaluation. It talks to the backend over HTTP only.
-- **`training/`**: the scripts and synthetic datasets used to train and evaluate the adapter.
+- **`backend/`**: FastAPI service with a provider-based inference layer. The providers are `mock` (synthetic) and `gemma` (Gemma 3 270M IT with the fine-tuned **severity** adapter and the five-field **triage** adapter attached to one base model). It also routes human-approved incidents to Slack, Microsoft Teams, Jira, ServiceNow and a CRM (sandbox mode).
+- **`frontend/`**: Next.js (App Router, TypeScript, Tailwind CSS) console with six views: Home, Manual triage, Ticket queue, Reviews, Evaluation and Integrations. It talks to the backend over HTTP only.
+- **`training/`**: the scripts and synthetic datasets used to train and evaluate the adapters.
 
 ## Documentation
 
@@ -12,10 +12,12 @@ Incident Model · Gemma OpenWeight. A working IT incident severity triage applic
 |---|---|
 | **[docs/USER_GUIDE.md](docs/USER_GUIDE.md)** | **Start here.** Install, download the model, run, use each screen, troubleshoot |
 | [docs/MODEL_DEVELOPMENT.md](docs/MODEL_DEVELOPMENT.md) | How the model was built: model choice, data, input/output, LoRA training, loss, results, limitations |
-| [backend/models/gemma3-270m-severity/README.md](backend/models/gemma3-270m-severity/README.md) | Model card |
+| [backend/models/gemma3-270m-severity/README.md](backend/models/gemma3-270m-severity/README.md) | Model card: severity adapter |
+| [backend/models/gemma3-270m-triage-v3/README.md](backend/models/gemma3-270m-triage-v3/README.md) | Model card: five-field triage adapter |
+| [docs/FINE_TUNING_CASE_STUDY.md](docs/FINE_TUNING_CASE_STUDY.md) | Fine-tuning case study: journey, metrics, model choice |
 | [training/README.md](training/README.md) | Training scripts and datasets; how to retrain |
 
-The application predicts **severity only** (P1–P4). It does not produce confidence scores, root causes or recommendations, because the model does not produce them. Every result requires human review.
+Each full analysis returns **category, severity, root cause, proof and recommended actions**. Severity comes from the dedicated severity adapter; the other fields come from the triage adapter (see [Full triage, review and routing](#full-triage-review-and-routing)). There are no confidence scores. Every result goes to a human reviewer before it reaches a team.
 
 **What's in git and what's downloaded.** The repository contains all code, the fine-tuned **LoRA adapter** (`backend/models/gemma3-270m-severity/adapter`, 35 MB) and the base model's config files. The base model **weights** (511 MB, too large for git) are downloaded once by `backend/scripts/download_model.py`. The script installs them only if their SHA-256 matches the committed checksum, so every installation runs exactly the model that was trained and evaluated.
 
@@ -28,10 +30,16 @@ backend/
   app/api/routes/triage.py        POST /api/v1/triage, GET /api/v1/triage/{request_id}
   app/api/routes/tickets.py       ticket queue: next / session / reset / analyze / evaluation
   app/services/ticket_queue.py    JSONL loader + validation, session queue, post-inference evaluation
-  data/tickets.jsonl              local ticket queue (50 tickets)
-  models/gemma3-270m-severity/    THE TRAINED MODEL: README (model card), NOTICE, SHA256SUMS
+  app/api/routes/examples.py      GET /api/v1/examples (50 held-out manual-triage examples)
+  app/api/routes/integrations.py  GET /api/v1/integrations, POST /api/v1/dispatch[/preview]
+  app/services/triage_parser.py   five-field output validation + post-hoc checks (taxonomy, proof grounding)
+  app/services/integrations/      routing rules (team directory, severity fan-out) + vendor connectors
+  data/tickets.jsonl              local ticket queue (120 held-out tickets)
+  data/examples.jsonl             manual-triage examples (50 held-out incidents)
+  models/gemma3-270m-severity/    SEVERITY MODEL: README (model card), NOTICE, SHA256SUMS
     adapter/                      fine-tuned severity LoRA adapter (35 MB, in git)
     base/                         Google's config files (in git) + weights (511 MB, downloaded)
+  models/gemma3-270m-triage-v3/   TRIAGE MODEL: five-field LoRA adapter (2.8 MB) + offline evaluation
   app/api/errors.py               uniform error envelope (no stack traces / paths)
   app/schemas/                    Pydantic request/response/error/health contracts
   app/services/triage_service.py  maps API <-> provider, in-memory result history
@@ -40,17 +48,22 @@ backend/
     base.py                       InferenceProvider interface (readiness, timing, error wrapping, validation)
     mock_provider.py              MockInferenceProvider (synthetic rule, clearly labelled)
     gemma_provider.py             GemmaSeverityProvider (Transformers + PEFT, background load)
-    gemma_prompt.py               training-format prompt construction
+    gemma_prompt.py               training-format prompt construction (severity adapter, form rendering)
+    gemma_triage_prompt.py        triage-adapter prompt profiles (v3, incident_lora) + taxonomy
     factory.py                    builds the configured provider; never falls back
   tests/                          pytest suite (no model weights needed)
   scripts/download_model.py       fetches + checksum-verifies the base weights (stdlib only)
   scripts/smoke_test.py           end-to-end check against a running API (stdlib only)
   scripts/verify_gemma_provider.py loads the REAL provider and checks it (no FastAPI needed)
   scripts/queue_smoke_test.py     walks the whole ticket queue through a running API
+  scripts/trial_adapters.py       raw output of every adapter on held-out + form incidents
+  scripts/trial_form_rendering.py measures how form-to-prompt rendering affects accuracy
+  scripts/build_demo_data.py      builds tickets.jsonl / examples.jsonl from held-out splits only
 training/                         training scripts, datasets and eval reports (copy of the original training repo)
 frontend/
-  app/                            layout (shared shell) + pages: / (manual triage), /queue, /evaluation
-  components/                     header, status pills, banners, form, results, recent activity
+  app/                            layout + pages: / (home), /triage, /queue, /reviews, /evaluation, /integrations
+  components/                     sidebar, page layout, form, full-triage result (severity ladder, RCA,
+                                  proof, recommendations), review modal + queue, dispatch previews
   hooks/useHealth.ts              health polling (API status and model readiness tracked separately)
   lib/api.ts, lib/types.ts        typed API client + contract types
   lib/validation.ts               client-side validation mirroring backend limits
@@ -168,6 +181,7 @@ To verify an installed model at any time: `cd backend/models/gemma3-270m-severit
    MODEL_ID=google/gemma-3-270m-it
    BASE_MODEL_PATH=models/gemma3-270m-severity/base
    ADAPTER_PATH=models/gemma3-270m-severity/adapter
+   TRIAGE_ADAPTER_PATH=models/gemma3-270m-triage-v3/adapter   # enables full triage
    DEVICE=auto
    ```
    After the download, the base model and adapter are both loaded from `backend/models/`, offline. This was verified with an empty Hugging Face cache and offline mode forced. Set `BASE_MODEL_PATH=` (empty) to have transformers fetch `MODEL_ID` from Hugging Face instead; that needs an HF token for the gated Google repo.
@@ -189,13 +203,44 @@ The prompt follows `scripts/train_severity_lora.py` exactly:
 
 The API takes structured fields, but the training inputs were single narrative paragraphs ("… Business impact: … Diagnostic evidence: … Scope check: …"). `render_incident_text()` maps the structured fields onto that layout.
 
+## Full triage, review and routing
+
+**Two adapters, one base model.** The base weights are loaded once; both LoRA adapters are attached and switched per request (`set_adapter`). Each full analysis makes two calls:
+
+| Adapter | Answers | Held-out accuracy (synthetic) |
+|---|---|---|
+| `gemma3-270m-triage-v3` | category, root cause, proof (`evidence`), recommended actions | category 100%, root cause 100% (n=100) |
+| `gemma3-270m-severity` | **severity** (shown, used for routing and evaluation) | 100% (50/50 examples, live API) |
+
+The triage adapter's own severity (≈45% on held-out data) is returned as `triage_severity` and shown for comparison only. If the severity adapter fails, the response falls back to the triage adapter's severity and says so.
+
+**Prompt layout matters.** `scripts/trial_form_rendering.py` measured, on 60 held-out rows: the earlier form rendering (title + service + "N affected users") cut severity accuracy to **53%**; rendering the form in the training layout (`narrative. Business impact. Diagnostic evidence. Scope check. Additional context.`) restores **100%**. The form therefore has optional *Scope check* and *Additional context* fields; when empty, the scope sentence is derived from the scope fields in the training phrasing.
+
+**Review workflow.** Every full analysis (manual or queue) creates a review ticket automatically: *Pending review → In review → Approved / Rejected → With team*. On approval the AI category picks the owning team and the final severity picks the systems (P1: ServiceNow, Jira, Slack `#major-incidents` + team channel, Teams bridge, CRM; P2: ServiceNow, Jira, team Slack, CRM; P3: ServiceNow, Jira; P4: ServiceNow).
+
+**Integrations run in sandbox mode.** Each connector builds the exact vendor request (Slack `chat.postMessage` Block Kit, Teams Adaptive Card, Jira REST v3, ServiceNow Table API, Salesforce Case) and records it in an in-memory outbox with a receipt. No network call is made. Going live means adding the HTTP call and credentials in `app/services/integrations/connectors.py`; the Integrations page lists the steps per vendor.
+
+| Endpoint | Purpose |
+|---|---|
+| `POST /api/v1/triage/full` | Five-field analysis + severity (and `severity_source`, `triage_severity`, proof grounding, uncertainty notes) |
+| `GET /api/v1/triage/evaluation` | Offline metrics shipped with the triage adapter, or `available: false` |
+| `POST /api/v1/tickets/{id}/analyze/full` | Full analysis of a queued ticket; reference labels attached after inference |
+| `GET /api/v1/examples` | 50 held-out manual-triage examples (labels shown only after inference) |
+| `GET /api/v1/integrations` | Connectors, team directory, severity routing rules |
+| `POST /api/v1/dispatch/preview` · `POST /api/v1/dispatch` | Routing plan and vendor payloads for an approved ticket · sandbox delivery with receipts |
+
 ## Ticket queue and evaluation
 
-The dashboard has three views, shown as tabs in the header:
+The console's views are in the sidebar:
 
-- **Manual triage** (`/`): the incident form.
-- **Ticket queue** (`/queue`): one ticket at a time from `backend/data/tickets.jsonl`, with **Analyze** and **Next Ticket** buttons.
-- **Evaluation** (`/evaluation`): predicted versus expected severity, accuracy, and a confusion matrix for the tickets analyzed in this session.
+- **Home** (`/`): starting points, model status and measured accuracy.
+- **Manual triage** (`/triage`): the incident form; **Load example** deals one of 50 held-out incidents, never repeating until all 50 are shown.
+- **Ticket queue** (`/queue`): one of 120 held-out tickets at a time, with **Analyze** (full or severity-only) and **Next Ticket**.
+- **Reviews** (`/reviews`): the human review and routing workflow.
+- **Evaluation** (`/evaluation`): severity accuracy and confusion matrix for this session, plus category/root-cause accuracy for full analyses.
+- **Integrations** (`/integrations`): routing rules, team directory and go-live steps per connector.
+
+The queue and examples come only from the held-out validation and test splits (`scripts/build_demo_data.py`); neither adapter trained on them.
 
 How the queue behaves:
 
@@ -237,6 +282,13 @@ cd ~/Desktop/AI_Triage/backend && ~/AI-Lab/.venv/bin/python scripts/queue_smoke_
 | `MOCK_LATENCY_MS` | `400` | artificial delay so loading states are visible |
 | `HISTORY_SIZE` | `200` | in-memory results for `GET /api/v1/triage/{id}` (lost on restart) |
 | `TICKETS_PATH` | `data/tickets.jsonl` | ticket queue JSONL; relative to `backend/` |
+| `EXAMPLES_PATH` | `data/examples.jsonl` | manual-triage examples; relative to `backend/` |
+| `TRIAGE_ADAPTER_PATH` | *(empty: full triage off)* | five-field adapter, e.g. `models/gemma3-270m-triage-v3/adapter` |
+| `TRIAGE_PROMPT_FORMAT` | `v3` | `v3` or `incident_lora`: the layout the triage adapter was trained on |
+| `TRIAGE_MAX_NEW_TOKENS` | `192` | training targets are at most 109 tokens |
+| `TRIAGE_TIMEOUT_S` | `120` | generation limit; exceeding it returns `504 inference_timeout` |
+| `SEVERITY_CROSS_CHECK` | `true` | run the severity adapter for every full analysis (its answer is the severity shown) |
+| `EXPOSE_RAW_OUTPUT` | `false` | development only: include raw generated text in responses and invalid-output errors |
 
 | Frontend (`frontend/.env.local`) | Default |
 |---|---|
@@ -293,7 +345,14 @@ The backend and frontend are independent processes. Model and adapter locations 
 
 The API contract is identical between local and cloud. No Azure resources, containers or authentication are included in this phase.
 
-## Verification status (2026-10-10)
+## Verification status (2026-10-11)
+
+- `pytest`: **214 passed**. `npm test`: **57 passed**; `npm run typecheck` clean. `npm run build` was not re-run for this change.
+- Real model on MPS through the HTTP API: 50 manual examples → valid JSON, category, root cause and severity **50/50**; 16 queue tickets in full mode → category, root cause, severity **16/16**, 0 invalid outputs.
+- Routing: a P1 approval produced 6 sandbox deliveries (ServiceNow, Jira, Slack ×2, Teams, CRM) with receipts.
+- The UI was checked through tests and served routes (all 200); it was not inspected in a browser by the automated checks.
+
+## Verification status (2026-10-10, severity-only release)
 
 **Backend:**
 - `pytest`: **140 passed** (includes download-script and missing-weights tests).
@@ -315,6 +374,8 @@ The API contract is identical between local and cloud. No Azure resources, conta
 
 ## Known limitations
 
-- **Free-form input generalization.** The adapter was trained on templated synthetic text. In a probe with four hand-written structured incidents, the real model returned P3 for clearly P1-like and P2-like scopes, P3 for a P3-like incident and P4 for a P4-like one. The provider integration works, but severity quality on free-form structured input has **not** been evaluated and looks weak. Improving it needs data or rendering changes plus a proper evaluation; it cannot be fixed in the app.
+- **Synthetic data.** All accuracy figures come from templated synthetic tickets. The form-rendering fix restored 100% on held-out examples, but hand-written, free-form incidents remain out of distribution (e.g. the triage adapter can return a category outside the taxonomy, which is rejected as `invalid_model_output`). Real-world accuracy needs an evaluation on labelled real tickets.
+- **Integrations are sandboxed.** Connectors build real vendor payloads but do not send them; receipts are sandbox references.
+- **Review tickets live in the browser tab** (lost on reload); the dispatch outbox lives in backend memory.
 - Results history lives in process memory: it is per-process and lost on restart. There is no database or authentication by design.
 - Generation is serialized with a lock, so one request is processed at a time per process.

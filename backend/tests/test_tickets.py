@@ -283,8 +283,14 @@ def test_missing_ticket_file(make_client, tmp_path):
 
 def test_shipped_ticket_file_is_valid():
     tickets = load_tickets(BACKEND_DIR / "data" / "tickets.jsonl")
-    assert len(tickets) == 50
-    assert len({t.ticket_id for t in tickets}) == 50
+    assert len(tickets) == 120
+    assert len({t.ticket_id for t in tickets}) == 120
+    assert len({t.description for t in tickets}) == 120
+    assert all(t.expected_category and t.expected_root_cause for t in tickets)
+    training = BACKEND_DIR.parent / "training" / "data" / "incident_train_v3.jsonl"
+    if training.is_file():  # held-out only: no ticket may come from the training split
+        trained = {json.loads(line)["input"] for line in training.read_text().splitlines() if line.strip()}
+        assert not trained & {t.description for t in tickets}
 
 
 def test_concurrent_next_calls_never_duplicate(make_client, tickets_file):

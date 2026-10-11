@@ -1,7 +1,13 @@
-"""GemmaSeverityProvider — Gemma 3 270M IT + severity LoRA adapter.
+"""GemmaSeverityProvider — Gemma 3 270M IT + severity LoRA adapter
+(+ optional incident-triage LoRA adapter).
 
 * Loads base model + PEFT adapter exactly once, in a background thread started at
   application startup (`start()`), so /health can truthfully report "loading".
+* When TRIAGE_ADAPTER_PATH is set, the five-field triage adapter is attached to the
+  SAME base model as a second named adapter ("triage"); generation switches the
+  active adapter per request. The base weights are never loaded twice. A triage
+  adapter that fails to load disables full triage only (reported via
+  `triage_capability()`); severity inference keeps working.
 * Device: auto -> cuda -> mps -> cpu. An explicitly requested device that is not
   available is a load failure (no silent device switch).
 * eval() + torch.inference_mode() + greedy decoding (do_sample=False).
@@ -14,24 +20,31 @@ without them when INFERENCE_PROVIDER=mock.
 
 from __future__ import annotations
 
+import json
 import logging
 import threading
 import time
 from pathlib import Path
 from typing import Any
 
-from app.services.errors import InferenceFailedError
+from app.services.errors import InferenceFailedError, InferenceTimeoutError
 from app.services.providers.base import (
     IncidentInput,
     InferenceProvider,
     ProviderState,
     ProviderStatus,
+    TriageCapability,
 )
 from app.services.providers.gemma_prompt import (
     TRAINING_MAX_LENGTH,
     build_chat_messages,
     build_text_chat_messages,
+    render_incident_text,
 )
+from app.services.providers.gemma_triage_prompt import TriageProfile
+
+SEVERITY_ADAPTER = "severity"
+TRIAGE_ADAPTER = "triage"
 
 logger = logging.getLogger(__name__)
 
@@ -82,6 +95,10 @@ class GemmaSeverityProvider(InferenceProvider):
         base_model_path: Path | None = None,
         device: str = "auto",
         max_new_tokens: int = 32,
+        triage_adapter_path: Path | None = None,
+        triage_profile: TriageProfile | None = None,
+        triage_max_new_tokens: int = 192,
+        triage_timeout_s: float | None = None,
     ) -> None:
         self._base_model_id = base_model_id
         # Local copy of the base weights; None -> resolve base_model_id via the HF hub/cache.
@@ -100,11 +117,40 @@ class GemmaSeverityProvider(InferenceProvider):
         self._torch: Any = None
         self._tokenizer: Any = None
         self._model: Any = None
+        self._eos_ids: set[int] = set()
+
+        self._triage_path = triage_adapter_path
+        self._triage_profile = triage_profile
+        self._triage_max_new_tokens = triage_max_new_tokens
+        self._triage_timeout_s = triage_timeout_s
+        self._triage_loaded = False
+        self._triage_detail: str | None = (
+            "No incident-triage adapter configured (TRIAGE_ADAPTER_PATH is empty)."
+            if triage_adapter_path is None
+            else "Triage adapter has not been loaded yet."
+        )
 
     # ------------------------------------------------------------------ identity
     @property
     def model_id(self) -> str:
         return f"{self._base_model_id} + LoRA:{adapter_label(self._adapter_path)}"
+
+    def triage_capability(self) -> TriageCapability:
+        if self._triage_path is None:
+            return TriageCapability(available=False, detail=self._triage_detail)
+        label = adapter_label(self._triage_path)
+        with self._state_lock:
+            loaded, detail = self._triage_loaded, self._triage_detail
+        return TriageCapability(
+            available=loaded,
+            adapter=label,
+            model_id=f"{self._base_model_id} + LoRA:{label}",
+            prompt_format=self._triage_profile.name if self._triage_profile else None,
+            detail=detail,
+        )
+
+    def triage_profile(self) -> TriageProfile | None:
+        return self._triage_profile
 
     # ------------------------------------------------------------------ lifecycle
     def start(self) -> None:
@@ -234,12 +280,53 @@ class GemmaSeverityProvider(InferenceProvider):
             local_files_only=self._base_model_path is not None,
         )
         base.to(device)
-        model = PeftModel.from_pretrained(base, str(adapter))
+        model = PeftModel.from_pretrained(base, str(adapter), adapter_name=SEVERITY_ADAPTER)
+        self._load_triage_adapter(model)
+        model.set_adapter(SEVERITY_ADAPTER)
         model.eval()
 
+        eos = model.generation_config.eos_token_id
+        self._eos_ids = set(eos if isinstance(eos, list) else [eos]) - {None}
         self._torch = torch
         self._tokenizer = tokenizer
         self._model = model
+
+    def _load_triage_adapter(self, model: Any) -> None:
+        """Attach the five-field triage adapter to the already-loaded base model.
+
+        Failure is reported through triage_capability() and never takes down the
+        severity provider. The adapter must have been trained on the same base model.
+        """
+        path = self._triage_path
+        if path is None:
+            return
+        detail: str | None = None
+        try:
+            if self._triage_profile is None:
+                detail = "TRIAGE_PROMPT_FORMAT is not set, so the triage adapter cannot be prompted."
+            elif not path.is_dir() or not (path / "adapter_config.json").is_file():
+                detail = "Triage adapter directory not found or has no adapter_config.json. Check TRIAGE_ADAPTER_PATH."
+            else:
+                config = json.loads((path / "adapter_config.json").read_text(encoding="utf-8"))
+                trained_on = str(config.get("base_model_name_or_path", ""))
+                if trained_on and trained_on != self._base_model_id:
+                    detail = (
+                        f"Triage adapter was trained on '{trained_on}', not the configured base model "
+                        f"'{self._base_model_id}'."
+                    )
+                else:
+                    model.load_adapter(str(path), adapter_name=TRIAGE_ADAPTER)
+        except Exception as exc:  # noqa: BLE001 - keep severity serving
+            logger.exception("Triage adapter failed to load")
+            detail = f"Triage adapter failed to load ({type(exc).__name__}). See backend logs."
+
+        with self._state_lock:
+            self._triage_loaded = detail is None
+            self._triage_detail = detail or "Triage adapter loaded."
+        if detail:
+            logger.error("Triage adapter unavailable", extra={"reason": detail, "adapter": str(path)})
+        else:
+            logger.info("Triage adapter loaded", extra={"adapter": adapter_label(path)})
 
     # ------------------------------------------------------------------ inference
     def _infer_raw(self, incident: IncidentInput) -> str:
@@ -253,9 +340,42 @@ class GemmaSeverityProvider(InferenceProvider):
             raise InferenceFailedError(internal_detail="model not loaded")
         return self._generate(build_text_chat_messages(incident_text))
 
-    def _generate(self, messages: list[dict[str, str]]) -> str:
+    def _infer_raw_triage(self, incident: IncidentInput) -> str:
+        if self._model is None or self._tokenizer is None or self._triage_profile is None:
+            raise InferenceFailedError(internal_detail="model or triage profile not loaded")
+        profile = self._triage_profile
+        return self._generate(
+            profile.build_chat_messages(render_incident_text(incident)),
+            adapter=TRIAGE_ADAPTER,
+            max_new_tokens=self._triage_max_new_tokens,
+            max_length=profile.training_max_length,
+            max_time=self._triage_timeout_s,
+        )
+
+    def _infer_raw_triage_text(self, incident_text: str) -> str:
+        if self._model is None or self._tokenizer is None or self._triage_profile is None:
+            raise InferenceFailedError(internal_detail="model or triage profile not loaded")
+        profile = self._triage_profile
+        return self._generate(
+            profile.build_chat_messages(incident_text),
+            adapter=TRIAGE_ADAPTER,
+            max_new_tokens=self._triage_max_new_tokens,
+            max_length=profile.training_max_length,
+            max_time=self._triage_timeout_s,
+        )
+
+    def _generate(
+        self,
+        messages: list[dict[str, str]],
+        *,
+        adapter: str = SEVERITY_ADAPTER,
+        max_new_tokens: int | None = None,
+        max_length: int = TRAINING_MAX_LENGTH,
+        max_time: float | None = None,
+    ) -> str:
         torch = self._torch
         tokenizer = self._tokenizer
+        max_new_tokens = max_new_tokens or self._max_new_tokens
 
         prompt = tokenizer.apply_chat_template(
             messages, tokenize=False, add_generation_prompt=True
@@ -263,22 +383,36 @@ class GemmaSeverityProvider(InferenceProvider):
         # The chat template already emits <bos>; match training (no extra specials).
         encoded = tokenizer(prompt, return_tensors="pt", add_special_tokens=False)
         prompt_tokens = int(encoded["input_ids"].shape[1])
-        if prompt_tokens > TRAINING_MAX_LENGTH:
+        if prompt_tokens > max_length:
             logger.warning(
                 "Prompt longer than training max length",
-                extra={"prompt_tokens": prompt_tokens, "training_max_length": TRAINING_MAX_LENGTH},
+                extra={"prompt_tokens": prompt_tokens, "training_max_length": max_length, "adapter": adapter},
             )
         encoded = {k: v.to(self._device) for k, v in encoded.items()}
 
+        extra: dict[str, Any] = {"max_time": max_time} if max_time else {}
+        started = time.perf_counter()
+        # The lock also covers set_adapter: the active adapter is model-wide state.
         with self._generate_lock, torch.inference_mode():
+            self._model.set_adapter(adapter)
             output = self._model.generate(
                 **encoded,
-                max_new_tokens=self._max_new_tokens,
+                max_new_tokens=max_new_tokens,
                 do_sample=False,
                 pad_token_id=tokenizer.eos_token_id,
+                **extra,
             )
+        elapsed = time.perf_counter() - started
 
         generated = output[0][prompt_tokens:]
+        stopped_on_eos = len(generated) > 0 and int(generated[-1]) in self._eos_ids
+        if max_time and elapsed >= max_time and not stopped_on_eos and len(generated) < max_new_tokens:
+            raise InferenceTimeoutError(internal_detail=f"generation stopped by max_time={max_time}s")
         raw = tokenizer.decode(generated, skip_special_tokens=True).strip()
-        logger.debug("Gemma raw output", extra={"raw_output": raw[:200]})
+        if not stopped_on_eos and len(generated) >= max_new_tokens:
+            logger.warning(
+                "Generation hit max_new_tokens before end of turn",
+                extra={"adapter": adapter, "max_new_tokens": max_new_tokens},
+            )
+        logger.debug("Gemma raw output", extra={"raw_output": raw[:200], "adapter": adapter})
         return raw

@@ -7,6 +7,8 @@ import { formatDuration } from "@/lib/format";
 import type { ConfusionColumn, EvaluationResponse, Severity } from "@/lib/types";
 import { SeverityBadge } from "./SeverityBadge";
 import { ProviderTag } from "./TicketQueue";
+import { PageHeader, PageLayout, RailCard } from "./PageLayout";
+import { TriageEvaluation } from "./TriageEvaluation";
 
 // Sequential single-hue (blue) ramp for counts, light -> dark. Zero stays on the surface.
 const RAMP = ["#cde2fb", "#9ec5f4", "#6da7ec", "#3987e5", "#256abf", "#184f95"] as const;
@@ -22,10 +24,10 @@ const pct = (value: number) => `${(value * 100).toFixed(1)}%`;
 
 function StatTile({ label, value, sub }: { label: string; value: string; sub?: string }) {
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-      <p className="text-xs font-medium uppercase tracking-wide text-slate-500">{label}</p>
-      <p className="mt-1 text-3xl font-semibold tabular-nums text-slate-900">{value}</p>
-      {sub && <p className="mt-0.5 text-xs text-slate-500">{sub}</p>}
+    <div className="rounded-2xl border border-line bg-surface p-4 shadow-card">
+      <p className="text-xs font-medium text-muted">{label}</p>
+      <p className="mt-1 text-3xl font-semibold tabular-nums text-ink">{value}</p>
+      {sub && <p className="mt-0.5 text-xs text-muted">{sub}</p>}
     </div>
   );
 }
@@ -38,12 +40,12 @@ function ConfusionMatrix({ data }: { data: EvaluationResponse }) {
   const colTotal = (p: ConfusionColumn) => data.labels.reduce((sum, e) => sum + data.confusion_matrix[e][p], 0);
 
   return (
-    <section aria-labelledby="cm-heading" className="rounded-xl border border-slate-200 bg-white shadow-sm">
-      <div className="border-b border-slate-200 px-5 py-4">
-        <h3 id="cm-heading" className="text-base font-semibold text-slate-900">
+    <section aria-labelledby="cm-heading" className="rounded-2xl border border-line bg-surface shadow-card">
+      <div className="border-b border-line px-5 py-4">
+        <h3 id="cm-heading" className="text-base font-semibold text-ink">
           Confusion matrix
         </h3>
-        <p className="text-xs text-slate-500">
+        <p className="text-xs text-muted">
           Rows: expected severity · Columns: predicted severity · Outlined cells: correct · Darker = more tickets
         </p>
       </div>
@@ -52,7 +54,7 @@ function ConfusionMatrix({ data }: { data: EvaluationResponse }) {
           <caption className="sr-only">Confusion matrix of expected versus predicted severity</caption>
           <thead>
             <tr>
-              <th scope="col" className="p-2 text-left text-xs font-medium text-slate-500">
+              <th scope="col" className="p-2 text-left text-xs font-medium text-muted">
                 Expected ↓ / Predicted →
               </th>
               {columns.map((p) => (
@@ -60,7 +62,7 @@ function ConfusionMatrix({ data }: { data: EvaluationResponse }) {
                   {p === "invalid" ? "Invalid" : p}
                 </th>
               ))}
-              <th scope="col" className="p-2 text-center text-xs font-medium text-slate-500">
+              <th scope="col" className="p-2 text-center text-xs font-medium text-muted">
                 Total
               </th>
             </tr>
@@ -93,7 +95,7 @@ function ConfusionMatrix({ data }: { data: EvaluationResponse }) {
               </tr>
             ))}
             <tr>
-              <th scope="row" className="p-2 text-left text-xs font-medium text-slate-500">
+              <th scope="row" className="p-2 text-left text-xs font-medium text-muted">
                 Total
               </th>
               {columns.map((p) => (
@@ -101,7 +103,7 @@ function ConfusionMatrix({ data }: { data: EvaluationResponse }) {
                   {colTotal(p)}
                 </td>
               ))}
-              <td className="p-2 text-center font-semibold tabular-nums text-slate-900">{data.analyzed}</td>
+              <td className="p-2 text-center font-semibold tabular-nums text-ink">{data.analyzed}</td>
             </tr>
           </tbody>
         </table>
@@ -112,15 +114,15 @@ function ConfusionMatrix({ data }: { data: EvaluationResponse }) {
 
 function ResultsTable({ data }: { data: EvaluationResponse }) {
   return (
-    <section aria-labelledby="rows-heading" className="rounded-xl border border-slate-200 bg-white shadow-sm">
-      <div className="border-b border-slate-200 px-5 py-4">
-        <h3 id="rows-heading" className="text-base font-semibold text-slate-900">
+    <section aria-labelledby="rows-heading" className="rounded-2xl border border-line bg-surface shadow-card">
+      <div className="border-b border-line px-5 py-4">
+        <h3 id="rows-heading" className="text-base font-semibold text-ink">
           Predicted vs expected
         </h3>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
-          <thead className="bg-slate-50 text-left text-xs uppercase tracking-wide text-slate-500">
+          <thead className="bg-canvas text-left text-xs uppercase tracking-wide text-muted">
             <tr>
               <th scope="col" className="px-5 py-2 font-medium">#</th>
               <th scope="col" className="px-3 py-2 font-medium">Ticket</th>
@@ -130,11 +132,11 @@ function ResultsTable({ data }: { data: EvaluationResponse }) {
               <th scope="col" className="px-5 py-2 text-right font-medium">Inference</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100">
+          <tbody className="divide-y divide-line">
             {data.results.map((r, i) => (
               <tr key={r.ticket_id}>
-                <td className="px-5 py-2 tabular-nums text-slate-500">{i + 1}</td>
-                <td className="px-3 py-2 font-mono text-xs text-slate-900">{r.ticket_id}</td>
+                <td className="px-5 py-2 tabular-nums text-muted">{i + 1}</td>
+                <td className="px-3 py-2 font-mono text-xs text-ink">{r.ticket_id}</td>
                 <td className="px-3 py-2">
                   {r.predicted_severity ? (
                     <SeverityBadge severity={r.predicted_severity} />
@@ -190,24 +192,41 @@ export function EvaluationView() {
       : null;
 
   return (
-    <div className="space-y-5">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <h2 className="text-xl font-semibold text-slate-900">Evaluation</h2>
-          <p className="text-sm text-slate-600">
-            Predicted versus expected severity for tickets analyzed in the current queue session.
-          </p>
-        </div>
-        <button
-          type="button"
-          onClick={() => void load()}
-          disabled={loading}
-          className="rounded-md border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-sm hover:bg-slate-50 disabled:opacity-50"
-        >
-          {loading ? "Refreshing…" : "Refresh"}
-        </button>
-      </div>
-
+    <PageLayout
+      header={
+        <PageHeader
+          title="Evaluation"
+          description="Model output versus dataset labels for tickets analyzed in the current queue session."
+          actions={
+            <button
+              type="button"
+              onClick={() => void load()}
+              disabled={loading}
+              className="rounded-lg border border-line bg-surface px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm hover:bg-canvas disabled:opacity-50"
+            >
+              {loading ? "Refreshing…" : "Refresh"}
+            </button>
+          }
+        />
+      }
+      aside={
+        <>
+          <RailCard title="What is measured">
+            <ul className="list-disc space-y-1.5 pl-4 text-xs text-slate-700">
+              <li>Severity: the severity shown to engineers (dedicated severity adapter in full mode).</li>
+              <li>Category and root cause: the triage adapter, for tickets analyzed in full mode.</li>
+              <li>Invalid outputs count as incorrect.</li>
+            </ul>
+          </RailCard>
+          <RailCard title="Data">
+            <p className="text-xs text-slate-700">
+              Queue tickets come from the held-out test and validation splits: synthetic, template-written tickets
+              that neither adapter trained on. Real-world accuracy still needs a labelled set of real tickets.
+            </p>
+          </RailCard>
+        </>
+      }
+    >
       {error && (
         <div role="alert" className="rounded-xl border border-red-200 bg-red-50 p-5 text-sm text-red-900">
           <p className="font-semibold">Could not load the evaluation</p>
@@ -249,18 +268,43 @@ export function EvaluationView() {
           </div>
 
           {data.analyzed === 0 ? (
-            <div className="rounded-xl border border-slate-200 bg-white p-8 text-center shadow-sm">
+            <div className="rounded-xl border border-line bg-white p-8 text-center shadow-sm">
               <p className="text-sm font-medium text-slate-700">No tickets analyzed in this session yet.</p>
-              <Link href="/queue" className="mt-2 inline-block text-sm font-semibold text-sky-700 hover:underline">
+              <Link href="/queue" className="mt-2 inline-block text-sm font-semibold text-signal hover:underline">
                 Go to the ticket queue →
               </Link>
             </div>
           ) : (
             <>
               {data.analyzed < 20 && (
-                <p className="text-xs text-slate-500">
+                <p className="text-xs text-muted">
                   Small sample (n = {data.analyzed}): accuracy will change noticeably as more tickets are analyzed.
                 </p>
+              )}
+              {(data.full_analyzed ?? 0) > 0 && data.field_metrics && (
+                <section aria-labelledby="fields-heading" className="space-y-3">
+                  <h3 id="fields-heading" className="text-base font-semibold text-ink">
+                    Full analysis · {data.full_analyzed} ticket{data.full_analyzed === 1 ? "" : "s"}
+                  </h3>
+                  <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
+                    {(
+                      [
+                        ["category", "Category accuracy"],
+                        ["root_cause", "Root-cause accuracy"],
+                        ["triage_adapter_severity", "Triage adapter's own severity"],
+                      ] as const
+                    ).map(([key, label]) => {
+                      const m = data.field_metrics?.[key];
+                      return m && m.total > 0 ? (
+                        <StatTile key={key} label={label} value={pct(m.correct / m.total)} sub={`${m.correct} of ${m.total}`} />
+                      ) : null;
+                    })}
+                  </div>
+                  <p className="text-xs text-muted">
+                    Severity below is the one shown to engineers: the dedicated severity adapter. The triage
+                    adapter&apos;s own severity is listed for comparison only.
+                  </p>
+                </section>
               )}
               <ConfusionMatrix data={data} />
               <ResultsTable data={data} />
@@ -268,6 +312,8 @@ export function EvaluationView() {
           )}
         </>
       )}
-    </div>
+
+      <TriageEvaluation />
+    </PageLayout>
   );
 }

@@ -17,9 +17,15 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 
+from typing import TYPE_CHECKING
+
 from app.services.errors import InferenceError, InvalidModelOutputError
 from app.services.providers.base import InferenceProvider
 from app.services.severity_parser import SEVERITIES, Severity
+
+if TYPE_CHECKING:
+    from app.schemas.incident import FullTriageResponse
+    from app.services.triage_service import TriageService
 
 logger = logging.getLogger(__name__)
 
@@ -65,6 +71,11 @@ class QueuedTicket:
     description: str
     expected_severity: Severity  # reference label: evaluation only
     position: int  # 1-based order in the file
+    # Optional reference labels for full (five-field) evaluation.
+    expected_category: str | None = None
+    expected_root_cause: str | None = None
+    #: Structured incident fields for the human-review ticket. Never sent to the model.
+    incident: dict | None = None
 
 
 @dataclass(frozen=True)
@@ -80,12 +91,32 @@ class TicketAnalysis:
     is_mock: bool
     inference_ms: float | None
     analyzed_at: datetime
+    mode: str = "severity"  # "severity" | "full"
+    predicted_category: str | None = None
+    predicted_root_cause: str | None = None
+    expected_category: str | None = None
+    expected_root_cause: str | None = None
+    triage_severity: Severity | None = None  # triage adapter's own severity (full mode)
+    full: "FullTriageResponse | None" = None
 
     @property
     def correct(self) -> bool | None:
         if self.predicted_severity is None:
             return None
         return self.predicted_severity == self.expected_severity
+
+    def _field_correct(self, predicted: str | None, expected: str | None) -> bool | None:
+        if self.mode != "full" or expected is None or self.predicted_severity is None:
+            return None
+        return predicted == expected
+
+    @property
+    def category_correct(self) -> bool | None:
+        return self._field_correct(self.predicted_category, self.expected_category)
+
+    @property
+    def root_cause_correct(self) -> bool | None:
+        return self._field_correct(self.predicted_root_cause, self.expected_root_cause)
 
 
 def load_tickets(path: Path) -> list[QueuedTicket]:
@@ -120,6 +151,9 @@ def load_tickets(path: Path) -> list[QueuedTicket]:
                 description=row["description"].strip(),
                 expected_severity=row["expected_severity"],
                 position=len(tickets) + 1,
+                expected_category=row.get("expected_category") or None,
+                expected_root_cause=row.get("expected_root_cause") or None,
+                incident=row.get("incident") if isinstance(row.get("incident"), dict) else None,
             )
         )
     if not tickets:
@@ -211,9 +245,12 @@ class TicketQueue:
 
 # --------------------------------------------------------------------------- service
 class TicketService:
-    def __init__(self, queue: TicketQueue, provider: InferenceProvider) -> None:
+    def __init__(
+        self, queue: TicketQueue, provider: InferenceProvider, triage_service: "TriageService | None" = None
+    ) -> None:
         self._queue = queue
         self._provider = provider
+        self._triage = triage_service
 
     @property
     def queue(self) -> TicketQueue:
@@ -257,8 +294,42 @@ class TicketService:
         )
         return analysis
 
+    def analyze_full(self, ticket_id: str, *, request_id: str) -> TicketAnalysis:
+        """Five-field triage of a queued ticket. The provider receives the description
+        only; reference labels are attached afterwards for evaluation."""
+        if self._triage is None:
+            raise RuntimeError("TicketService was built without a TriageService")
+        ticket = self._queue.issued_ticket(ticket_id)
+        try:
+            full = self._triage.full_triage_text(
+                title=ticket.title, incident_text=ticket.description, request_id=request_id
+            )
+        except InvalidModelOutputError:
+            self._queue.record(self._evaluate(ticket, request_id, predicted=None, inference_ms=None, mode="full"))
+            raise
+        a = full.analysis
+        analysis = self._evaluate(
+            ticket,
+            request_id,
+            predicted=full.severity,
+            inference_ms=full.inference_ms,
+            mode="full",
+            predicted_category=a.category,
+            predicted_root_cause=a.root_cause,
+            triage_severity=a.severity,
+            full=full,
+        )
+        self._queue.record(analysis)
+        logger.info(
+            "Ticket analyzed (full)",
+            extra={"request_id": request_id, "ticket_id": ticket_id, "category": a.category, "severity": a.severity},
+        )
+        return analysis
+
     def _evaluate(self, ticket: QueuedTicket, request_id: str, *, predicted: Severity | None,
-                  inference_ms: float | None) -> TicketAnalysis:
+                  inference_ms: float | None, mode: str = "severity", predicted_category: str | None = None,
+                  predicted_root_cause: str | None = None, triage_severity: Severity | None = None,
+                  full: "FullTriageResponse | None" = None) -> TicketAnalysis:
         """Post-inference: attach the reference label to an already-made prediction."""
         return TicketAnalysis(
             ticket_id=ticket.ticket_id,
@@ -268,10 +339,17 @@ class TicketService:
             expected_severity=ticket.expected_severity,
             outcome="predicted" if predicted is not None else "invalid_output",
             provider=self._provider.name,
-            model_id=self._provider.model_id,
+            model_id=full.model_id if full else self._provider.model_id,
             is_mock=self._provider.is_mock,
             inference_ms=inference_ms,
             analyzed_at=datetime.now(timezone.utc),
+            mode=mode,
+            predicted_category=predicted_category,
+            predicted_root_cause=predicted_root_cause,
+            expected_category=ticket.expected_category,
+            expected_root_cause=ticket.expected_root_cause,
+            triage_severity=triage_severity,
+            full=full,
         )
 
     def evaluation(self) -> dict:
@@ -288,6 +366,22 @@ class TicketService:
                 matrix[r.expected_severity][r.predicted_severity] += 1
                 correct += int(r.correct is True)
         analyzed = len(results)
+
+        def field(name: str) -> dict[str, int]:
+            values = [getattr(r, name) for r in results if r.mode == "full" and r.expected_category]
+            return {"correct": sum(v is True for v in values), "total": len(values)}
+
+        full = [r for r in results if r.mode == "full"]
+        with_triage = [r for r in full if r.triage_severity is not None]
+        field_metrics = {
+            "category": field("category_correct"),
+            "root_cause": field("root_cause_correct"),
+            # For comparison only: the triage adapter's own severity (not the one shown).
+            "triage_adapter_severity": {
+                "correct": sum(r.triage_severity == r.expected_severity for r in with_triage),
+                "total": len(with_triage),
+            },
+        }
         return {
             "provider": self._provider.name,
             "model_id": self._provider.model_id,
@@ -300,5 +394,7 @@ class TicketService:
             "accuracy": round(correct / analyzed, 4) if analyzed else None,
             "labels": list(SEVERITIES),
             "confusion_matrix": matrix,
+            "full_analyzed": len(full),
+            "field_metrics": field_metrics,
             "results": results,
         }

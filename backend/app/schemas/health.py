@@ -6,6 +6,16 @@ from typing import Literal
 from pydantic import BaseModel, Field
 
 
+class TriageHealth(BaseModel):
+    model_config = {"protected_namespaces": ()}
+
+    available: bool = Field(description="True only when the five-field triage adapter is loaded")
+    adapter: str | None = None
+    model_id: str | None = None
+    prompt_format: str | None = None
+    detail: str | None = None
+
+
 class InferenceHealth(BaseModel):
     model_config = {"protected_namespaces": ()}
 
@@ -17,6 +27,7 @@ class InferenceHealth(BaseModel):
     model_loaded: bool = Field(description="True only when real model weights are in memory")
     device: str | None = None
     detail: str | None = None
+    triage: TriageHealth | None = None
 
 
 class HealthResponse(BaseModel):

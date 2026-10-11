@@ -83,3 +83,17 @@ def test_empty_base_model_path_means_hub_model_id():
 
 def test_absolute_base_model_path(tmp_path: Path):
     assert make_settings(base_model_path=str(tmp_path)).resolved_base_model_path == tmp_path.resolve()
+
+
+def test_vllm_provider_is_built_from_settings():
+    from app.services.providers.vllm_provider import VLLMSeverityProvider
+
+    provider = build_provider(make_settings(inference_provider="vllm", vllm_base_url="http://127.0.0.1:8001/"))
+    assert isinstance(provider, VLLMSeverityProvider)
+    assert provider.model_id.endswith("(vLLM)")
+
+
+@pytest.mark.parametrize("url", ["127.0.0.1:8001", "ftp://x", ""])
+def test_invalid_vllm_url_fails_fast(url):
+    with pytest.raises(ValidationError):
+        make_settings(vllm_base_url=url)

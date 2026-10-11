@@ -8,6 +8,8 @@ export const LIMITS = {
   affected_service: { min: 2, max: 120 },
   business_impact: { min: 5, max: 2000 },
   diagnostic_evidence: { max: 4000 },
+  scope_check: { max: 1000 },
+  additional_context: { max: 1000 },
   affected_users: { min: 0, max: 1_000_000 },
   list: { maxItems: 20, itemMax: 80 },
 } as const;
@@ -24,6 +26,9 @@ export interface IncidentFormValues {
   business_impact: string;
   workaround: Workaround;
   diagnostic_evidence: string;
+  /** Optional: confirmed scope in words. Empty -> the backend derives it from the scope fields. */
+  scope_check?: string;
+  additional_context?: string;
 }
 
 export type FormField = keyof IncidentFormValues;
@@ -39,6 +44,8 @@ export const EMPTY_FORM: IncidentFormValues = {
   business_impact: "",
   workaround: "unknown",
   diagnostic_evidence: "",
+  scope_check: "",
+  additional_context: "",
 };
 
 /** Maps backend field names (from 422 details) to form fields. */
@@ -100,6 +107,8 @@ export function validateIncident(
   set("affected_service", checkText(values.affected_service, "Affected service", LIMITS.affected_service));
   set("business_impact", checkText(values.business_impact, "Business impact", LIMITS.business_impact));
   set("diagnostic_evidence", checkText(values.diagnostic_evidence, "Diagnostic evidence", LIMITS.diagnostic_evidence));
+  set("scope_check", checkText(values.scope_check ?? "", "Scope check", LIMITS.scope_check));
+  set("additional_context", checkText(values.additional_context ?? "", "Additional context", LIMITS.additional_context));
   set("affected_departments", checkList(values.affected_departments, "departments"));
   set("affected_sites", checkList(values.affected_sites, "sites"));
   const users = parseUsers(values.affected_users);
@@ -121,6 +130,9 @@ export function validateIncident(
       business_impact: values.business_impact.trim(),
       workaround_available: WORKAROUND_VALUE[values.workaround],
       diagnostic_evidence: values.diagnostic_evidence.trim(),
+      // Sent only when filled in, so the request stays minimal otherwise.
+      ...(values.scope_check?.trim() ? { scope_check: values.scope_check.trim() } : {}),
+      ...(values.additional_context?.trim() ? { additional_context: values.additional_context.trim() } : {}),
     },
   };
 }

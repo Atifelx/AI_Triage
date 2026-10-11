@@ -13,10 +13,16 @@ from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from app.schemas.errors import ErrorBody, ErrorResponse, FieldError
-from app.services.errors import InferenceError
+from app.services.errors import InferenceError, InvalidModelOutputError
 from app.services.ticket_queue import TicketQueueError
 
 logger = logging.getLogger(__name__)
+
+
+class BadRequestError(Exception):
+    def __init__(self, message: str) -> None:
+        self.message = message
+        super().__init__(message)
 
 
 class NotFoundError(Exception):
@@ -35,9 +41,12 @@ def _error(
     code: str,
     message: str,
     details: list[FieldError] | None = None,
+    raw_output: str | None = None,
 ) -> JSONResponse:
     body = ErrorResponse(
-        error=ErrorBody(code=code, message=message, request_id=_request_id(request), details=details)
+        error=ErrorBody(
+            code=code, message=message, request_id=_request_id(request), details=details, raw_output=raw_output
+        )
     )
     return JSONResponse(status_code=status, content=body.model_dump(exclude_none=True))
 
@@ -62,11 +71,19 @@ async def _validation_handler(request: Request, exc: RequestValidationError) -> 
 
 
 async def _inference_handler(request: Request, exc: InferenceError) -> JSONResponse:
-    return _error(request, exc.http_status, exc.code, exc.public_message)
+    raw = None
+    settings = getattr(request.app.state, "settings", None)
+    if isinstance(exc, InvalidModelOutputError) and settings is not None and settings.expose_raw_output:
+        raw = exc.raw_output  # development aid; off by default
+    return _error(request, exc.http_status, exc.code, exc.public_message, raw_output=raw)
 
 
 async def _ticket_handler(request: Request, exc: TicketQueueError) -> JSONResponse:
     return _error(request, exc.http_status, exc.code, exc.public_message)
+
+
+async def _bad_request_handler(request: Request, exc: BadRequestError) -> JSONResponse:
+    return _error(request, 400, "bad_request", exc.message)
 
 
 async def _not_found_handler(request: Request, exc: NotFoundError) -> JSONResponse:
@@ -89,5 +106,6 @@ def register_exception_handlers(app: FastAPI) -> None:
     app.add_exception_handler(InferenceError, _inference_handler)  # type: ignore[arg-type]
     app.add_exception_handler(TicketQueueError, _ticket_handler)  # type: ignore[arg-type]
     app.add_exception_handler(NotFoundError, _not_found_handler)  # type: ignore[arg-type]
+    app.add_exception_handler(BadRequestError, _bad_request_handler)  # type: ignore[arg-type]
     app.add_exception_handler(StarletteHTTPException, _http_handler)  # type: ignore[arg-type]
     app.add_exception_handler(Exception, _unhandled_handler)

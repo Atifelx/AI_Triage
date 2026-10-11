@@ -1,0 +1,712 @@
+{
+  "provider": "gemma",
+  "model_id": "google/gemma-3-270m-it + LoRA:gemma3-270m-severity",
+  "data": "incident_test_v3.jsonl",
+  "structured_output": false,
+  "n": 100,
+  "correct": 100,
+  "invalid_outputs": 0,
+  "errors": 0,
+  "records": [
+    {
+      "id": "ITSM-05-027",
+      "expected": "P3",
+      "predicted": "P3",
+      "outcome": "predicted",
+      "inference_ms": 598.18
+    },
+    {
+      "id": "ITSM-13-041",
+      "expected": "P2",
+      "predicted": "P2",
+      "outcome": "predicted",
+      "inference_ms": 279.05
+    },
+    {
+      "id": "ITSM-19-026",
+      "expected": "P4",
+      "predicted": "P4",
+      "outcome": "predicted",
+      "inference_ms": 270.87
+    },
+    {
+      "id": "ITSM-11-042",
+      "expected": "P2",
+      "predicted": "P2",
+      "outcome": "predicted",
+      "inference_ms": 263.01
+    },
+    {
+      "id": "ITSM-20-033",
+      "expected": "P4",
+      "predicted": "P4",
+      "outcome": "predicted",
+      "inference_ms": 269.51
+    },
+    {
+      "id": "ITSM-14-046",
+      "expected": "P1",
+      "predicted": "P1",
+      "outcome": "predicted",
+      "inference_ms": 283.47
+    },
+    {
+      "id": "ITSM-10-021",
+      "expected": "P4",
+      "predicted": "P4",
+      "outcome": "predicted",
+      "inference_ms": 268.77
+    },
+    {
+      "id": "ITSM-12-018",
+      "expected": "P2",
+      "predicted": "P2",
+      "outcome": "predicted",
+      "inference_ms": 269.0
+    },
+    {
+      "id": "ITSM-02-035",
+      "expected": "P3",
+      "predicted": "P3",
+      "outcome": "predicted",
+      "inference_ms": 265.52
+    },
+    {
+      "id": "ITSM-18-024",
+      "expected": "P1",
+      "predicted": "P1",
+      "outcome": "predicted",
+      "inference_ms": 277.56
+    },
+    {
+      "id": "ITSM-18-044",
+      "expected": "P3",
+      "predicted": "P3",
+      "outcome": "predicted",
+      "inference_ms": 270.08
+    },
+    {
+      "id": "ITSM-11-048",
+      "expected": "P4",
+      "predicted": "P4",
+      "outcome": "predicted",
+      "inference_ms": 265.38
+    },
+    {
+      "id": "ITSM-04-050",
+      "expected": "P3",
+      "predicted": "P3",
+      "outcome": "predicted",
+      "inference_ms": 258.34
+    },
+    {
+      "id": "ITSM-19-035",
+      "expected": "P1",
+      "predicted": "P1",
+      "outcome": "predicted",
+      "inference_ms": 304.34
+    },
+    {
+      "id": "ITSM-14-016",
+      "expected": "P2",
+      "predicted": "P2",
+      "outcome": "predicted",
+      "inference_ms": 281.88
+    },
+    {
+      "id": "ITSM-12-014",
+      "expected": "P4",
+      "predicted": "P4",
+      "outcome": "predicted",
+      "inference_ms": 264.49
+    },
+    {
+      "id": "ITSM-10-050",
+      "expected": "P2",
+      "predicted": "P2",
+      "outcome": "predicted",
+      "inference_ms": 279.61
+    },
+    {
+      "id": "ITSM-09-009",
+      "expected": "P2",
+      "predicted": "P2",
+      "outcome": "predicted",
+      "inference_ms": 293.37
+    },
+    {
+      "id": "ITSM-08-046",
+      "expected": "P4",
+      "predicted": "P4",
+      "outcome": "predicted",
+      "inference_ms": 271.81
+    },
+    {
+      "id": "ITSM-16-026",
+      "expected": "P2",
+      "predicted": "P2",
+      "outcome": "predicted",
+      "inference_ms": 264.56
+    },
+    {
+      "id": "ITSM-10-029",
+      "expected": "P3",
+      "predicted": "P3",
+      "outcome": "predicted",
+      "inference_ms": 274.37
+    },
+    {
+      "id": "ITSM-04-031",
+      "expected": "P4",
+      "predicted": "P4",
+      "outcome": "predicted",
+      "inference_ms": 290.33
+    },
+    {
+      "id": "ITSM-15-021",
+      "expected": "P3",
+      "predicted": "P3",
+      "outcome": "predicted",
+      "inference_ms": 272.24
+    },
+    {
+      "id": "ITSM-06-048",
+      "expected": "P1",
+      "predicted": "P1",
+      "outcome": "predicted",
+      "inference_ms": 331.37
+    },
+    {
+      "id": "ITSM-04-010",
+      "expected": "P1",
+      "predicted": "P1",
+      "outcome": "predicted",
+      "inference_ms": 548.52
+    },
+    {
+      "id": "ITSM-08-015",
+      "expected": "P1",
+      "predicted": "P1",
+      "outcome": "predicted",
+      "inference_ms": 337.9
+    },
+    {
+      "id": "ITSM-07-018",
+      "expected": "P2",
+      "predicted": "P2",
+      "outcome": "predicted",
+      "inference_ms": 294.4
+    },
+    {
+      "id": "ITSM-03-041",
+      "expected": "P4",
+      "predicted": "P4",
+      "outcome": "predicted",
+      "inference_ms": 289.88
+    },
+    {
+      "id": "ITSM-09-048",
+      "expected": "P3",
+      "predicted": "P3",
+      "outcome": "predicted",
+      "inference_ms": 287.63
+    },
+    {
+      "id": "ITSM-16-020",
+      "expected": "P1",
+      "predicted": "P1",
+      "outcome": "predicted",
+      "inference_ms": 293.24
+    },
+    {
+      "id": "ITSM-16-023",
+      "expected": "P4",
+      "predicted": "P4",
+      "outcome": "predicted",
+      "inference_ms": 274.05
+    },
+    {
+      "id": "ITSM-07-025",
+      "expected": "P1",
+      "predicted": "P1",
+      "outcome": "predicted",
+      "inference_ms": 262.56
+    },
+    {
+      "id": "ITSM-10-017",
+      "expected": "P1",
+      "predicted": "P1",
+      "outcome": "predicted",
+      "inference_ms": 261.99
+    },
+    {
+      "id": "ITSM-06-017",
+      "expected": "P3",
+      "predicted": "P3",
+      "outcome": "predicted",
+      "inference_ms": 261.65
+    },
+    {
+      "id": "ITSM-05-033",
+      "expected": "P4",
+      "predicted": "P4",
+      "outcome": "predicted",
+      "inference_ms": 276.79
+    },
+    {
+      "id": "ITSM-18-009",
+      "expected": "P3",
+      "predicted": "P3",
+      "outcome": "predicted",
+      "inference_ms": 295.7
+    },
+    {
+      "id": "ITSM-01-012",
+      "expected": "P4",
+      "predicted": "P4",
+      "outcome": "predicted",
+      "inference_ms": 307.71
+    },
+    {
+      "id": "ITSM-14-021",
+      "expected": "P3",
+      "predicted": "P3",
+      "outcome": "predicted",
+      "inference_ms": 359.51
+    },
+    {
+      "id": "ITSM-12-025",
+      "expected": "P1",
+      "predicted": "P1",
+      "outcome": "predicted",
+      "inference_ms": 301.11
+    },
+    {
+      "id": "ITSM-17-025",
+      "expected": "P2",
+      "predicted": "P2",
+      "outcome": "predicted",
+      "inference_ms": 281.08
+    },
+    {
+      "id": "ITSM-20-005",
+      "expected": "P1",
+      "predicted": "P1",
+      "outcome": "predicted",
+      "inference_ms": 302.13
+    },
+    {
+      "id": "ITSM-16-025",
+      "expected": "P1",
+      "predicted": "P1",
+      "outcome": "predicted",
+      "inference_ms": 268.39
+    },
+    {
+      "id": "ITSM-20-023",
+      "expected": "P4",
+      "predicted": "P4",
+      "outcome": "predicted",
+      "inference_ms": 281.01
+    },
+    {
+      "id": "ITSM-16-001",
+      "expected": "P4",
+      "predicted": "P4",
+      "outcome": "predicted",
+      "inference_ms": 261.05
+    },
+    {
+      "id": "ITSM-13-023",
+      "expected": "P1",
+      "predicted": "P1",
+      "outcome": "predicted",
+      "inference_ms": 264.05
+    },
+    {
+      "id": "ITSM-07-009",
+      "expected": "P3",
+      "predicted": "P3",
+      "outcome": "predicted",
+      "inference_ms": 260.11
+    },
+    {
+      "id": "ITSM-14-044",
+      "expected": "P2",
+      "predicted": "P2",
+      "outcome": "predicted",
+      "inference_ms": 267.77
+    },
+    {
+      "id": "ITSM-02-021",
+      "expected": "P1",
+      "predicted": "P1",
+      "outcome": "predicted",
+      "inference_ms": 263.93
+    },
+    {
+      "id": "ITSM-10-049",
+      "expected": "P2",
+      "predicted": "P2",
+      "outcome": "predicted",
+      "inference_ms": 260.51
+    },
+    {
+      "id": "ITSM-17-007",
+      "expected": "P4",
+      "predicted": "P4",
+      "outcome": "predicted",
+      "inference_ms": 260.47
+    },
+    {
+      "id": "ITSM-06-022",
+      "expected": "P2",
+      "predicted": "P2",
+      "outcome": "predicted",
+      "inference_ms": 263.1
+    },
+    {
+      "id": "ITSM-13-037",
+      "expected": "P4",
+      "predicted": "P4",
+      "outcome": "predicted",
+      "inference_ms": 262.21
+    },
+    {
+      "id": "ITSM-07-019",
+      "expected": "P4",
+      "predicted": "P4",
+      "outcome": "predicted",
+      "inference_ms": 263.86
+    },
+    {
+      "id": "ITSM-08-004",
+      "expected": "P2",
+      "predicted": "P2",
+      "outcome": "predicted",
+      "inference_ms": 265.53
+    },
+    {
+      "id": "ITSM-05-036",
+      "expected": "P1",
+      "predicted": "P1",
+      "outcome": "predicted",
+      "inference_ms": 670.39
+    },
+    {
+      "id": "ITSM-06-039",
+      "expected": "P2",
+      "predicted": "P2",
+      "outcome": "predicted",
+      "inference_ms": 264.89
+    },
+    {
+      "id": "ITSM-15-014",
+      "expected": "P1",
+      "predicted": "P1",
+      "outcome": "predicted",
+      "inference_ms": 273.76
+    },
+    {
+      "id": "ITSM-10-019",
+      "expected": "P3",
+      "predicted": "P3",
+      "outcome": "predicted",
+      "inference_ms": 291.92
+    },
+    {
+      "id": "ITSM-13-015",
+      "expected": "P3",
+      "predicted": "P3",
+      "outcome": "predicted",
+      "inference_ms": 287.49
+    },
+    {
+      "id": "ITSM-20-035",
+      "expected": "P2",
+      "predicted": "P2",
+      "outcome": "predicted",
+      "inference_ms": 297.1
+    },
+    {
+      "id": "ITSM-01-024",
+      "expected": "P3",
+      "predicted": "P3",
+      "outcome": "predicted",
+      "inference_ms": 273.08
+    },
+    {
+      "id": "ITSM-08-049",
+      "expected": "P4",
+      "predicted": "P4",
+      "outcome": "predicted",
+      "inference_ms": 264.64
+    },
+    {
+      "id": "ITSM-04-039",
+      "expected": "P4",
+      "predicted": "P4",
+      "outcome": "predicted",
+      "inference_ms": 263.64
+    },
+    {
+      "id": "ITSM-17-019",
+      "expected": "P3",
+      "predicted": "P3",
+      "outcome": "predicted",
+      "inference_ms": 357.91
+    },
+    {
+      "id": "ITSM-15-018",
+      "expected": "P4",
+      "predicted": "P4",
+      "outcome": "predicted",
+      "inference_ms": 264.79
+    },
+    {
+      "id": "ITSM-12-042",
+      "expected": "P4",
+      "predicted": "P4",
+      "outcome": "predicted",
+      "inference_ms": 265.32
+    },
+    {
+      "id": "ITSM-18-040",
+      "expected": "P4",
+      "predicted": "P4",
+      "outcome": "predicted",
+      "inference_ms": 276.51
+    },
+    {
+      "id": "ITSM-03-002",
+      "expected": "P2",
+      "predicted": "P2",
+      "outcome": "predicted",
+      "inference_ms": 275.85
+    },
+    {
+      "id": "ITSM-03-042",
+      "expected": "P3",
+      "predicted": "P3",
+      "outcome": "predicted",
+      "inference_ms": 271.28
+    },
+    {
+      "id": "ITSM-08-027",
+      "expected": "P3",
+      "predicted": "P3",
+      "outcome": "predicted",
+      "inference_ms": 260.93
+    },
+    {
+      "id": "ITSM-19-008",
+      "expected": "P2",
+      "predicted": "P2",
+      "outcome": "predicted",
+      "inference_ms": 271.8
+    },
+    {
+      "id": "ITSM-12-049",
+      "expected": "P3",
+      "predicted": "P3",
+      "outcome": "predicted",
+      "inference_ms": 257.81
+    },
+    {
+      "id": "ITSM-08-021",
+      "expected": "P1",
+      "predicted": "P1",
+      "outcome": "predicted",
+      "inference_ms": 268.57
+    },
+    {
+      "id": "ITSM-09-039",
+      "expected": "P4",
+      "predicted": "P4",
+      "outcome": "predicted",
+      "inference_ms": 267.3
+    },
+    {
+      "id": "ITSM-03-030",
+      "expected": "P1",
+      "predicted": "P1",
+      "outcome": "predicted",
+      "inference_ms": 360.82
+    },
+    {
+      "id": "ITSM-04-033",
+      "expected": "P2",
+      "predicted": "P2",
+      "outcome": "predicted",
+      "inference_ms": 267.92
+    },
+    {
+      "id": "ITSM-17-018",
+      "expected": "P1",
+      "predicted": "P1",
+      "outcome": "predicted",
+      "inference_ms": 269.29
+    },
+    {
+      "id": "ITSM-04-042",
+      "expected": "P1",
+      "predicted": "P1",
+      "outcome": "predicted",
+      "inference_ms": 272.89
+    },
+    {
+      "id": "ITSM-12-038",
+      "expected": "P1",
+      "predicted": "P1",
+      "outcome": "predicted",
+      "inference_ms": 273.89
+    },
+    {
+      "id": "ITSM-09-003",
+      "expected": "P1",
+      "predicted": "P1",
+      "outcome": "predicted",
+      "inference_ms": 267.65
+    },
+    {
+      "id": "ITSM-14-027",
+      "expected": "P4",
+      "predicted": "P4",
+      "outcome": "predicted",
+      "inference_ms": 266.6
+    },
+    {
+      "id": "ITSM-16-022",
+      "expected": "P3",
+      "predicted": "P3",
+      "outcome": "predicted",
+      "inference_ms": 266.34
+    },
+    {
+      "id": "ITSM-02-041",
+      "expected": "P4",
+      "predicted": "P4",
+      "outcome": "predicted",
+      "inference_ms": 267.82
+    },
+    {
+      "id": "ITSM-18-028",
+      "expected": "P2",
+      "predicted": "P2",
+      "outcome": "predicted",
+      "inference_ms": 271.78
+    },
+    {
+      "id": "ITSM-19-033",
+      "expected": "P3",
+      "predicted": "P3",
+      "outcome": "predicted",
+      "inference_ms": 272.85
+    },
+    {
+      "id": "ITSM-20-037",
+      "expected": "P1",
+      "predicted": "P1",
+      "outcome": "predicted",
+      "inference_ms": 267.44
+    },
+    {
+      "id": "ITSM-06-009",
+      "expected": "P4",
+      "predicted": "P4",
+      "outcome": "predicted",
+      "inference_ms": 273.27
+    },
+    {
+      "id": "ITSM-05-045",
+      "expected": "P2",
+      "predicted": "P2",
+      "outcome": "predicted",
+      "inference_ms": 262.78
+    },
+    {
+      "id": "ITSM-20-025",
+      "expected": "P3",
+      "predicted": "P3",
+      "outcome": "predicted",
+      "inference_ms": 268.1
+    },
+    {
+      "id": "ITSM-11-047",
+      "expected": "P1",
+      "predicted": "P1",
+      "outcome": "predicted",
+      "inference_ms": 275.73
+    },
+    {
+      "id": "ITSM-06-025",
+      "expected": "P3",
+      "predicted": "P3",
+      "outcome": "predicted",
+      "inference_ms": 308.18
+    },
+    {
+      "id": "ITSM-02-005",
+      "expected": "P3",
+      "predicted": "P3",
+      "outcome": "predicted",
+      "inference_ms": 274.27
+    },
+    {
+      "id": "ITSM-18-002",
+      "expected": "P2",
+      "predicted": "P2",
+      "outcome": "predicted",
+      "inference_ms": 268.48
+    },
+    {
+      "id": "ITSM-14-012",
+      "expected": "P3",
+      "predicted": "P3",
+      "outcome": "predicted",
+      "inference_ms": 261.61
+    },
+    {
+      "id": "ITSM-15-038",
+      "expected": "P2",
+      "predicted": "P2",
+      "outcome": "predicted",
+      "inference_ms": 267.44
+    },
+    {
+      "id": "ITSM-02-015",
+      "expected": "P2",
+      "predicted": "P2",
+      "outcome": "predicted",
+      "inference_ms": 266.4
+    },
+    {
+      "id": "ITSM-01-011",
+      "expected": "P1",
+      "predicted": "P1",
+      "outcome": "predicted",
+      "inference_ms": 273.67
+    },
+    {
+      "id": "ITSM-02-031",
+      "expected": "P2",
+      "predicted": "P2",
+      "outcome": "predicted",
+      "inference_ms": 270.0
+    },
+    {
+      "id": "ITSM-01-020",
+      "expected": "P2",
+      "predicted": "P2",
+      "outcome": "predicted",
+      "inference_ms": 273.49
+    },
+    {
+      "id": "ITSM-11-015",
+      "expected": "P3",
+      "predicted": "P3",
+      "outcome": "predicted",
+      "inference_ms": 270.34
+    }
+  ]
+}

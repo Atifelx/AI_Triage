@@ -5,14 +5,47 @@ import { useCallback, useEffect, useRef, useState, type ButtonHTMLAttributes } f
 import {
   ApiError,
   analyzeTicket,
+  analyzeTicketFull,
+  getEvaluation,
   getNextTicket,
   getTicketSession,
   resetTicketSession,
 } from "@/lib/api";
 import { formatDuration, formatTimestamp } from "@/lib/format";
-import type { Severity, Ticket, TicketAnalysisResponse, TicketResult } from "@/lib/types";
+import type {
+  EvaluationResponse,
+  FullTriageResponse,
+  Severity,
+  Ticket,
+  TicketAnalysisResponse,
+  TicketResult,
+  TriageRequest,
+} from "@/lib/types";
+
+/** Incident for the review ticket: the ticket's structured fields, or its text when it has none. */
+function reviewIncident(ticket: Ticket): TriageRequest {
+  return (
+    ticket.incident ?? {
+      title: ticket.title,
+      description: ticket.description,
+      affected_service: "Not specified",
+      affected_users: 0,
+      affected_departments: [],
+      affected_sites: [],
+      business_impact: "See the ticket description.",
+      workaround_available: null,
+      diagnostic_evidence: "",
+    }
+  );
+}
+import { ModeCard, useAnalysisMode } from "./AnalysisMode";
+import { PageHeader, PageLayout, RailCard } from "./PageLayout";
 import { blockedReason, useHealthContext } from "./AppShell";
+import { FullTriageResult, type Reference } from "./FullTriageResult";
 import { MockLabel } from "./ResultPanel";
+import { ReviewModal } from "./ReviewModal";
+import { useReviewStore } from "./ReviewStore";
+import { autoReview } from "@/lib/integrations";
 import { SeverityBadge } from "./SeverityBadge";
 
 type QueueView =
@@ -37,6 +70,7 @@ type AnalysisState =
   | { kind: "none" }
   | { kind: "running" }
   | { kind: "done"; result: AnalysisView }
+  | { kind: "full"; triage: FullTriageResponse; reference: Reference }
   | { kind: "error"; error: ApiError };
 
 interface Counters {
@@ -88,8 +122,8 @@ function Button({
 }: ButtonHTMLAttributes<HTMLButtonElement> & { variant: "primary" | "secondary" }) {
   const styles =
     variant === "primary"
-      ? "bg-sky-700 text-white hover:bg-sky-800 disabled:bg-slate-400 focus-visible:outline-sky-700"
-      : "border border-slate-300 bg-white text-slate-800 hover:bg-slate-50 disabled:text-slate-400 focus-visible:outline-sky-600";
+      ? "bg-signal text-white hover:bg-signal-strong disabled:bg-slate-400 focus-visible:outline-signal"
+      : "border border-slate-300 bg-white text-slate-800 hover:bg-canvas disabled:text-slate-400 focus-visible:outline-signal";
   return (
     <button
       type="button"
@@ -108,39 +142,49 @@ function Spinner({ light = false }: { light?: boolean }) {
   );
 }
 
-function ProgressCard({ counters }: { counters: Counters }) {
-  const pct = counters.total ? Math.round((counters.issued / counters.total) * 100) : 0;
+function Stat({ label, value, sub }: { label: string; value: string; sub?: string }) {
   return (
-    <section aria-labelledby="progress-heading" className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-      <h2 id="progress-heading" className="text-sm font-semibold text-slate-900">
-        Session progress
-      </h2>
+    <div className="flex items-baseline justify-between gap-2 py-1">
+      <span className="text-xs text-muted">{label}</span>
+      <span className="text-right">
+        <span className="text-sm font-semibold tabular-nums text-ink">{value}</span>
+        {sub && <span className="block text-[11px] text-muted">{sub}</span>}
+      </span>
+    </div>
+  );
+}
+
+function SessionCard({ counters, stats }: { counters: Counters; stats: EvaluationResponse | null }) {
+  const pct = counters.total ? Math.round((counters.issued / counters.total) * 100) : 0;
+  const rate = (m?: { correct: number; total: number }) =>
+    m && m.total ? `${Math.round((m.correct / m.total) * 100)}%` : "—";
+  const fm = stats?.field_metrics;
+  return (
+    <RailCard title="This session">
       <div
-        className="mt-3 h-2 overflow-hidden rounded-full bg-slate-100"
+        className="h-1.5 overflow-hidden rounded-full bg-slate-100"
         role="progressbar"
         aria-label="Tickets issued"
         aria-valuemin={0}
         aria-valuemax={counters.total}
         aria-valuenow={counters.issued}
       >
-        <div className="h-full rounded-full bg-sky-600 transition-all" style={{ width: `${pct}%` }} />
+        <div className="h-full rounded-full bg-signal transition-all" style={{ width: `${pct}%` }} />
       </div>
-      <dl className="mt-3 grid grid-cols-2 gap-2 text-sm">
-        <div>
-          <dt className="text-xs text-slate-500">Issued</dt>
-          <dd className="font-semibold tabular-nums text-slate-900">
-            {counters.issued} / {counters.total}
-          </dd>
+      <p className="mt-1.5 text-xs tabular-nums text-muted">
+        {counters.issued} of {counters.total} issued · {counters.analyzed} analyzed
+      </p>
+      {stats && stats.analyzed > 0 && (
+        <div className="mt-3 divide-y divide-line border-t border-line">
+          <Stat label="Severity" value={rate({ correct: stats.correct, total: stats.analyzed })} sub={`${stats.correct} of ${stats.analyzed}`} />
+          {fm?.category && fm.category.total > 0 && <Stat label="Category" value={rate(fm.category)} sub={`${fm.category.correct} of ${fm.category.total}`} />}
+          {fm?.root_cause && fm.root_cause.total > 0 && <Stat label="Root cause" value={rate(fm.root_cause)} sub={`${fm.root_cause.correct} of ${fm.root_cause.total}`} />}
         </div>
-        <div>
-          <dt className="text-xs text-slate-500">Analyzed</dt>
-          <dd className="font-semibold tabular-nums text-slate-900">{counters.analyzed}</dd>
-        </div>
-      </dl>
-      <Link href="/evaluation" className="mt-3 inline-block text-xs font-semibold text-sky-700 hover:underline">
-        Open evaluation →
+      )}
+      <Link href="/evaluation" className="mt-3 inline-block text-xs font-semibold text-signal hover:underline">
+        Open evaluation
       </Link>
-    </section>
+    </RailCard>
   );
 }
 
@@ -148,22 +192,26 @@ function AnalysisCard({
   state,
   providerLabel,
   onRetry,
+  onSendForReview,
 }: {
   state: AnalysisState;
   providerLabel: string;
   onRetry: () => void;
+  onSendForReview?: () => void;
 }) {
   return (
-    <section aria-labelledby="analysis-heading" className="rounded-xl border border-slate-200 bg-white shadow-sm">
-      <div className="border-b border-slate-200 px-5 py-4">
-        <h2 id="analysis-heading" className="text-base font-semibold text-slate-900">
+    <section aria-labelledby="analysis-heading" className="rounded-2xl border border-line bg-surface shadow-card">
+      <div className="border-b border-line px-5 py-4">
+        <h2 id="analysis-heading" className="text-base font-semibold text-ink">
           Analysis
         </h2>
-        <p className="text-xs text-slate-500">Severity returned by the active inference provider.</p>
+        <p className="text-xs text-muted">
+          {state.kind === "full" ? "Full five-field analysis from the triage adapter." : "Result from the active inference provider."}
+        </p>
       </div>
-      <div className="px-5 py-5" aria-live="polite">
+      <div className="px-6 py-5" aria-live="polite">
         {state.kind === "none" && (
-          <p className="py-6 text-center text-sm text-slate-500">
+          <p className="py-6 text-center text-sm text-muted">
             Not analyzed yet. <span className="font-medium text-slate-700">Analyze</span> sends this ticket to{" "}
             {providerLabel}.
           </p>
@@ -200,6 +248,9 @@ function AnalysisCard({
           </div>
         )}
         {state.kind === "done" && <AnalysisResult result={state.result} />}
+        {state.kind === "full" && (
+          <FullTriageResult result={state.triage} reference={state.reference} onSendForReview={onSendForReview} />
+        )}
       </div>
     </section>
   );
@@ -209,7 +260,7 @@ function AnalysisResult({ result }: { result: AnalysisView }) {
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center gap-2">
-        <span className="text-xs font-semibold uppercase tracking-wide text-slate-500">Predicted severity</span>
+        <span className="text-xs font-semibold uppercase tracking-wide text-muted">Predicted severity</span>
         <ProviderTag isMock={result.isMock} provider={result.provider} />
       </div>
       {result.severity ? (
@@ -225,26 +276,26 @@ function AnalysisResult({ result }: { result: AnalysisView }) {
           prediction.
         </p>
       )}
-      <dl className="divide-y divide-slate-100 text-sm">
+      <dl className="divide-y divide-line text-sm">
         <div className="flex justify-between gap-4 py-1.5">
-          <dt className="text-slate-500">Inference time</dt>
-          <dd className="font-semibold tabular-nums text-slate-900">
+          <dt className="text-muted">Inference time</dt>
+          <dd className="font-semibold tabular-nums text-ink">
             {result.inferenceMs !== null ? formatDuration(result.inferenceMs) : "—"}
           </dd>
         </div>
         <div className="flex justify-between gap-4 py-1.5">
-          <dt className="text-slate-500">Model</dt>
-          <dd className="break-all text-right font-mono text-xs text-slate-900">{result.modelId}</dd>
+          <dt className="text-muted">Model</dt>
+          <dd className="break-all text-right font-mono text-xs text-ink">{result.modelId}</dd>
         </div>
         <div className="flex justify-between gap-4 py-1.5">
-          <dt className="text-slate-500">Timestamp</dt>
-          <dd className="text-right text-slate-900">
+          <dt className="text-muted">Timestamp</dt>
+          <dd className="text-right text-ink">
             <time dateTime={result.at}>{formatTimestamp(result.at)}</time>
           </dd>
         </div>
       </dl>
-      <div className="rounded-md border border-slate-200 bg-slate-50 p-3">
-        <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Post-inference evaluation</p>
+      <div className="rounded-md border border-line bg-canvas p-3">
+        <p className="text-xs font-semibold uppercase tracking-wide text-muted">Post-inference evaluation</p>
         <div className="mt-2 flex items-center justify-between gap-3 text-sm">
           <span className="flex items-center gap-2 text-slate-700">
             Expected <SeverityBadge severity={result.expected} />
@@ -257,7 +308,7 @@ function AnalysisResult({ result }: { result: AnalysisView }) {
             <span className="font-semibold text-red-800">✗ Mismatch</span>
           )}
         </div>
-        <p className="mt-2 text-[11px] text-slate-500">
+        <p className="mt-2 text-[11px] text-muted">
           The reference label is revealed only after inference and is never sent to the model.
         </p>
       </div>
@@ -267,6 +318,11 @@ function AnalysisResult({ result }: { result: AnalysisView }) {
 
 export function TicketQueue() {
   const { backend, inference, refresh } = useHealthContext();
+  const { mode } = useAnalysisMode();
+  const [stats, setStats] = useState<EvaluationResponse | null>(null);
+  const [reviewOpen, setReviewOpen] = useState(false);
+  const { addTicket } = useReviewStore();
+  const [notice, setNotice] = useState<string | null>(null);
   const [view, setView] = useState<QueueView>({ kind: "loading" });
   const [analysis, setAnalysis] = useState<AnalysisState>({ kind: "none" });
   const [counters, setCounters] = useState<Counters>({ issued: 0, total: 0, analyzed: 0 });
@@ -281,6 +337,7 @@ export function TicketQueue() {
     try {
       const s = await getTicketSession();
       setCounters({ issued: s.issued, total: s.total, analyzed: s.analyzed });
+      setStats(await getEvaluation());
     } catch {
       /* counters are informational; the main view reports errors */
     }
@@ -295,6 +352,7 @@ export function TicketQueue() {
       setCounters((c) => ({ ...c, issued: next.issued, total: next.total }));
       setAnalysis({ kind: "none" });
       setConfirmReset(false);
+      setNotice(null);
       if (next.exhausted || !next.ticket) {
         setView({ kind: "exhausted", message: next.message ?? "End of queue." });
       } else {
@@ -316,10 +374,20 @@ export function TicketQueue() {
         const s = await getTicketSession();
         if (cancelled) return;
         setCounters({ issued: s.issued, total: s.total, analyzed: s.analyzed });
+        getEvaluation()
+          .then((e) => !cancelled && setStats(e))
+          .catch(() => undefined); // session stats are informational
         if (s.current) {
           // Re-show the ticket on screen (also ticket N of N); End of queue appears after Next.
           setView({ kind: "ticket", ticket: s.current });
-          if (s.current_analysis) setAnalysis({ kind: "done", result: fromResult(s.current_analysis) });
+          const ca = s.current_analysis;
+          if (ca?.triage) {
+            setAnalysis({
+              kind: "full",
+              triage: ca.triage,
+              reference: { severity: ca.expected_severity, category: ca.expected_category ?? null, root_cause: ca.expected_root_cause ?? null, source: `ticket ${ca.ticket_id}` },
+            });
+          } else if (ca) setAnalysis({ kind: "done", result: fromResult(ca) });
         } else {
           await advance();
         }
@@ -337,8 +405,20 @@ export function TicketQueue() {
     busy.current = true;
     setAnalysis({ kind: "running" });
     try {
-      const result = await analyzeTicket(view.ticket.ticket_id);
-      setAnalysis({ kind: "done", result: fromResponse(result) });
+      if (mode === "full") {
+        const r = await analyzeTicketFull(view.ticket.ticket_id);
+        // Every full analysis goes to Reviews for a human decision.
+        const review = addTicket(autoReview(reviewIncident(view.ticket), r.triage, "Ticket queue", view.ticket.ticket_id));
+        setNotice(`Added to Reviews as ${review.ticket_id} (pending review).`);
+        setAnalysis({
+          kind: "full",
+          triage: r.triage,
+          reference: { severity: r.expected_severity, category: r.expected_category, root_cause: r.expected_root_cause, source: `ticket ${r.ticket_id}` },
+        });
+      } else {
+        const result = await analyzeTicket(view.ticket.ticket_id);
+        setAnalysis({ kind: "done", result: fromResponse(result) });
+      }
     } catch (err) {
       const error = asApiError(err);
       setAnalysis({ kind: "error", error });
@@ -360,34 +440,26 @@ export function TicketQueue() {
   };
 
   const running = analysis.kind === "running";
-  const analyzed = analysis.kind === "done";
+  const analyzed = analysis.kind === "done" || analysis.kind === "full";
 
   return (
-    <div className="space-y-5">
-      <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <h2 className="text-xl font-semibold text-slate-900">Ticket queue</h2>
-          <p className="text-sm text-slate-600">
-            One ticket at a time from <code className="font-mono text-xs">backend/data/tickets.jsonl</code>. Tickets
-            are never repeated within a session.
-          </p>
-        </div>
-        {inference && (
-          <p className="text-sm text-slate-700">
-            Active provider:{" "}
-            <span
-              className={`rounded px-1.5 py-0.5 font-mono text-xs font-bold ${
-                inference.is_mock ? "bg-amber-100 text-amber-950" : "bg-indigo-100 text-indigo-900"
-              }`}
-            >
-              {inference.provider}
-            </span>
-          </p>
-        )}
-      </div>
+    <PageLayout
+      header={
+        <PageHeader
+          title="Ticket queue"
+          description={`${counters.total || 120} held-out service-desk tickets the model never trained on, one at a time. Each result is checked against the ticket's dataset label after inference.`}
+        />
+      }
+      aside={
+        <>
+          <ModeCard inference={inference} disabled={running} />
+          <SessionCard counters={counters} stats={stats} />
+        </>
+      }
+    >
 
       {view.kind === "loading" && (
-        <div role="status" className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white p-6 text-sm text-slate-700">
+        <div role="status" className="flex items-center gap-2 rounded-xl border border-line bg-white p-6 text-sm text-slate-700">
           <Spinner /> Loading ticket queue…
         </div>
       )}
@@ -412,18 +484,18 @@ export function TicketQueue() {
           <div aria-hidden="true" className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-slate-100 text-xl">
             ■
           </div>
-          <h3 id="end-heading" className="mt-3 text-lg font-semibold text-slate-900">
+          <h3 id="end-heading" className="mt-3 text-lg font-semibold text-ink">
             End of queue
           </h3>
           <p className="mt-1 text-sm text-slate-700">{view.message}</p>
-          <p className="mt-1 text-sm text-slate-500">
+          <p className="mt-1 text-sm text-muted">
             {counters.analyzed} of {counters.total} tickets were analyzed. No ticket will be issued again until a new
             session is started.
           </p>
           <div className="mt-5 flex flex-wrap justify-center gap-3">
             <Link
               href="/evaluation"
-              className="rounded-md bg-sky-700 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-800"
+              className="rounded-full bg-signal px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-signal-strong"
             >
               View evaluation
             </Link>
@@ -446,27 +518,27 @@ export function TicketQueue() {
       )}
 
       {view.kind === "ticket" && (
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
+        <div className="space-y-6">
           <section
             aria-labelledby="ticket-heading"
-            className="rounded-xl border border-slate-200 bg-white shadow-sm lg:col-span-7"
+            className="rounded-2xl border border-line bg-surface shadow-card"
           >
-            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 px-5 py-4">
-              <p className="text-sm font-semibold text-slate-700">
-                Ticket {view.ticket.position} of {view.ticket.total}
-              </p>
-              <span className="rounded bg-slate-100 px-2 py-0.5 font-mono text-xs text-slate-700">
-                {view.ticket.ticket_id}
-              </span>
+            <div className="flex flex-col gap-3 border-b border-line px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex items-center gap-3">
+                <p className="text-sm font-semibold text-slate-700">
+                  Ticket {view.ticket.position} of {view.ticket.total}
+                </p>
+                <span className="rounded bg-slate-100 px-2 py-0.5 font-mono text-xs text-slate-700">{view.ticket.ticket_id}</span>
+              </div>
             </div>
-            <div className="space-y-3 px-5 py-5">
-              <h3 id="ticket-heading" className="text-lg font-semibold text-slate-900">
+            <div className="space-y-3 px-6 py-5">
+              <h3 id="ticket-heading" className="text-lg font-semibold text-ink">
                 {view.ticket.title}
               </h3>
-              <p className="whitespace-pre-wrap text-sm leading-6 text-slate-800">{view.ticket.description}</p>
+              <p className="max-w-5xl whitespace-pre-wrap text-sm leading-6 text-slate-800">{view.ticket.description}</p>
             </div>
-            <div className="flex flex-col gap-3 border-t border-slate-200 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
-              <p className="text-xs text-slate-500" aria-live="polite">
+            <div className="flex flex-col gap-3 border-t border-line px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
+              <p className="text-xs text-muted" aria-live="polite">
                 {blocked ?? (analyzed ? "Analyzed. Continue with Next Ticket." : "Skipped tickets are not evaluated.")}
               </p>
               <div className="flex gap-2">
@@ -480,12 +552,41 @@ export function TicketQueue() {
               </div>
             </div>
           </section>
-          <div className="space-y-6 lg:col-span-5">
-            <AnalysisCard state={analysis} providerLabel={providerLabel} onRetry={() => void analyze()} />
-            <ProgressCard counters={counters} />
-          </div>
+          {notice && (
+            <div role="status" className="flex items-start justify-between gap-3 rounded-xl border border-emerald-300 bg-emerald-50 px-4 py-3 text-sm text-emerald-900">
+              <span>
+                {notice}{" "}
+                <Link href="/reviews" className="font-semibold underline">
+                  Open Reviews
+                </Link>
+              </span>
+              <button type="button" onClick={() => setNotice(null)} aria-label="Dismiss" className="text-emerald-800 hover:text-emerald-950">
+                ×
+              </button>
+            </div>
+          )}
+          <AnalysisCard
+            state={analysis}
+            providerLabel={providerLabel}
+            onRetry={() => void analyze()}
+            onSendForReview={analysis.kind === "full" ? () => setReviewOpen(true) : undefined}
+          />
+          {reviewOpen && analysis.kind === "full" && (
+            <ReviewModal
+              incident={reviewIncident(view.ticket)}
+              result={analysis.triage}
+              source="Ticket queue"
+              sourceRef={view.ticket.ticket_id}
+              onClose={() => setReviewOpen(false)}
+              onSubmitted={(ticket) => {
+                setReviewOpen(false);
+                setNotice(`Review ticket ${ticket.ticket_id} sent to ${ticket.queue} (${ticket.destination_name}).`);
+              }}
+            />
+          )}
         </div>
       )}
-    </div>
+
+    </PageLayout>
   );
 }

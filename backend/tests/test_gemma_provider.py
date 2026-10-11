@@ -122,34 +122,47 @@ def test_instruction_is_verbatim_from_build_severity_dataset():
     assert 'Return only valid JSON in the form {"severity":"P1"}' in SEVERITY_INSTRUCTION
 
 
-def test_rendered_incident_uses_training_section_labels():
+def test_rendered_incident_uses_training_layout():
     text = render_incident_text(INCIDENT)
+    assert text.startswith("Multiple employees cannot sign in.")  # no title (training inputs had none)
+    assert "Affected service: Microsoft 365." in text  # description does not name the service
     assert "Business impact: Employees cannot access business applications." in text
     assert "Diagnostic evidence: Authentication failures reported by affected users." in text
-    assert "Scope check: 45 affected users" in text
-    assert "Finance, Operations" in text and "Mumbai, Pune" in text
-    assert "no workaround is available" in text
+    assert "Scope check: Service desk correlation confirms the same failure across multiple departments" in text
     assert "\n" not in text  # training inputs are a single paragraph
 
 
+def _incident(**kw):
+    base = dict(title="t", description="d", affected_service="s", affected_users=1, business_impact="b")
+    return IncidentInput(**{**base, **kw})
+
+
 @pytest.mark.parametrize(
-    ("value", "phrase"),
-    [(True, "a workaround is available"), (False, "no workaround is available"),
-     (None, "workaround availability is unknown")],
+    ("fields", "phrase"),
+    [
+        (dict(affected_users=200, affected_departments=("A", "B"), affected_sites=("X", "Y"), workaround_available=False),
+         "across multiple departments and at least two sites"),
+        (dict(affected_users=12, affected_departments=("A",)), "multiple affected users in one department"),
+        (dict(affected_users=1), "one affected user or endpoint"),
+        (dict(affected_users=0), "no material service interruption"),
+        (dict(affected_users=40, affected_departments=("A", "B"), workaround_available=True),
+         "40 affected users across 2 departments and 0 sites; a workaround is available"),
+    ],
 )
-def test_workaround_rendering(value, phrase):
-    incident = IncidentInput(title="t", description="d", affected_service="s",
-                             affected_users=1, business_impact="b", workaround_available=value)
-    assert phrase in render_incident_text(incident)
+def test_scope_check_is_derived_in_training_phrasing(fields, phrase):
+    assert phrase in render_incident_text(_incident(**fields))
+
+
+def test_explicit_scope_check_and_context_are_used_verbatim():
+    text = render_incident_text(_incident(scope_check="Only the London branch is affected", additional_context="VIP user"))
+    assert "Scope check: Only the London branch is affected." in text
+    assert text.endswith("Additional context: VIP user.")
 
 
 def test_missing_optional_fields_render_explicitly():
-    incident = IncidentInput(title="t", description="d", affected_service="s",
-                             affected_users=1, business_impact="b")
-    text = render_incident_text(incident)
+    text = render_incident_text(_incident())
     assert "Diagnostic evidence: not provided." in text
-    assert "affected departments: not specified" in text
-    assert "1 affected user;" in text
+    assert "Additional context" not in text
 
 
 def test_base_configs_without_weights_explain_how_to_download(tmp_path: Path):
