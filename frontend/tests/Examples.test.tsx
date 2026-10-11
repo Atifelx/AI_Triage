@@ -172,7 +172,7 @@ describe("Ticket queue full analysis", () => {
 
     // Analyzed queue tickets land in Reviews automatically, tagged with their source.
     expect(screen.getByText("Added to Reviews as REV-1042 (pending review).")).toBeInTheDocument();
-    expect(within(screen.getByRole("region", { name: /Review queue/ })).getByText("Ticket queue · ITSM-01-001")).toBeInTheDocument();
+    expect(within(screen.getByRole("region", { name: /Review queue/ })).getByText(/Ticket queue · ITSM-01-001/)).toBeInTheDocument();
 
     // Optional: choose a specific review destination for the same ticket.
     await user.click(screen.getByRole("button", { name: "Send for Review" }));
@@ -181,7 +181,7 @@ describe("Ticket queue full analysis", () => {
     await user.click(within(dialog).getByRole("radio", { name: /ServiceNow/ }));
     await user.click(within(dialog).getByRole("button", { name: "Submit for Review" }));
     expect(screen.getByText(/Review ticket REV-1042 sent to IT Incident Review Queue \(ServiceNow\)/)).toBeInTheDocument();
-    const row = within(screen.getByRole("region", { name: /Review queue/ })).getByText("REV-1042").closest("tr")!;
+    const row = within(screen.getByRole("region", { name: /Review queue/ })).getByText("REV-1042").closest("li")!;
     expect(row).toHaveTextContent(ticket.title);
     expect(row).toHaveTextContent("Device management");
   });

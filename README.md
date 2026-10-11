@@ -6,6 +6,8 @@
 - **`frontend/`**: Next.js (App Router, TypeScript, Tailwind CSS) console with six views: Home, Manual triage, Ticket queue, Reviews, Evaluation and Integrations. It talks to the backend over HTTP only.
 - **`training/`**: the scripts and synthetic datasets used to train and evaluate the adapters.
 
+![TriageLens ticket queue: full triage with severity ladder, root cause, proof and recommendations](docs/screenshots/ticket-queue-full-triage.png)
+
 ## Documentation
 
 | Document | For |

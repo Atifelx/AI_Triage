@@ -242,7 +242,7 @@ describe("Full incident triage", () => {
 
     // Review queue: open, start review, approve with a severity override, route.
     const queue = screen.getByRole("region", { name: /Review queue/ });
-    const row = within(queue).getByText("REV-1042").closest("tr")!;
+    const row = within(queue).getByText("REV-1042").closest("li")!;
     expect(within(row).getByText("Pending Review")).toBeInTheDocument();
     await user.click(within(row).getByRole("button", { name: "Open" }));
     await user.click(within(queue).getByRole("button", { name: "Start review" }));

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import { formatTimestamp } from "@/lib/format";
 import type { ReviewStatus, ReviewTicket } from "@/lib/integrations";
 import { SEVERITY_META } from "@/lib/severity";
@@ -52,7 +52,7 @@ function DecisionForm({ ticket }: { ticket: ReviewTicket }) {
   return (
     <section aria-label="Review decision" className="space-y-3 rounded-lg border border-line bg-white p-4">
       <h4 className="text-sm font-semibold text-ink">Review decision</h4>
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-[minmax(0,1fr)_minmax(0,14rem)]">
         <div>
           <label htmlFor={`rv-name-${ticket.ticket_id}`} className="mb-1 block text-xs font-medium text-slate-700">
             Reviewer
@@ -134,101 +134,119 @@ function Workflow({ ticket }: { ticket: ReviewTicket }) {
   );
 }
 
+function TicketRow({ ticket: t, open, onToggle }: { ticket: ReviewTicket; open: boolean; onToggle: () => void }) {
+  return (
+    <li
+      className={`grid grid-cols-1 gap-2 px-5 py-3 transition-colors sm:grid-cols-[minmax(0,2.4fr)_auto_minmax(0,1.6fr)_minmax(0,1.4fr)_auto_auto] sm:items-center sm:gap-4 ${
+        open ? "bg-signal/[0.06]" : "hover:bg-canvas"
+      }`}
+    >
+      <div className="min-w-0">
+        <p className="flex min-w-0 items-baseline gap-2">
+          <span className="shrink-0 font-mono text-xs text-muted">{t.ticket_id}</span>
+          <span className="truncate text-[15px] font-medium text-ink" title={t.incident.title}>
+            {t.incident.title}
+          </span>
+        </p>
+        <p className="truncate text-xs text-muted">
+          {t.source}
+          {t.source_ref ? ` · ${t.source_ref}` : ""} · <time dateTime={t.created_at}>{formatTimestamp(t.created_at)}</time>
+        </p>
+      </div>
+      <div>
+        <SeverityBadge severity={t.decision?.approved_severity ?? t.priority} />
+      </div>
+      <div className="min-w-0">
+        <p className="truncate text-sm text-ink" title={t.ai_analysis.analysis.root_cause}>
+          {t.ai_analysis.root_cause.label ?? t.ai_analysis.analysis.root_cause}
+        </p>
+        <p className="truncate font-mono text-xs text-muted">{t.ai_analysis.analysis.category}</p>
+      </div>
+      <div className="min-w-0">
+        <p className="truncate text-sm text-ink">{t.queue}</p>
+        <p className="truncate text-xs text-muted">{t.destination_name}</p>
+      </div>
+      <div>
+        <StatusBadge status={t.status} />
+      </div>
+      <div className="sm:text-right">
+        <button
+          type="button"
+          onClick={onToggle}
+          aria-expanded={open}
+          className={`rounded-full px-3.5 py-1 text-xs font-semibold transition-colors ${
+            open ? "bg-ink text-white" : "border border-line bg-surface text-ink hover:bg-canvas"
+          }`}
+        >
+          {open ? "Close" : "Open"}
+        </button>
+      </div>
+    </li>
+  );
+}
+
 export function ReviewQueue() {
   const { tickets } = useReviewStore();
   const [openId, setOpenId] = useState<string | null>(null);
+  const selected = tickets.find((t) => t.ticket_id === openId) ?? null;
 
   return (
-    <section aria-labelledby="review-queue-heading" className="rounded-2xl border border-line bg-surface shadow-card">
-      <div className="border-b border-line px-6 py-4">
-        <h2 id="review-queue-heading" className="text-base font-semibold text-ink">
-          Review queue
-        </h2>
-        <p className="text-xs text-muted">Open a ticket to start the review, decide, and route it.</p>
-      </div>
-      {tickets.length === 0 ? (
-        <p className="px-5 py-6 text-center text-xs text-muted">
-          No review tickets yet. Run a <Link href="/triage" className="font-semibold text-signal hover:underline">full triage</Link> and choose Send for Review.
-        </p>
-      ) : (
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm">
-            <thead className="bg-canvas text-xs uppercase tracking-wide text-muted">
-              <tr>
-                {["Ticket", "Incident", "Severity", "Category", "Root cause", "Destination", "Queue / team", "Status", "Created", ""].map((h) => (
-                  <th key={h} scope="col" className="whitespace-nowrap px-3 py-2 font-medium">
-                    {h}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-line">
-              {tickets.map((t) => {
-                const open = openId === t.ticket_id;
-                return (
-                  <Fragment key={t.ticket_id}>
-                    <tr className={open ? "bg-sky-50/50" : undefined}>
-                      <td className="whitespace-nowrap px-3 py-2 font-mono text-xs">{t.ticket_id}</td>
-                      <td className="max-w-56 px-3 py-2" title={t.incident.title}>
-                        <span className="block truncate">{t.incident.title}</span>
-                        <span className="block truncate text-[11px] text-muted">
-                          {t.source}
-                          {t.source_ref ? ` · ${t.source_ref}` : ""}
-                        </span>
-                      </td>
-                      <td className="px-3 py-2"><SeverityBadge severity={t.decision?.approved_severity ?? t.priority} /></td>
-                      <td className="px-3 py-2 font-mono text-xs">{t.ai_analysis.analysis.category}</td>
-                      <td className="max-w-44 truncate px-3 py-2 text-xs" title={t.ai_analysis.analysis.root_cause}>
-                        {t.ai_analysis.root_cause.label ?? t.ai_analysis.analysis.root_cause}
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-2 text-xs">{t.destination_name}</td>
-                      <td className="whitespace-nowrap px-3 py-2 text-xs">{t.queue}</td>
-                      <td className="whitespace-nowrap px-3 py-2"><StatusBadge status={t.status} /></td>
-                      <td className="whitespace-nowrap px-3 py-2 text-xs text-slate-600">
-                        <time dateTime={t.created_at}>{formatTimestamp(t.created_at)}</time>
-                      </td>
-                      <td className="px-3 py-2">
-                        <button
-                          type="button"
-                          onClick={() => setOpenId(open ? null : t.ticket_id)}
-                          aria-expanded={open}
-                          className="whitespace-nowrap rounded-md border border-slate-300 bg-white px-2.5 py-1 text-xs font-semibold text-slate-800 hover:bg-canvas"
-                        >
-                          {open ? "Close" : "Open"}
-                        </button>
-                      </td>
-                    </tr>
-                    {open && (
-                      <tr>
-                        <td colSpan={10} className="p-0">
-                          <div className="grid grid-cols-1 gap-6 bg-canvas px-5 py-5 xl:grid-cols-12">
-                            <div className="xl:col-span-5">
-                              <TicketCard
-                                ticketId={t.ticket_id}
-                                status={t.status}
-                                priority={t.decision?.approved_severity ?? t.priority}
-                                destination={t.destination_name}
-                                queue={t.queue}
-                                summary={t.summary}
-                                notes={t.review_notes}
-                                incident={t.incident}
-                                analysis={t.ai_analysis}
-                                createdAt={t.created_at}
-                              />
-                            </div>
-                            <div className="xl:col-span-7">
-                              <Workflow ticket={t} />
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                    )}
-                  </Fragment>
-                );
-              })}
-            </tbody>
-          </table>
+    <section aria-labelledby="review-queue-heading" className="space-y-6">
+      <div className="overflow-hidden rounded-2xl border border-line bg-surface shadow-card">
+        <div className="border-b border-line px-6 py-4">
+          <h2 id="review-queue-heading" className="text-base font-semibold text-ink">
+            Review queue
+          </h2>
+          <p className="text-xs text-muted">Open a ticket to start the review, decide, and route it.</p>
         </div>
+        {tickets.length === 0 ? (
+          <p className="px-5 py-6 text-center text-xs text-muted">
+            No review tickets yet. Run a <Link href="/triage" className="font-semibold text-signal hover:underline">full triage</Link>; every analysis lands here.
+          </p>
+        ) : (
+          <>
+            <div
+              aria-hidden="true"
+              className="hidden grid-cols-[minmax(0,2.4fr)_auto_minmax(0,1.6fr)_minmax(0,1.4fr)_auto_auto] gap-4 border-b border-line bg-canvas px-5 py-2 text-[11px] font-medium text-muted sm:grid"
+            >
+              <span>Incident</span>
+              <span>Severity</span>
+              <span>Root cause</span>
+              <span>Review queue</span>
+              <span>Status</span>
+              <span />
+            </div>
+            <ul className="divide-y divide-line">
+              {tickets.map((t) => (
+                <TicketRow key={t.ticket_id} ticket={t} open={openId === t.ticket_id} onToggle={() => setOpenId(openId === t.ticket_id ? null : t.ticket_id)} />
+              ))}
+            </ul>
+          </>
+        )}
+      </div>
+
+      {selected && (
+        <section aria-label={`Review ${selected.ticket_id}`} className="rounded-2xl border border-line bg-surface p-5 shadow-card">
+          <div className="grid grid-cols-1 gap-6 2xl:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
+            <div className="min-w-0">
+              <TicketCard
+                ticketId={selected.ticket_id}
+                status={selected.status}
+                priority={selected.decision?.approved_severity ?? selected.priority}
+                destination={selected.destination_name}
+                queue={selected.queue}
+                summary={selected.summary}
+                notes={selected.review_notes}
+                incident={selected.incident}
+                analysis={selected.ai_analysis}
+                createdAt={selected.created_at}
+              />
+            </div>
+            <div className="min-w-0">
+              <Workflow ticket={selected} />
+            </div>
+          </div>
+        </section>
       )}
     </section>
   );
